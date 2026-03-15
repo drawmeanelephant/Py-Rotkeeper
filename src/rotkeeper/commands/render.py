@@ -39,6 +39,11 @@ def save_render_state(path: Path, state: dict[str, dict[str, float]]) -> None:
 def add_parser(subs: argparse._SubParsersAction) -> None:
     p = subs.add_parser("render", help="Render markdown to HTML via pandoc (stub)")
     p.add_argument("--config", type=str, default=None, help="Path to render-flags.yaml (stub)")
+    p.add_argument(
+        "--force",
+        action="store_true",
+        help="Render all files regardless of modification times",
+    )
     p.set_defaults(func=run)
 
 
@@ -236,6 +241,8 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         state_key = rel.as_posix()
         prev_state = render_state.get(state_key, {})
         needs_render = file_needs_render(src, dest, template_path, prev_state)
+        if getattr(args, "force", False):
+            needs_render = True
         src_mtime = compute_file_mtime(src)
         template_mtime = compute_file_mtime(template_path) if template_path else None
 
@@ -324,7 +331,7 @@ def build_sass(ctx: RunContext, scss_file: Path | None = None, output_file: Path
     output_file.parent.mkdir(parents=True, exist_ok=True)
     try:
         subprocess.run(
-            ["sass", "--style=compressed", "--no-source-map", str(scss_file), str(output_file)],
+            ["sass", "--style=compressed", "--no-source-map", "--quiet-deps", str(scss_file), str(output_file)],
             check=True
         )
         logging.info("Compiled SCSS -> CSS: %s", output_file)

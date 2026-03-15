@@ -1,91 +1,94 @@
 ---
-title: "Ritual Scripts"
+title: "Rotkeeper Documentation Index"
 slug: scripts-index
 template: rotkeeper-doc.html
-version: "0.2.3-pre"
-updated: "2025-06-01"
-description: "Directory index for all rc-*.sh scripts used in Rotkeeper. Includes manual tools, render helpers, and archival commands."
+version: "0.0.1-pre"
+updated: "2026-03-14"
+description: "Directory index for Rotkeeper. Explains each file's purpose and project structure."
 tags:
   - rotkeeper
-  - scripts
-  - cli
   - reference
+  - file-structure
 asset_meta:
   name: "scripts-index.md"
-  version: "0.2.3-pre"
+  version: "0.0.1-pre"
   author: "Filed Systems"
   project: "Rotkeeper"
   tracked: true
-  license: "CC-BY-SA-4.2-unreal"
+  license: "MIT"
 status: published
 ---
 
-# 📖 Rotkeeper Documentation Index
+# 📖 Rotkeeper Project Reference
 
-Welcome to Rotkeeper, the command-line necropolis for static site decay rituals.
+Welcome to Rotkeeper, your command-line necropolis for managing static site rituals.  
+This document explains the **purpose of each file and folder** in the project, following the "rules" established in the old Rotkeeper.
 
-This suite of shell scripts helps you manage dead markdown, render tombs as HTML, and archive your rot with dignity.
-Whether you're new to file decay or just looking to automate your afterlife pipeline, you're in the right place.
+> 🕯️ Every file has a reason. Understanding it keeps your rituals tidy.
 
-Ritual types include:
+---
 
-- **Expand** – Generate Markdown stubs and configs
-- **Render** – Convert Markdown into static HTML tombs
-- **Scan** – Detect decay, missing metadata, or corruption
-- **Pack** – Archive a versioned tomb for long-term storage
-- **Record** – Commit the state of a ritual into Git & logs
+## 📁 Project Structure & File Purpose
 
-> 🕯️ Every file dies. Not every file decays with style.
+### 1. **Root**
+- `README.md` — high-level project description, getting started guide, and license info.  
+- `LICENSE` — MIT license for the project.  
+- `pyproject.toml` — Python packaging, dependencies, and entry points.  
+- `package.json` / `package-lock.json` — Node dependencies for SCSS compilation.  
+- `node_modules/` — local Node modules (ignored in Git).  
+- `output/` — rendered HTML/CSS output (ignored in Git).  
+- `home/` — main content, templates, and assets for Rotkeeper.  
+- `src/rotkeeper/` — Python code for CLI and commands.
 
-***
+---
 
-## 📁 Contents
+### 2. **Home Folder**
+- `home/content/` — Markdown source files for docs and tutorials.  
+- `home/bones/templates/` — HTML templates (e.g., `default.html`) for rendering pages.  
+- `home/bones/assets/styles/` — SCSS files (`main.scss`, `_variables.scss`, `_mixins.scss`) for site styling.  
+- `home/bones/config/` — configuration files like `render-flags.yaml`.  
+- `home/bones/reports/` — logs, manifests, or audit reports.  
+- `home/test_assets/` — sample posts or images for testing renders.
 
-### 1. 🔍 Overview & Lore
-- [What is Rotkeeper?](rotkeeper.md)
-- [Workflow Summary](technology/quickstart-guide.md)
+---
 
-### 2. 🚀 Getting Started
-- [Installation Requirements](install)
-- [Initializing the Environment](bones/scripts/rc-init.md)
+### 3. **Python Source (`src/rotkeeper`)**
+- `__init__.py` — package initializer.  
+- `__main__.py` — entry point for `python -m rotkeeper`.  
+- `cli.py` — parses command-line arguments.  
+- `commands/` — individual CLI commands:
+  - `init.py` / `rotkeeper_init.py` — initialize a new project.  
+  - `render.py` — compile Markdown to HTML, build SCSS.  
+  - `book.py` — scriptbook/book utilities.  
+  - `assets.py` / `collect_assets.py` — copy and manage static assets.  
+  - `reseed.py` — reseed content or scripts.  
+  - `sitemap.py` — generate navigation info.  
+  - `cleanup_bones.py` — remove old output or temporary files.  
+- `context.py` — runtime context and path management.  
+- `paths.py` — filesystem path helpers.  
+- `deps.py` — external dependency checks (Pandoc, Sass).  
+- `exec.py` — helper to run subprocesses safely.
 
-### 3. ⚙️ CLI Ritual Scripts
-- [`rc-init.sh`](bones/scripts/rc-init.md)
-- [`rc-expand.sh`](bones/scripts/rc-expand.md)
-- [`rc-render.sh`](bones/scripts/rc-render.md)
-- [`rc-pack.sh`](bones/scripts/rc-pack.md)
-- [`rc-scan.sh`](bones/scripts/rc-scan.md)
-- [`rc-assets.sh`](bones/scripts/rc-assets.md)
-- [`rc-status.sh`](bones/scripts/rc-status.md)
-- [`rc-reseed.sh`](bones/scripts/rc-reseed.md)
+---
 
-### 4. 🔧 Configuration
-- [`render-flags.yaml`](bones/config/render-flags.md)
-- [`rotkeeper-bom.yaml`](bones/config/rotkeeper-bom.md)
-- [Template Expectations](bones/templates/index.md)
+### 4. **Tests**
+- `src/tests/` — Python unit tests for command utilities, asset collection, and pipelines.
 
-### 5. 🪵 Logs, Echoes & Reports
-- [Log Outputs](bones/logs/index.md)
-- [Archive Reports](bones/archive/index.md)
+---
 
-### 6. 🌀 Advanced Flags & Edge Cases
-- [`--dry-run`, `--verbose`](bones/flags.md)
-- [Reseed Directory Structure](bones/reseed.md)
-- [JSON Output & Metadata](bones/export.md)
+### 5. **Docs / Guides**
+- `home/content/docs/index.md` — this file; overview and rules for the project.  
+- Other Markdown files in `docs/` explain workflows, CLI usage, templates, configuration, and troubleshooting.
 
-### 7. 🧯 Ritual Interruptions
-- [Common Errors](help/errors.md)
-- [Dependency Checklist](technology/dependencies.md)
+---
 
-### 8. 📎 Appendix
-- [Full File Tree](bones/appendix/tree.md)
-- [CLI Help Reference](rotkeeper.md)
-- [Manifest / Asset Format Examples](bones/appendix/formats.md)
+### 6. **Rules for File Usage**
+1. **Every script should have metadata** (`version`, `author`, `tracked`) in frontmatter.  
+2. **Incremental builds only touch modified files**, using manifests in `reports/`.  
+3. **Assets (images, CSS, templates) live in `bones/assets/`** — do not mix with content Markdown.  
+4. **SCSS modularity**: `_variables.scss` → `_mixins.scss` → `main.scss` → compiled CSS.  
+5. **Logs and audit reports** are read-only for reference; never edit them manually.  
 
-***
+---
 
-**Start with**: [Getting Started](bones/install.md) or jump straight to [rc-render.sh](bones/scripts/rc-render.md)
-
-<!--
-Sora prompt: “A glitching wiki carved into obsidian, with glowing CLI runes etched in rust.”
--->
+> With these rules, Rotkeeper keeps your static site rituals orderly and predictable.

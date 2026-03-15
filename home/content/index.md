@@ -1,73 +1,65 @@
-title: "Welcome to Rotkeeper"
-slug: home
-template: rotkeeper-blog.html
-version: "0.2.3-pre"
+title: "Rotkeeper Home"
+slug: homepage
+template: rotkeeper-home.html
+version: "0.0.1"
 updated: "2025-06-01"
-description: "Rotkeeper CLI landing page. Get started with decay rituals, rendering tombs, and exploring archival output."
+description: "Landing page overview of Rotkeeper, its philosophy, and high-level use cases."
 tags:
   - rotkeeper
-  - homepage
-  - cli
-  - decay
+  - landing
+  - overview
 asset_meta:
-  name: "index.md"
-  version: "0.2.3-pre"
+  name: "homepage.md"
+  version: "0.0.1"
   author: "Filed Systems"
   project: "Rotkeeper"
   tracked: true
   license: "CC-BY-SA-4.2-unreal"
 ---
 
-# Rotkeeper: A Ritual CLI for Flat‑File Decay
+# Welcome to Rotkeeper 🕰️
 
-Rotkeeper is a terminal-based toolkit for rendering, archiving, and preserving the remains of Markdown-driven projects.
-Each file is a tomb. Each version is a ritual. Each render is final.
+Rotkeeper is a unique terminal-based toolkit designed to help you preserve, explore, and understand the lifecycle of your Markdown-driven projects. At its core, Rotkeeper treats each file as a *tomb*, each version as a *ritual*, and every render as a *final testament*.
 
-***
+---
 
-## 🧪 Run It
+## 🌿 Philosophy: Embracing Decay
 
-To start rendering tombs:
+In an ever-changing digital world, Rotkeeper acknowledges the natural decay of information. Instead of fighting entropy, it invites you to document and ritualize the transformation of your content over time. This approach fosters transparency, archival integrity, and a deeper connection to the evolution of your work.
 
-```bash
-./rotkeeper.sh render
-```
+---
 
-See the [Quickstart Guide](/docs/quickstart-guide.md) to begin your first decay ritual.
+## 🔍 What Rotkeeper Does
 
-***
+- **Render tombs:** Convert your Markdown projects into final, archival outputs.
+- **Archive rituals:** Capture and store every version as a historical record.
+- **Explore decay:** Analyze how your content changes and ages through time.
+- **Provide tools:** Offer a suite of utilities to manage, audit, and visualize your project’s lifecycle.
 
-## 🗺️ Subdomain Index
+---
 
-### 🧾 [docs.rotkeeper.com](/docs/)
-> Learn how to use the CLI, configure tombs, run audit rituals, and understand the philosophy behind decay tracking.
+## 🗺️ Key Domains
 
-### 📦 [archive.rotkeeper.com](/archive/)
-> Browse or download `.tar.gz` tombs of past versions. Explore manifests, changelogs, and tomb metadata.
+### 📦 Archive
 
-### 📜 [blog.rotkeeper.com](/blog/)
-> Announcements, roadmap notes, and case studies from real decay rituals.
+Browse, download, and inspect `.tar.gz` tombs containing past versions. The archive is your gateway to the history and metadata of every ritual performed.
 
-### 🧪 [playground.rotkeeper.com](/playground/)
-> Try Rotkeeper tools live in your browser. Scan markdown, preview templates, and mutate logs.
+### 🧪 Playground
 
-### 📡 [api.rotkeeper.com](/api/)
-> Query tomb metadata via JSON. Hook into scan endpoints or browse file-level decay attributes.
+Experiment with Rotkeeper’s tools in a live environment. Preview markdown scans, test templates, and interact with mutation logs without leaving your browser.
 
-### 🛠️ [tools.rotkeeper.com](/tools/)
-> Experimental GUI helpers. Generate manifests, edit render-flags, and tail live log output.
+### 📡 API
 
-***
+Access tomb metadata programmatically via JSON endpoints. Integrate decay tracking and scan data into your own workflows or applications.
 
-## 🔖 Version: 0.2.0
+### 🛠️ Tools
 
-- [Changelog](/changelog/)
-- [How to Contribute](/contributing/)
+Leverage experimental GUI helpers to generate manifests, adjust render flags, and monitor live logs — all designed to streamline your decay rituals.
 
-***
+---
 
-**New to the project? Start with the [Docs](/docs/). Want to see a tomb? Visit the [Archive](/archive/).**
+## 🚀 Get Involved
 
-<!--
-Sora prompt: "A decayed tombstone interface for Rotkeeper.com—ghostly monospaced text drifting across a glitching terminal window, rusted metal accents, and flickering OpenMoji icons."
--->
+Rotkeeper is more than software; it’s a philosophy and community. Whether you’re preserving personal notes or managing large archival projects, Rotkeeper offers a ritualized approach to digital decay.
+
+Explore, experiment, and contribute to the evolving story of your data with Rotkeeper.
