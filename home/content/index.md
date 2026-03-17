@@ -1,6 +1,6 @@
 title: "Rotkeeper Home"
 slug: homepage
-template: rotkeeper-home.html
+template: rot-doc.html
 version: "0.0.1"
 updated: "2025-06-01"
 description: "Landing page overview of Rotkeeper, its philosophy, and high-level use cases."

@@ -107,3 +107,23 @@ To render rotations based on your configuration:
 ```bash
 rotkeeper render
 ```
+
+## Serving the Output Directory
+
+To preview your rendered site locally and ensure CSS and asset paths work correctly, you can serve the `output/` directory using Python's built-in HTTP server.
+
+On macOS/Linux:
+
+```bash
+cd output
+python3 -m http.server 8000
+```
+
+On Windows:
+
+```bash
+cd output
+python -m http.server 8000
+```
+
+Then, open your browser and navigate to `http://localhost:8000` to view the site.

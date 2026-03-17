@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import shlex
 import subprocess
 from dataclasses import dataclass
@@ -12,6 +13,10 @@ class ExecResult:
     returncode: int
     stdout: str
     stderr: str
+    success: bool = False
+
+    def __post_init__(self):
+        object.__setattr__(self, 'success', self.returncode == 0)
 
 
 class ExecError(RuntimeError):
@@ -34,6 +39,7 @@ def run(
     dry_run: bool = False,
     verbose: bool = False,
     check: bool = True,
+    default_cwd: Path | None = None,
 ) -> ExecResult:
     """
     Execute a subprocess command.
@@ -45,11 +51,13 @@ def run(
         return ExecResult(returncode=0, stdout=f"[DRY-RUN] {rendered}\n", stderr="")
 
     if verbose:
-        print(f"[exec] {rendered}")
+        logging.info(f"[exec] {rendered}")
+
+    actual_cwd = cwd if cwd is not None else default_cwd
 
     completed = subprocess.run(
         cmd,
-        cwd=str(cwd) if cwd is not None else None,
+        cwd=str(actual_cwd) if actual_cwd is not None else None,
         env=env,
         text=True,
         capture_output=True,
@@ -63,4 +71,3 @@ def run(
     if check and result.returncode != 0:
         raise ExecError(f"Command failed ({result.returncode}): {rendered}", result=result)
     return result
-

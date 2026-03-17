@@ -15,6 +15,8 @@ class Paths:
     # Top-level
     output_dir: Path
     tmp_dir: Path
+    venv_dir: Path
+    tests_dir: Path
 
     # Home content
     home_dir: Path
@@ -33,12 +35,20 @@ class Paths:
     templates_dir: Path
     meta_dir: Path
 
+    # Render-related paths
+    manifests_dir: Path
+    build_dir: Path
+    render_templates_dir: Path
+    assets_manifest: Path
+
     @classmethod
     def from_root(cls, root_dir: Path) -> "Paths":
         root_dir = root_dir.resolve()
 
         output_dir = root_dir / "output"
         tmp_dir = root_dir / "tmp"
+        venv_dir = root_dir / "venv"
+        tests_dir = root_dir / "tests"
 
         home_dir = root_dir / "home"
         content_dir = home_dir / "content"
@@ -55,10 +65,17 @@ class Paths:
         templates_dir = bones_dir / "templates"
         meta_dir = bones_dir / "meta"
 
+        manifests_dir = root_dir / "manifests"
+        build_dir = root_dir / "build"
+        render_templates_dir = templates_dir / "render"
+        assets_manifest = reports_dir / "assets.yaml"
+
         return cls(
             root_dir=root_dir,
             output_dir=output_dir,
             tmp_dir=tmp_dir,
+            venv_dir=venv_dir,
+            tests_dir=tests_dir,
             home_dir=home_dir,
             content_dir=content_dir,
             assets_dir=assets_dir,
@@ -72,6 +89,10 @@ class Paths:
             reports_dir=reports_dir,
             templates_dir=templates_dir,
             meta_dir=meta_dir,
+            manifests_dir=manifests_dir,
+            build_dir=build_dir,
+            render_templates_dir=render_templates_dir,
+            assets_manifest=assets_manifest,
         )
 
 
@@ -108,4 +129,3 @@ def discover_root(explicit_root: str | Path | None = None) -> Path:
     raise RootNotFoundError(
         "Unable to locate Rotkeeper root. Pass --root or run from the tomb directory."
     )
-

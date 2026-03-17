@@ -221,19 +221,37 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         if fm_template:
             template_path = Path(fm_template)
             if not template_path.is_absolute():
-                # resolve relative to bones/templates folder
-                template_path = ctx.paths.assets_dir / "templates" / template_path
-            if not template_path.exists():
-                logging.warning("Frontmatter template not found for %s: %s", src, template_path)
+                # resolve relative to templates folder
+                candidate_path = ctx.paths.templates_dir / template_path
+                if candidate_path.exists():
+                    template_path = candidate_path
+                else:
+                    candidate_path = ctx.paths.assets_dir / "templates" / template_path
+                    if candidate_path.exists():
+                        template_path = candidate_path
+                    else:
+                        logging.warning("Frontmatter template not found for %s: %s", src, template_path)
+            else:
+                if not template_path.exists():
+                    logging.warning("Frontmatter template not found for %s: %s", src, template_path)
         elif render_config.get("template"):
             template_path = Path(render_config["template"])
             if not template_path.is_absolute():
-                template_path = ctx.paths.root_dir / template_path
-            if not template_path.exists():
-                logging.warning("[render] Template not found: %s", template_path)
+                candidate_path = ctx.paths.root_dir / template_path
+                if candidate_path.exists():
+                    template_path = candidate_path
+                else:
+                    candidate_path = ctx.paths.assets_dir / "templates" / template_path
+                    if candidate_path.exists():
+                        template_path = candidate_path
+                    else:
+                        logging.warning("[render] Template not found: %s", template_path)
+            else:
+                if not template_path.exists():
+                    logging.warning("[render] Template not found: %s", template_path)
         else:
-            # use default system template from bones/templates
-            template_path = ctx.paths.bones_dir / "templates" / "default.html"
+            # use default system template from templates directory
+            template_path = ctx.paths.templates_dir / "default.html"
             if not template_path.exists():
                 logging.warning("Default system template not found: %s", template_path)
 
@@ -262,7 +280,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
             continue
 
         if not needs_render:
-            logging.debug("Skipping unchanged file: %s", src)
+            logging.info("Skipping unchanged file: %s", src)
             skipped += 1
             continue
 
@@ -308,13 +326,12 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     )
     logging.info("Wrote build manifest: %s", build_manifest_path)
 
+    # Compile SCSS → CSS automatically after render
+    build_sass(ctx)
     logging.info("Render summary: %d files rendered successfully, %d files skipped, %d failures", successes, skipped, failures)
     if failures:
         logging.error("Render completed with %d failure(s).", failures)
         return 2
-
-    # Compile SCSS → CSS automatically after render
-    build_sass(ctx)
     return 0
 
 
@@ -330,12 +347,35 @@ def build_sass(ctx: RunContext, scss_file: Path | None = None, output_file: Path
         return
     output_file.parent.mkdir(parents=True, exist_ok=True)
     try:
-        subprocess.run(
-            ["sass", "--style=compressed", "--no-source-map", "--quiet-deps", str(scss_file), str(output_file)],
-            check=True
+        args = ["sass", "--style=compressed", "--no-source-map", "--quiet-deps", str(scss_file), str(output_file)]
+        result = subprocess.run(
+            args,
+            check=True,
+            stderr=subprocess.PIPE,
+            text=True,
         )
+        # Decode and filter stderr for Bulma deprecation warnings
+        if result.stderr:
+            filtered_lines = []
+            for line in result.stderr.splitlines():
+                if "Deprecation Warning [if-function]" in line:
+                    # Suppress this warning
+                    continue
+                filtered_lines.append(line)
+            if filtered_lines:
+                logging.error("Sass warnings/errors:\n%s", "\n".join(filtered_lines))
         logging.info("Compiled SCSS -> CSS: %s", output_file)
     except FileNotFoundError:
         logging.error("Sass CLI not installed. Run 'npm install -D sass' or install system sass")
     except subprocess.CalledProcessError as e:
-        logging.error("Sass compilation failed: %s", e)
+        err_output = e.stderr.decode() if e.stderr else str(e)
+        filtered_lines = []
+        for line in err_output.splitlines():
+            if "Deprecation Warning [if-function]" in line:
+                continue
+            filtered_lines.append(line)
+        if filtered_lines:
+            logging.error("Sass compilation failed: %s", "\n".join(filtered_lines))
+        else:
+            logging.error("Sass compilation failed: %s", e)
+        logging.info("Compiled SCSS -> CSS: %s", output_file)

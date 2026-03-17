@@ -1,0 +1,15 @@
+- path: images/patch-icon-v1r00.jpg
+  sha256: f6aa6c08fed5aedaeee8a7359d9c246d52ea3427b27ae00f7a9e2ac94e1c8b83
+  origin: global
+- path: templates/rotkeeper-blog.html
+  sha256: c240ae477923ca30ca6c8382f96293149038e1ca5dd9e5d8eabb205f6b7572a5
+  origin: global
+- path: templates/rotkeeper-bones.html
+  sha256: 73f816e6d353d8cb9d59b0408f1795af841de5269bd38406ec2fee642b4d2dc9
+  origin: global
+- path: templates/rotkeeper-doc-navless.html
+  sha256: 9198733e71d730391989d5ffd2255182d2d36737abddc4b1c04046f4fbe3214c
+  origin: global
+- path: templates/rotkeeper-doc.html
+  sha256: 8772f0c321185e7c0337d2456239d3a3d100a84ab07e79c1731d7d2d599a64af
+  origin: global

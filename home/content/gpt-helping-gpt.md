@@ -1,7 +1,7 @@
 ---
 title: "GPT Helping GPT: Understanding Rotkeeper"
 slug: gpt-helping-gpt
-template: rotkeeper-blog.html
+template: rot-doc.html
 version: "0.2.6-dev"
 updated: "2026-03-11"
 description: "A canonical reference document for ChatGPT to understand Rotkeeper's structure, scripts, workflows, and rendering rituals."

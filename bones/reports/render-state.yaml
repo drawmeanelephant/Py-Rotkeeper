@@ -233,20 +233,56 @@ docs/technology/yq.md:
   src_mtime: 1749062797.5847454
   template_mtime: 1773524406.9523463
 gpt-helping-gpt.md:
-  src_mtime: 1773424040.85576
-  template_mtime: 1748607056.2872112
+  src_mtime: 1773679382.3014064
+  template_mtime: 1773679302.239281
 index.md:
-  src_mtime: 1773576944.4770732
+  src_mtime: 1773679322.7880924
   template_mtime: 1773524406.9523463
 index_temp.md:
-  src_mtime: 1748951403.9356632
+  src_mtime: 1773679390.0001683
   template_mtime: 1773524406.9523463
 docs/quickstart.md:
-  src_mtime: 1773576211.3640904
+  src_mtime: 1773667801.2777534
   template_mtime: 1773524406.9523463
 filed.fyi/sora.md:
-  src_mtime: 1773576687.3458107
+  src_mtime: 1773687108.7953742
   template_mtime: 1773524406.9523463
 roadmap.md:
-  src_mtime: 1773576355.0484476
+  src_mtime: 1773610267.3790348
+  template_mtime: 1773524406.9523463
+docs/commands/assets.md:
+  src_mtime: 1773693360.7378325
+  template_mtime: 1773524406.9523463
+docs/commands/book.md:
+  src_mtime: 1773693465.9136329
+  template_mtime: 1773524406.9523463
+docs/commands/cleanup_bones.md:
+  src_mtime: 1773693465.1741002
+  template_mtime: 1773524406.9523463
+docs/commands/collect_assets.md:
+  src_mtime: 1773693464.3095646
+  template_mtime: 1773524406.9523463
+docs/commands/index.md:
+  src_mtime: 1773667972.4349616
+  template_mtime: 1773524406.9523463
+docs/commands/init.md:
+  src_mtime: 1773693463.547023
+  template_mtime: 1773524406.9523463
+docs/commands/nav.md:
+  src_mtime: 1773693462.691901
+  template_mtime: 1773524406.9523463
+docs/commands/render.md:
+  src_mtime: 1773693461.7750244
+  template_mtime: 1773524406.9523463
+docs/commands/reseed.md:
+  src_mtime: 1773693460.8441367
+  template_mtime: 1773524406.9523463
+docs/commands/sitemap.md:
+  src_mtime: 1773693459.512761
+  template_mtime: 1773524406.9523463
+docs/patch.md:
+  src_mtime: 1773693456.0280373
+  template_mtime: 1773524406.9523463
+docs/technologies/pandoc-frontmatter.md:
+  src_mtime: 1773694584.5863173
   template_mtime: 1773524406.9523463

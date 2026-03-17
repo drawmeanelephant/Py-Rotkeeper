@@ -1,0 +1,273 @@
+pages:
+- path: docs/commands/assets.html
+  title: Assets Command
+  author: Your Name Here
+  date: '2026-03-16'
+  keywords:
+  - assets
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - assets
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Assets
+  show_in_nav: true
+- path: docs/commands/book.html
+  title: Book Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - book
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - book
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Book
+  show_in_nav: true
+- path: docs/commands/cleanup_bones.html
+  title: Cleanup Bones Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - cleanup_bones
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - cleanup
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Cleanup Bones
+  show_in_nav: true
+- path: docs/commands/collect_assets.html
+  title: Collect Assets Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - collect_assets
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - assets
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Collect Assets
+  show_in_nav: true
+- path: docs/commands/index.html
+  title: Commands
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - commands
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - index
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  show_in_nav: true
+- path: docs/commands/init.html
+  title: Init Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - init
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - init
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Init
+  show_in_nav: true
+- path: docs/commands/nav.html
+  title: Navigation Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - nav
+  - navigation
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - navigation
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Navigation
+  show_in_nav: true
+- path: docs/commands/sitemap.html
+  title: Sitemap Command
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - sitemap
+  - rotkeeper
+  - cli
+  tags:
+  - commands
+  - sitemap
+  rotkeeper_nav:
+  - 01_Docs
+  - Commands
+  - Sitemap
+  show_in_nav: true
+- path: aardvark-cum/the-coldest.html
+  title: The Coldest
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - aardvark
+  - cum
+  - rap
+  - humor
+  tags:
+  - fun
+  - test
+  rotkeeper_nav:
+  - Aardvark Cum
+  - 01_The Coldest
+  show_in_nav: true
+- path: aardvark-cum/aardvark-cum.html
+  title: Aardvark Cum
+  author: rotkeeper
+  date: '2026-03-16'
+  keywords:
+  - aardvark
+  - cum
+  - rap
+  - humor
+  tags:
+  - fun
+  - test
+  rotkeeper_nav:
+  - Aardvark Cum
+  - 02_Aardvark Cum
+  show_in_nav: true
+- path: gpt-helping-gpt.html
+  title: 'GPT Helping GPT: Understanding Rotkeeper'
+  author: rotkeeper
+  date: null
+  keywords: []
+  tags:
+  - rotkeeper
+  - gpt
+  - docs
+  - knowledge-base
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: index.html
+  title: index
+  author: rotkeeper
+  date: null
+  keywords: []
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: index_temp.html
+  title: index_temp
+  author: rotkeeper
+  date: null
+  keywords: []
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: filed.fyi/sora.html
+  title: OpenAI Sora Crib Sheet
+  author: T. Buddy
+  date: 2024-06-10
+  keywords: []
+  tags:
+  - OpenAI
+  - Sora
+  - Crib Sheet
+  - Reference
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/technologies/pandoc-frontmatter.html
+  title: pandoc-frontmatter
+  author: rotkeeper
+  date: null
+  keywords: []
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/patch.html
+  title: Patch the Pandoc Rotkeeper
+  author: rotkeeper
+  date: null
+  keywords:
+  - patch
+  - mascot
+  - pandoc
+  - rotkeeper
+  - docs
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: roadmap.html
+  title: Py-Rotkeeper Roadmap
+  author: rotkeeper
+  date: 2024-06-11
+  keywords: []
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/quickstart.html
+  title: Quickstart Guide for Rotkeeper
+  author: draw me an elephant
+  date: 2026-03-15
+  keywords: []
+  tags:
+  - quickstart
+  - tutorial
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/commands/render.html
+  title: Render Command
+  author: rotkeeper
+  date: null
+  keywords:
+  - render
+  - rotkeeper
+  - cli
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/commands/reseed.html
+  title: Reseed Command
+  author: rotkeeper
+  date: null
+  keywords:
+  - reseed
+  - rotkeeper
+  - cli
+  tags: []
+  rotkeeper_nav: []
+  show_in_nav: true
+- path: docs/index.html
+  title: Rotkeeper Documentation Index
+  author: rotkeeper
+  date: null
+  keywords: []
+  tags:
+  - rotkeeper
+  - reference
+  - file-structure
+  rotkeeper_nav: []
+  show_in_nav: true

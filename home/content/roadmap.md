@@ -30,6 +30,8 @@ Welcome to the Py-Rotkeeper project roadmap. This document outlines the current 
 - [ ] Polish Markdown-to-HTML rendering and template customization.
 - [ ] Integrate continuous integration (CI) for basic checks.
 - [ ] Review and clean Bulma Sass deprecation warnings and finalize SCSS structure.
+- [ ] Implement user feedback collection and bug reporting system.
+- [ ] Enhance logging and debugging capabilities.
 
 ---
 
@@ -40,6 +42,8 @@ Welcome to the Py-Rotkeeper project roadmap. This document outlines the current 
 - [ ] Enhance reporting and manifest outputs (e.g., JSON/YAML options).
 - [ ] Introduce plugin or extension system for custom commands.
 - [ ] Improve performance for large sites or asset collections.
+- [ ] Develop automated testing framework for plugins.
+- [ ] Support multi-language content and localization features.
 
 ---
 
@@ -50,6 +54,19 @@ Welcome to the Py-Rotkeeper project roadmap. This document outlines the current 
 - [ ] Automated upgrade/migration tools for legacy Rotkeeper data.
 - [ ] Internationalization (i18n) and localization (l10n) support.
 - [ ] Community-contributed plugin ecosystem.
+- [ ] Mobile-friendly interface and management tools.
+- [ ] Integration with popular CMS platforms.
+
+---
+
+## Optional / Future Goals
+
+- [ ] Incorporate AI-assisted content generation and editing.
+- [ ] Add analytics dashboard for site usage and performance.
+- [ ] Support real-time collaboration features.
+- [ ] Develop a marketplace for themes and plugins.
+- [ ] Provide Docker containers for easy deployment.
+- [ ] Explore integration with static site generators like Hugo or Jekyll.
 
 ---
 
