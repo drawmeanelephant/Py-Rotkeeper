@@ -19,7 +19,7 @@ asset_meta:
 
 # Welcome to Rotkeeper 🕰️
 
-![Rotkeeper Mascot](images/mascot.jpg)
+![Rotkeeper Mascot](images/mascot.png)
 
 **Project:** Rotkeeper  
 **URL:** [https://github.com/drawmeanelephant/Py-Rotkeeper](https://github.com/drawmeanelephant/Py-Rotkeeper)

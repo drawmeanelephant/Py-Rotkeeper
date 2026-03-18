@@ -7,11 +7,12 @@ import logging
 import sys
 from pathlib import Path
 from types import SimpleNamespace
+from dataclasses import replace
 
 from .config import CONFIG  # Assuming a CONFIG module exists for configuration
 from .context import RunContext
 from .lib import get_commands  # Dynamic command discovery from lib
-from .lib import sitemap as sitemap_command
+from .lib import sitemap as sitemap_command_module
 from .lib import nav as nav_command_module
 
 
@@ -75,11 +76,109 @@ def _build_parser() -> argparse.ArgumentParser:
         add_parser_func(subparsers)
 
     # Explicitly register sitemap command (temporary until fully integrated into dynamic loader)
-    if hasattr(sitemap_command, "add_parser"):
-        sitemap_command.add_parser(subparsers)
+    if hasattr(sitemap_command_module, "add_parser"):
+        sitemap_command_module.add_parser(subparsers)
+        # Add --dry-run and --verbose if missing
+        sitemap_parser = None
+        for action in subparsers.choices.get("sitemap", [])._actions if "sitemap" in subparsers.choices else []:
+            pass
+        sitemap_parser = subparsers.choices.get("sitemap")
+        if sitemap_parser:
+            if not any(a.dest == "dry_run" for a in sitemap_parser._actions):
+                sitemap_parser.add_argument(
+                    "--dry-run",
+                    action="store_true",
+                    help="Preview actions without making changes",
+                )
+            if not any(a.dest == "verbose" for a in sitemap_parser._actions):
+                sitemap_parser.add_argument(
+                    "--verbose",
+                    action="store_true",
+                    help="Enable verbose debug output",
+                )
+
+            def run(args, ctx):
+                from .lib.sitemap import SitemapPipeline
+                mutable_ctx = replace(
+                    ctx,
+                    dry_run=getattr(args, "dry_run", False),
+                    verbose=getattr(args, "verbose", False)
+                )
+                if getattr(mutable_ctx, "verbose", False):
+                    import logging
+                    logging.basicConfig(level=logging.INFO)
+                pipeline = SitemapPipeline(ctx=mutable_ctx)
+                pipeline.run()
+
+            sitemap_parser.set_defaults(func=run)
 
     if hasattr(nav_command_module, "add_parser"):
         nav_command_module.add_parser(subparsers)
+        nav_parser = subparsers.choices.get("nav")
+        if nav_parser:
+            if not any(a.dest == "dry_run" for a in nav_parser._actions):
+                nav_parser.add_argument(
+                    "--dry-run",
+                    action="store_true",
+                    help="Preview actions without making changes",
+                )
+            if not any(a.dest == "verbose" for a in nav_parser._actions):
+                nav_parser.add_argument(
+                    "--verbose",
+                    action="store_true",
+                    help="Enable verbose debug output",
+                )
+
+            def run(args, ctx):
+                from .lib.nav import NavPipeline
+                mutable_ctx = replace(
+                    ctx,
+                    dry_run=getattr(args, "dry_run", False),
+                    verbose=getattr(args, "verbose", False)
+                )
+                if getattr(mutable_ctx, "verbose", False):
+                    import logging
+                    logging.basicConfig(level=logging.INFO)
+                pipeline = NavPipeline(ctx=mutable_ctx)
+                pipeline.run()
+
+            nav_parser.set_defaults(func=run)
+
+    # Unified SitemapPipeline CLI registration
+    from .lib.sitemap_pipeline import SitemapPipeline as UnifiedSitemapPipeline
+
+    def add_sitemap_pipeline_command(subparsers):
+        parser = subparsers.add_parser(
+            "sitemap_pipeline",
+            help="Collect Markdown pages, build metadata trees, and write sitemap_pipeline.yaml"
+        )
+        parser.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Simulate actions without writing files"
+        )
+        parser.add_argument(
+            "--verbose",
+            action="store_true",
+            help="Print detailed logs"
+        )
+
+        def run(args, ctx):
+            mutable_ctx = replace(
+                ctx,
+                dry_run=getattr(args, "dry_run", False),
+                verbose=getattr(args, "verbose", False)
+            )
+            if getattr(mutable_ctx, "verbose", False):
+                import logging
+                logging.basicConfig(level=logging.INFO)
+            pipeline = UnifiedSitemapPipeline(ctx=mutable_ctx)
+            pipeline.run()
+
+        parser.set_defaults(func=run)
+
+    # Register the new command
+    add_sitemap_pipeline_command(subparsers)
 
     return parser
 
