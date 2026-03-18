@@ -1,61 +1,107 @@
----
-version: 0.0.1
-project: Rotkeeper
-author: draw me an elephant
-license: MIT
----
-
 # Py-Rotkeeper
 
-Rotkeeper with significantly less BASH
+![Sora Mascot](rc/rotkeeper/sources/images/mascot.png)
+
+Py-Rotkeeper is a modular Python pipeline for content rendering, log rotation, and project scaffolding. It replaces scattered scripts with a **central CONFIG-driven structure**, multi-site safe workflow, and modular CLI commands.
 
 ## Short Description
 
-Py-Rotkeeper is a Python-based tool designed to simplify and improve the process of log rotation and management, reducing reliance on complex BASH scripts. It aims to provide a more maintainable and extensible solution for system administrators and developers.
+Py-Rotkeeper simplifies and organizes project pipelines by:
+
+- Modularizing CLI commands under `rc/rotkeeper/lib/`
+- Centralizing paths, flags, and settings via `CONFIG`
+- Using canonical sources for content, templates, styles, and images
+- Supporting incremental rendering with YAML manifests
+- Multi-site safe: multiple project folders can co-exist
 
 ## Features
 
-- Simplified log rotation using Python
-- Reduced dependency on BASH scripting
-- Easy configuration and customization
-- Cross-platform compatibility
-- Lightweight and efficient
+- Modular CLI commands (`init`, `render`, `sitemap`, `nav`, etc.)
+- CONFIG singleton for consistent paths, flags, and dry-run/debug modes
+- Canonical `sources/` folder for reusable templates, SCSS, images, and sample content
+- Incremental render with state tracking
+- Frontmatter-aware template overrides
+- SCSS compilation (Python 3 safe, Bulma deprecation filtered)
+- Multi-site safe: everything relative to current working directory
+- Dry-run and verbose logging
 
-## How to Get Started
+## Getting Started
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/tbuddy/Py-Rotkeeper.git
-   ```
+
+```bash
+git clone https://github.com/tbuddy/Py-Rotkeeper.git
+```
+
 2. Navigate to the project directory:
-   ```
-   cd Py-Rotkeeper
-   ```
-3. Install any required dependencies (if applicable):
-   ```
-   pip install -r requirements.txt
-   ```
-4. Run the main script or follow the usage instructions provided in the documentation.
+
+```bash
+cd Py-Rotkeeper
+```
+
+3. Set up a Python virtual environment (optional but recommended):
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+4. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Use the main CLI entry point:
+
+```bash
+python -m rc.rotkeeper.rc <command> [options]
+```
+
+Example: Initialize a new project:
+
+```bash
+python -m rc.rotkeeper.rc init --project my-site
+```
 
 ## Directory Structure Overview
 
-- `src/` - Source code for Py-Rotkeeper
-- `tests/` - Unit and integration tests
-- `docs/` - Documentation files
-- `examples/` - Example configurations and usage demonstrations
-- `README.md` - Project overview and instructions
+```text
+rc/
+  rotkeeper/
+    rc.py            # CLI entry point
+    config.py        # Central CONFIG singleton
+    lib/             # Modular command scripts
+    sources/         # Canonical sources for new projects
+      content/       # index.md, sample.md
+      templates/     # default.html, rot-doc.html
+      styles/        # main.scss, partials
+      images/        # mascot.png
+```
 
-## How to Contribute
+- `rc/rotkeeper/` contains the main pipeline logic and modular commands.
+- `sources/` holds all canonical files for initializing new projects.
+- Project folders created with init will replicate this structure under HOME and BONES paths defined in CONFIG.
+
+## Contributing
 
 Contributions are welcome! To contribute:
 
-1. Fork the repository
-2. Create a new branch for your feature or bugfix
-3. Commit your changes with clear messages
-4. Submit a pull request for review
+1. Fork the repository  
+2. Create a branch for your feature or bugfix  
+3. Commit changes with clear messages  
+4. Submit a pull request  
 
-Please ensure your code follows the project's style guidelines and includes relevant tests.
+Guidelines:
+
+- Follow PEP8 and project style conventions.  
+- Include tests for new functionality.  
+- Document new commands or changes in the CLI help output.  
 
 ## License
 
-This project is licensed under [LICENSE NAME]. See the LICENSE file for details.
+This project is licensed under the MIT License.
+
+This will render the mascot at the top of the GitHub page.  
+
+If you want, I can **also create a “Quickstart Example” section** below this that shows Sora the mascot guiding a new user through `init` → `render` → viewing output, which will make the README more engaging and tutorial-like. Do you want me to add that?
