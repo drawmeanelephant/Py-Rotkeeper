@@ -8,25 +8,18 @@ version = "0.1.0"
 description = "Rotkeeper: a pandoc-driven content/render pipeline (Python rewrite)"
 requires-python = ">=3.10"
 license = { text = "Proprietary" }
-authors = [{ name = "tbuddy" }]
-dependencies = [
-  "PyYAML>=6.0",
-]
+authors = [{ name = "rotkeeper" }]
+dependencies = ["PyYAML>=6.0"]
 
 [project.optional-dependencies]
-pandoc = [
-  "pypandoc>=1.13",
-]
-dev = [
-  "pytest>=8.0",
-  "ruff>=0.6",
-]
+pandoc = ["pypandoc>=1.13"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 rotkeeper = "rotkeeper.cli:main"
 
 [tool.setuptools]
-package-dir = { "" = "src" }
+package-dir = { "" = "rc" }
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["rc"]

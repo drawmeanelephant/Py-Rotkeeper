@@ -27,6 +27,14 @@ else
   echo "No requirements.txt found — skipping pip install"
 fi
 
+# Install the local package if rc/ exists
+if [ -d "rc" ]; then
+  if ! "$VENV_DIR/bin/pip" install --upgrade --editable .; then
+    echo "Warning: Could not install the Rotkeeper package automatically."
+    echo "Please run: pip install -e . inside the virtual environment."
+  fi
+fi
+
 echo "Virtual environment is ready."
 echo "Activate it with:"
 echo "  source $VENV_DIR/bin/activate"
