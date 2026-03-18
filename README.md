@@ -6,6 +6,8 @@ Py-Rotkeeper is a modular Python pipeline for content rendering, log rotation, a
 
 ## Short Description
 
+Okay this whole thing is AI slopvibecoded and a rewrite of the old rotkeeper for BASH. The writer took a lot bit of liberties about it and honestly the BASH version did pretty much everything this currently does and more… better. It's a work in progress and this bit of text is the only portion of the project not made by ChatGPT with the sporadic advice from Grok and the mascot was cleaned up by Gemini and generated in a Sora video. It's slop on top of slop. Also the project was initially constructed in Codex. Pretty much anything but Claude has touched it.
+
 Py-Rotkeeper simplifies and organizes project pipelines by:
 
 - Modularizing CLI commands under `rc/rotkeeper/lib/`
@@ -30,7 +32,7 @@ Py-Rotkeeper simplifies and organizes project pipelines by:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/tbuddy/Py-Rotkeeper.git
+git clone https://github.com/drawmeanelephant/Py-Rotkeeper
 ```
 
 2. Navigate to the project directory:
