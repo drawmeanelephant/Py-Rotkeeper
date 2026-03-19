@@ -1,4 +1,5 @@
-@use "../../../node_modules/bulma/bulma" as *;
+// main.scss
+@use "bootstrap/scss/bootstrap" as *;
 @use "variables";
 @use "mixins";
-@use "./overrides";  // explicit relative path
+@use "overrides";
