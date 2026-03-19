@@ -153,7 +153,7 @@ def file_needs_render(src: Path, dest: Path, template_path: Path | None, prev_st
 
 
 def run(args: argparse.Namespace, ctx: RunContext) -> int:
-    logging.debug("root=%s", ctx.paths.root_dir)
+    logging.debug("root=%s", CONFIG.ROOT_DIR)
     logging.debug("config=%s", getattr(args, "config", None))
 
     content_dir = CONFIG.CONTENT_DIR
@@ -164,6 +164,8 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     manifest_path = reports_dir / "render-manifest.yaml"
     build_manifest_path = reports_dir / "build-manifest.yaml"
     render_state_path = reports_dir / "render-state.yaml"
+    # Use a dynamic base path for relative_to in build_pages
+    base_dir = Path.cwd()
 
     if not content_dir.exists() or not content_dir.is_dir():
         logging.info("No content directory found at %s", content_dir)
@@ -186,7 +188,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     if args.config:
         config_path = Path(args.config).expanduser()
         if not config_path.is_absolute():
-            config_path = ctx.paths.root_dir / config_path
+            config_path = CONFIG.ROOT_DIR / config_path
         if not config_path.exists():
             logging.error("Render config not found: %s", config_path)
             return 2
@@ -280,8 +282,8 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         )
         build_pages.append(
             {
-                "source": src.relative_to(ctx.paths.root_dir).as_posix(),
-                "output": dest.relative_to(ctx.paths.root_dir).as_posix(),
+                "source": src.relative_to(base_dir).as_posix(),
+                "output": dest.relative_to(base_dir).as_posix(),
             }
         )
 
@@ -338,7 +340,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     logging.info("Wrote build manifest: %s", build_manifest_path)
 
     # Compile SCSS → CSS automatically after render
-    build_sass(ctx)
+    build_sass()
     logging.info("Render summary: %d files rendered successfully, %d files skipped, %d failures", successes, skipped, failures)
     if failures:
         logging.error("Render completed with %d failure(s).", failures)
@@ -347,8 +349,8 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
 
 
 # --- Sass build helper ---
-def build_sass(ctx: RunContext, scss_file: Path | None = None, output_file: Path | None = None):
-    """Compile SCSS to CSS using sass CLI."""
+def build_sass(scss_file: Path | None = None, output_file: Path | None = None):
+    """Compile SCSS to CSS using sass CLI, suppressing warnings."""
     if scss_file is None:
         scss_file = CONFIG.BONES / "assets" / "styles" / "main.scss"
     if output_file is None:
@@ -357,36 +359,27 @@ def build_sass(ctx: RunContext, scss_file: Path | None = None, output_file: Path
         logging.warning("SCSS file not found: %s", scss_file)
         return
     output_file.parent.mkdir(parents=True, exist_ok=True)
+
     try:
-        args = ["sass", "--style=compressed", "--no-source-map", "--quiet-deps", str(scss_file), str(output_file)]
-        result = subprocess.run(
+        node_modules_path = (CONFIG.ROOT_DIR / "node_modules").resolve()
+        args = [
+            "sass",
+            "--style=compressed",
+            "--no-source-map",
+            f"--load-path={node_modules_path}",
+            str(scss_file),
+            str(output_file),
+        ]
+        subprocess.run(
             args,
             check=True,
-            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,  # suppress warnings
             text=True,
         )
-        # Decode and filter stderr for Bulma deprecation warnings
-        if result.stderr:
-            filtered_lines = []
-            for line in result.stderr.splitlines():
-                if "Deprecation Warning [if-function]" in line:
-                    # Suppress this warning
-                    continue
-                filtered_lines.append(line)
-            if filtered_lines:
-                logging.error("Sass warnings/errors:\n%s", "\n".join(filtered_lines))
         logging.info("Compiled SCSS -> CSS: %s", output_file)
     except FileNotFoundError:
         logging.error("Sass CLI not installed. Run 'npm install -D sass' or install system sass")
     except subprocess.CalledProcessError as e:
-        err_output = e.stderr if e.stderr else str(e)
-        filtered_lines = []
-        for line in err_output.splitlines():
-            if "Deprecation Warning [if-function]" in line:
-                continue
-            filtered_lines.append(line)
-        if filtered_lines:
-            logging.error("Sass compilation failed: %s", "\n".join(filtered_lines))
-        else:
-            logging.error("Sass compilation failed: %s", e)
+        logging.error("Sass compilation failed: %s", e)
         logging.info("Compiled SCSS -> CSS: %s", output_file)

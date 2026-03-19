@@ -6,7 +6,7 @@ import shutil
 from html.parser import HTMLParser
 from pathlib import Path
 
-from ..context import RunContext
+from ..config import CONFIG
 
 
 class _ResourceParser(HTMLParser):
@@ -86,17 +86,17 @@ def _resolve_asset(
     return None
 
 
-def run(args: argparse.Namespace, ctx: RunContext) -> int:
+def run(args: argparse.Namespace, ctx=None) -> int:
     import yaml
     import hashlib
 
-    output_dir = ctx.paths.output_dir
+    output_dir = CONFIG.OUTPUT_DIR
     output_assets_dir = output_dir / "assets"
-    bones_reports_dir = ctx.paths.bones_dir / "reports"
+    bones_reports_dir = CONFIG.BONES / "reports"
     assets_report_path = bones_reports_dir / "assets.yaml"
-    home_assets_dir = ctx.paths.home_dir / "assets"
+    home_assets_dir = CONFIG.HOME / "assets"
     # Markdown root for page-local assets
-    home_content_dir = ctx.paths.home_dir / "content"
+    home_content_dir = CONFIG.CONTENT_DIR
 
     dry_run = getattr(args, "dry_run", False)
     verbose = getattr(args, "verbose", False)

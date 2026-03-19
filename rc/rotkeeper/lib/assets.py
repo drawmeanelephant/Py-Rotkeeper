@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 
 from ..context import RunContext
+from ..config import CONFIG
 
 
 def add_parser(subs: argparse._SubParsersAction) -> None:
@@ -64,16 +65,16 @@ def _format_assets_yaml(assets: list[dict[str, str]]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def run(args: argparse.Namespace, ctx: RunContext) -> int:
+def run(args: argparse.Namespace, ctx=None) -> int:
     dry_run = getattr(args, "dry_run", False)
     verbose = getattr(args, "verbose", False)
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
     del args  # unused (kept for the CLI contract)
 
-    assets_dir = ctx.paths.assets_dir
-    output_assets_dir = ctx.paths.output_dir / "assets"
-    report_path = ctx.paths.reports_dir / "assets.yaml"
+    assets_dir = CONFIG.BONES / "assets"
+    output_assets_dir = CONFIG.OUTPUT_DIR / "assets"
+    report_path = CONFIG.BONES / "reports" / "assets.yaml"
 
     if not assets_dir.exists():
         logging.info("No assets directory found at %s", assets_dir)
@@ -103,7 +104,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     global_asset_paths = {rel for rel, _ in global_assets}
 
     # Catalog page-local assets without copying
-    content_dir = ctx.paths.content_dir
+    content_dir = CONFIG.BONES / "content"
     if content_dir.exists():
         for md_path in content_dir.rglob("*.md"):
             md_dir = md_path.parent
@@ -111,7 +112,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
             # We assume the output HTML will be placed preserving the relative path from content_dir,
             # but with .html extension instead of .md
             rel_md_dir = md_dir.relative_to(content_dir)
-            output_page_dir = ctx.paths.output_dir / rel_md_dir
+            output_page_dir = CONFIG.OUTPUT_DIR / rel_md_dir
 
             # Scan for non-markdown files in the same directory
             for local_asset in md_dir.iterdir():

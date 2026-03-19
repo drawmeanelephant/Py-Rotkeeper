@@ -4,6 +4,7 @@ import argparse
 import logging
 
 from ..context import RunContext
+from ..config import CONFIG
 
 
 def add_parser(subs: argparse._SubParsersAction) -> None:
@@ -28,9 +29,8 @@ def add_parser(subs: argparse._SubParsersAction) -> None:
     p.set_defaults(func=run)
 
 
-def run(args: argparse.Namespace, ctx: RunContext) -> int:
+def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     logging.info("book (stub)")
-    effective_dry = ctx.dry_run or bool(getattr(args, "dry_run", False))
-    logging.debug("mode=%s dry_run=%s reports_dir=%s", args.mode, effective_dry, ctx.paths.reports_dir)
+    effective_dry = bool(getattr(args, "dry_run", False)) or (ctx.dry_run if ctx else False)
+    logging.debug("mode=%s dry_run=%s reports_dir=%s", args.mode, effective_dry, CONFIG.BONES / "reports")
     return 0
-
