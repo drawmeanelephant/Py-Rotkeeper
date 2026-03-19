@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Collect Assets Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+        <aside class="toc">
+      true
+    </aside>
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="collect-assets-command">Collect Assets Command</h1>
+        <h2 id="concept">Concept</h2>
+        <p>The <code>collect_assets</code> command gathers all static
+        asset files, including images, stylesheets, scripts, and other
+        media, from various sources in a Rotkeeper project into a
+        centralized directory. This ensures consistent handling of
+        assets during builds and simplifies deployment.</p>
+        <h2 id="usage">Usage</h2>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> collect_assets [--output <span class="op">&lt;</span>dir<span class="op">&gt;</span>] <span class="pp">[--</span><span class="ss">dry</span><span class="pp">-</span><span class="ss">run</span><span class="pp">]</span> <span class="pp">[--</span><span class="ss">verbose</span><span class="pp">]</span></span></code></pre></div>
+        <ul>
+        <li><code>--output &lt;dir&gt;</code>: Specify a custom
+        directory to collect assets into. Defaults to the standard build
+        output.<br />
+        </li>
+        <li><code>--dry-run</code>: Show what would be collected without
+        making changes.<br />
+        </li>
+        <li><code>--verbose</code>: Display detailed logs during the
+        asset collection process.</li>
+        </ul>
+        <h2 id="example">Example</h2>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> collect_assets <span class="at">--verbose</span> <span class="at">--output</span> ./build/assets</span></code></pre></div>
+        <p>Collects all assets with detailed logging and places them
+        into <code>./build/assets</code>.</p>
+        <h2 id="future-goals">Future Goals</h2>
+        <ul>
+        <li>Implement automatic optimization for images, CSS, and JS
+        files.<br />
+        </li>
+        <li>Support asset deduplication and hash-based caching.<br />
+        </li>
+        <li>Enable filtering options to include or exclude specific file
+        types or directories.<br />
+        </li>
+        <li>Integrate with deployment pipelines or CDNs for automated
+        distribution.</li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-16 rotkeeper.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

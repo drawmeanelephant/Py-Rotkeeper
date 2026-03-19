@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Assets Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+        <aside class="toc">
+      true
+    </aside>
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="assets-command">Assets Command</h1>
+        <p>The <code>assets</code> command manages and processes asset
+        files used within Rotkeeper projects, ensuring they are
+        correctly handled during rendering.</p>
+        <h2 id="concept">Concept</h2>
+        <p>The <code>assets</code> command is designed to handle all
+        static asset files such as images, stylesheets, and scripts that
+        are part of a Rotkeeper project. It ensures these assets are
+        properly copied, optimized, and linked during the site
+        generation process. This command helps maintain the integrity
+        and availability of assets across different environments and
+        output formats.</p>
+        <h2 id="usage">Usage</h2>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> assets <span class="pp">[</span><span class="ss">OPTIONS</span><span class="pp">]</span></span></code></pre></div>
+        <h3 id="options">Options</h3>
+        <ul>
+        <li><p><code>--dry-run</code><br />
+        Simulate the asset processing without making any changes to the
+        output directories. Useful for testing what would
+        happen.</p></li>
+        <li><p><code>--verbose</code><br />
+        Output detailed logs of the asset processing steps for debugging
+        and monitoring purposes.</p></li>
+        <li><p><code>--output &lt;dir&gt;</code><br />
+        Specify a custom output directory where the processed assets
+        should be placed. Defaults to the standard build
+        directory.</p></li>
+        </ul>
+        <h3 id="example">Example</h3>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> assets <span class="at">--verbose</span> <span class="at">--output</span> ./build/assets</span></code></pre></div>
+        <p>This command processes all assets with detailed logging and
+        places them into the <code>./build/assets</code> directory.</p>
+        <h2 id="future-goals">Future Goals</h2>
+        <ul>
+        <li>Implement automatic optimization for images and other media
+        to reduce file sizes without quality loss.</li>
+        <li>Add support for asset versioning and cache busting to
+        improve browser caching behavior.</li>
+        <li>Integrate with CDN deployment workflows to streamline asset
+        distribution.</li>
+        <li>Provide more granular filtering options to include or
+        exclude specific asset types or directories.</li>
+        <li>Enhance error reporting and recovery mechanisms during asset
+        processing.</li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-16 Your Name Here.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

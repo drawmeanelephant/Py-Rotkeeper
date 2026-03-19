@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Directory index for Rotkeeper.
+Explains each file’s purpose and project structure." />
+  <title>Rotkeeper Documentation Index</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="rotkeeper-project-reference">📖 Rotkeeper Project
+        Reference</h1>
+        <p>Welcome to Rotkeeper, your command-line necropolis for
+        managing static site rituals.<br />
+        This document explains the <strong>purpose of each file and
+        folder</strong> in the project, following the “rules”
+        established in the old Rotkeeper.</p>
+        <blockquote>
+        <p>🕯️ Every file has a reason. Understanding it keeps your
+        rituals tidy.</p>
+        </blockquote>
+        <hr />
+        <h2 id="project-structure-file-purpose">📁 Project Structure
+        &amp; File Purpose</h2>
+        <h3 id="root">1. <strong>Root</strong></h3>
+        <ul>
+        <li><code>README.md</code> — high-level project description,
+        getting started guide, and license info.<br />
+        </li>
+        <li><code>LICENSE</code> — MIT license for the project.<br />
+        </li>
+        <li><code>pyproject.toml</code> — Python packaging,
+        dependencies, and entry points.<br />
+        </li>
+        <li><code>package.json</code> / <code>package-lock.json</code> —
+        Node dependencies for SCSS compilation.<br />
+        </li>
+        <li><code>node_modules/</code> — local Node modules (ignored in
+        Git).<br />
+        </li>
+        <li><code>output/</code> — rendered HTML/CSS output (ignored in
+        Git).<br />
+        </li>
+        <li><code>home/</code> — main content, templates, and assets for
+        Rotkeeper.<br />
+        </li>
+        <li><code>src/rotkeeper/</code> — Python code for CLI and
+        commands.</li>
+        </ul>
+        <hr />
+        <h3 id="home-folder">2. <strong>Home Folder</strong></h3>
+        <ul>
+        <li><code>home/content/</code> — Markdown source files for docs
+        and tutorials.<br />
+        </li>
+        <li><code>home/bones/templates/</code> — HTML templates (e.g.,
+        <code>default.html</code>) for rendering pages.<br />
+        </li>
+        <li><code>home/bones/assets/styles/</code> — SCSS files
+        (<code>main.scss</code>, <code>_variables.scss</code>,
+        <code>_mixins.scss</code>) for site styling.<br />
+        </li>
+        <li><code>home/bones/config/</code> — configuration files like
+        <code>render-flags.yaml</code>.<br />
+        </li>
+        <li><code>home/bones/reports/</code> — logs, manifests, or audit
+        reports.<br />
+        </li>
+        <li><code>home/test_assets/</code> — sample posts or images for
+        testing renders.</li>
+        </ul>
+        <hr />
+        <h3 id="python-source-srcrotkeeper">3. <strong>Python Source
+        (<code>src/rotkeeper</code>)</strong></h3>
+        <ul>
+        <li><code>__init__.py</code> — package initializer.<br />
+        </li>
+        <li><code>__main__.py</code> — entry point for
+        <code>python -m rotkeeper</code>.<br />
+        </li>
+        <li><code>cli.py</code> — parses command-line arguments.<br />
+        </li>
+        <li><code>commands/</code> — individual CLI commands:
+        <ul>
+        <li><code>init.py</code> / <code>rotkeeper_init.py</code> —
+        initialize a new project.<br />
+        </li>
+        <li><code>render.py</code> — compile Markdown to HTML, build
+        SCSS.<br />
+        </li>
+        <li><code>book.py</code> — scriptbook/book utilities.<br />
+        </li>
+        <li><code>assets.py</code> / <code>collect_assets.py</code> —
+        copy and manage static assets.<br />
+        </li>
+        <li><code>reseed.py</code> — reseed content or scripts.<br />
+        </li>
+        <li><code>sitemap.py</code> — generate navigation info.<br />
+        </li>
+        <li><code>cleanup_bones.py</code> — remove old output or
+        temporary files.<br />
+        </li>
+        </ul></li>
+        <li><code>context.py</code> — runtime context and path
+        management.<br />
+        </li>
+        <li><code>paths.py</code> — filesystem path helpers.<br />
+        </li>
+        <li><code>deps.py</code> — external dependency checks (Pandoc,
+        Sass).<br />
+        </li>
+        <li><code>exec.py</code> — helper to run subprocesses
+        safely.</li>
+        </ul>
+        <hr />
+        <h3 id="tests">4. <strong>Tests</strong></h3>
+        <ul>
+        <li><code>src/tests/</code> — Python unit tests for command
+        utilities, asset collection, and pipelines.</li>
+        </ul>
+        <hr />
+        <h3 id="docs-guides">5. <strong>Docs / Guides</strong></h3>
+        <ul>
+        <li><code>home/content/docs/index.md</code> — this file;
+        overview and rules for the project.<br />
+        </li>
+        <li>Other Markdown files in <code>docs/</code> explain
+        workflows, CLI usage, templates, configuration, and
+        troubleshooting.</li>
+        </ul>
+        <hr />
+        <h3 id="rules-for-file-usage">6. <strong>Rules for File
+        Usage</strong></h3>
+        <ol type="1">
+        <li><strong>Every script should have metadata</strong>
+        (<code>version</code>, <code>author</code>,
+        <code>tracked</code>) in frontmatter.<br />
+        </li>
+        <li><strong>Incremental builds only touch modified
+        files</strong>, using manifests in <code>reports/</code>.<br />
+        </li>
+        <li><strong>Assets (images, CSS, templates) live in
+        <code>bones/assets/</code></strong> — do not mix with content
+        Markdown.<br />
+        </li>
+        <li><strong>SCSS modularity</strong>:
+        <code>_variables.scss</code> → <code>_mixins.scss</code> →
+        <code>main.scss</code> → compiled CSS.<br />
+        </li>
+        <li><strong>Logs and audit reports</strong> are read-only for
+        reference; never edit them manually.</li>
+        </ol>
+        <hr />
+        <blockquote>
+        <p>With these rules, Rotkeeper keeps your static site rituals
+        orderly and predictable.</p>
+        </blockquote>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy;  py-rot.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

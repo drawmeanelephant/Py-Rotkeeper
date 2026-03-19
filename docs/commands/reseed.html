@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Reseed Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="reseed-command">Reseed Command</h1>
+      <h2 id="concept">Concept</h2>
+      <p>The <code>reseed</code> command resets or refreshes the seed
+      data in a Rotkeeper project. It ensures that sample content,
+      default templates, and initial configuration files are returned to
+      a known state, useful for testing, development, or restarting a
+      project from scratch.</p>
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> reseed <span class="pp">[--</span><span class="ss">verbose</span><span class="pp">]</span> <span class="pp">[--</span><span class="ss">dry</span><span class="pp">-</span><span class="ss">run</span><span class="pp">]</span></span></code></pre></div>
+      <ul>
+      <li><code>--verbose</code>: Show detailed information about what
+      is being reseeded.<br />
+      </li>
+      <li><code>--dry-run</code>: Display the actions that would be
+      taken without making any changes.</li>
+      </ul>
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> reseed <span class="at">--verbose</span></span></code></pre></div>
+      <p>Refreshes all seed data and prints detailed logs of the process
+      without altering the existing project structure if
+      <code>--dry-run</code> is not used.</p>
+      <h2 id="future-goals">Future Goals</h2>
+      <ul>
+      <li>Allow selective reseeding of specific data sets or sections of
+      the project.<br />
+      </li>
+      <li>Integrate checks to prevent accidental overwriting of
+      user-modified files.<br />
+      </li>
+      <li>Enable automated versioning and rollback of seed data.<br />
+      </li>
+      <li>Support custom templates or content for different project
+      types.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy;  py-rot.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

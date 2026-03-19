@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Sitemap Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+        <aside class="toc">
+      true
+    </aside>
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="sitemap-command">Sitemap Command</h1>
+        <h2 id="concept">Concept</h2>
+        <p>The <code>sitemap</code> command scans all Markdown content
+        in a Rotkeeper project and collects page metadata from YAML
+        frontmatter. The command produces a canonical
+        <code>sitemap.yaml</code> file that describes every document in
+        the project.</p>
+        <p>This sitemap acts as the central metadata source for other
+        Rotkeeper commands. In particular, the <code>nav</code> command
+        consumes the sitemap to build hierarchical navigation,
+        breadcrumbs, and other navigation structures used by
+        templates.</p>
+        <p>Rather than relying on filesystem layout, Rotkeeper uses
+        frontmatter fields to describe document structure and metadata.
+        This allows pages to move freely in the repository while
+        navigation remains deterministic.</p>
+        <h2 id="usage">Usage</h2>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> sitemap [--output <span class="op">&lt;</span>file<span class="op">&gt;</span>] <span class="pp">[--</span><span class="ss">verbose</span><span class="pp">]</span></span></code></pre></div>
+        <ul>
+        <li><code>--output &lt;file&gt;</code>: Specify the file path
+        for the generated sitemap. Defaults to
+        <code>sitemap.yaml</code>.<br />
+        </li>
+        <li><code>--verbose</code>: Display detailed information about
+        which files are included and processed.</li>
+        </ul>
+        <h2 id="example">Example</h2>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> sitemap <span class="at">--verbose</span> <span class="at">--output</span> ./bones/reports/sitemap.yaml</span></code></pre></div>
+        <p>Generates the sitemap with detailed logging and writes it to
+        <code>./bones/reports/sitemap.yaml</code>.</p>
+        <h2 id="future-goals">Future Goals</h2>
+        <ul>
+        <li>Support multiple output formats (YAML, JSON, XML).</li>
+        <li>Include complete frontmatter metadata such as
+        <code>title</code>, <code>author</code>, <code>date</code>,
+        <code>keywords</code>, <code>tags</code>, and
+        <code>rotkeeper_nav</code>.</li>
+        <li>Provide structured metadata for downstream commands like
+        <code>nav</code> and <code>render</code>.</li>
+        <li>Enable generation of derived pages such as tag indexes or
+        author listings based on sitemap metadata.</li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-16 rotkeeper.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

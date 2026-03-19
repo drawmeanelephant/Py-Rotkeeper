@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Render Sitemap Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+        <aside class="toc">
+      true
+    </aside>
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="render-sitemap-command">Render Sitemap Command</h1>
+        <h2 id="concept">Concept</h2>
+        <p>The <code>render-sitemap</code> command generates a
+        standalone HTML sitemap page from the <code>sitemap.yaml</code>
+        produced by Rotkeeper. It converts the hierarchical structure
+        defined in <code>rotkeeper_nav</code> into nested
+        <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> HTML, producing
+        a browsable overview of the site’s pages. This is useful for
+        debugging, QA, and content auditing.</p>
+        <h2 id="example">Example</h2>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> render-sitemap <span class="at">--verbose</span> <span class="at">--output</span> ./output/sitemap.html</span></code></pre></div>
+        <p>Generates the HTML sitemap with detailed logging and writes
+        it to <code>./output/sitemap.html</code>.</p>
+        <h2 id="future-goals">Future Goals</h2>
+        <ul>
+        <li>Allow template customization for the sitemap layout.</li>
+        <li>Enable filtering by tags, authors, or dates for dynamic
+        sitemap views.</li>
+        <li>Support incremental updates to speed up generation on large
+        sites.</li>
+        <li>Integrate directly with themes or static site previews.</li>
+        </ul>
+        <h2 id="purpose">Purpose</h2>
+        <ul>
+        <li>Reads <code>sitemap.yaml</code> created by
+        <code>rotkeeper sitemap</code>.</li>
+        <li>Uses <code>rotkeeper_nav</code> for page hierarchy.</li>
+        <li>Generates a clean HTML page reflecting the full site
+        structure.</li>
+        <li>Supports operator/minimal, verbose/debug, and dry-run modes
+        for flexible execution.</li>
+        </ul>
+        <h2 id="usage">Usage</h2>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> render-sitemap <span class="pp">[</span><span class="ss">OPTIONS</span><span class="pp">]</span></span></code></pre></div>
+        <h3 id="options">Options</h3>
+        <ul>
+        <li><code>--dry-run</code> – outputs the HTML to console without
+        writing a file.</li>
+        <li><code>--output PATH</code> – optionally specify a different
+        output file location.</li>
+        <li><code>--verbose</code> – prints detailed logs during
+        generation.</li>
+        <li><code>--minimal</code> – prints only summary
+        information.</li>
+        <li><code>--yaml PATH</code> – specify a custom sitemap YAML
+        file (defaults to <code>sitemap.yaml</code>).</li>
+        </ul>
+        <h2 id="hierarchical-rendering">Hierarchical Rendering</h2>
+        <p>The sitemap uses <code>rotkeeper_nav</code> from page
+        metadata to define the hierarchy.</p>
+        <p>Example:</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;01_Docs&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;02_Commands&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;Render Sitemap&quot;</span></span></code></pre></div>
+        <p>Behavior:</p>
+        <ul>
+        <li>Numeric prefixes (e.g., <code>NN_</code>) control ordering
+        but are <strong>not displayed</strong>.</li>
+        <li>Pages without numeric prefixes are sorted
+        alphabetically.</li>
+        <li>Nested <code>&lt;ul&gt;</code> structures represent the
+        hierarchy visually in HTML.</li>
+        </ul>
+        <p>Example rendering in HTML:</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Docs</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Commands</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>          <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Render Sitemap - /docs/commands/render_sitemap.html<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span></code></pre></div>
+        <h2 id="notes">Notes</h2>
+        <ul>
+        <li>Assumes <code>sitemap.yaml</code> is up-to-date; run
+        <code>rotkeeper sitemap</code> first.</li>
+        <li>HTML output can be previewed directly in a browser or linked
+        from templates.</li>
+        <li>Supports dry-run and verbose/debug modes for testing without
+        writing files.</li>
+        <li>Key frontmatter fields used: <code>title</code>,
+        <code>rotkeeper_nav</code>, <code>keywords</code>,
+        <code>tags</code>, <code>author</code>,
+        <code>show_in_nav</code>.</li>
+        <li><code>rotkeeper_nav</code> defines the hierarchy;
+        <code>_page</code> metadata is used for leaf nodes in HTML.</li>
+        <li>Can be integrated into CI/CD pipelines to produce automated
+        sitemap previews.</li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-17 rotkeeper.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

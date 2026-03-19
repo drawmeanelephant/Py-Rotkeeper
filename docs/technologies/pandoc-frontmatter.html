@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Pandoc YAML Frontmatter Guide</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="overview">Overview</h1>
+      <p>Pandoc YAML frontmatter is metadata at the top of your Markdown
+      file, enclosed between <code>---</code> lines. It configures
+      document output, templates, and can hold custom variables.</p>
+      <h2 id="standard-fields">Standard Fields</h2>
+      <ul>
+      <li><code>title</code>, <code>author</code>, <code>date</code> —
+      basic document info.</li>
+      <li><code>lang</code> — language for accessibility and template
+      processing.</li>
+      <li><code>toc</code> — generate table of contents.</li>
+      <li><code>numbersections</code> — number chapters/sections.</li>
+      <li><code>geometry</code>, <code>fontsize</code> — for PDF
+      formatting.</li>
+      <li><code>keywords</code> — HTML or EPUB metadata.</li>
+      </ul>
+      <h2 id="custom-fields">Custom Fields</h2>
+      <p>You can define any custom variable. Examples:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Rotkeeper&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;0.1.0&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tags</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;docs&quot;</span><span class="kw">,</span><span class="at"> </span><span class="st">&quot;reference&quot;</span><span class="kw">]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">custom_note</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;This doc is auto-generated.&quot;</span></span></code></pre></div>
+      <p>These variables can be accessed in templates or filters using
+      <code>{{variable}}</code>.</p>
+      <h2 id="best-practices">Best Practices</h2>
+      <ol type="1">
+      <li>Use snake_case or kebab-case for custom variables.</li>
+      <li>Keep standard and custom fields organized.</li>
+      <li>Prefer arrays over comma-separated strings for
+      multi-values.</li>
+      <li>Be consistent with data types (string vs list).</li>
+      <li>Provide defaults in templates for optional custom
+      variables.</li>
+      </ol>
+      <h2 id="usage">Usage</h2>
+      <p>Pandoc reads this frontmatter into metadata, which can be used
+      by:</p>
+      <ul>
+      <li>Templates (<code>{{variable}}</code>)</li>
+      <li>Filters (Python, Lua)</li>
+      <li>Output formats (HTML, PDF, EPUB, DOCX)</li>
+      </ul>
+      <p>This allows you to treat frontmatter as a lightweight
+      per-document configuration file.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-16 Mister Toastyboy.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

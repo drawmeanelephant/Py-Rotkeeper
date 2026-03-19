@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- Rotkeeper-style template -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Navigation Command</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/hiq.css" />
+  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
+
+  
+  
+  
+  </head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <div class="rotkeeper-body">
+        <aside class="toc">
+      true
+    </aside>
+    
+    <aside class="sidebar">
+      <!-- optional sidebar content -->
+    </aside>
+
+    <main class="content container" id="content">
+      <div class="highlighted">
+        <!-- highlighted announcement or key note -->
+      </div>
+      <article class="page-body">
+        <h1 id="navigation-command">Navigation Command</h1>
+        <h2 id="concept">Concept</h2>
+        <p>The <code>nav</code> command manages the navigation structure
+        of a Rotkeeper project. It reads the sitemap and generates a
+        hierarchical navigation file that can be used by templates to
+        produce menus, sidebars, and breadcrumbs, ensuring consistent
+        navigation across the site.</p>
+        <h2 id="example">Example</h2>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> nav <span class="at">--verbose</span> <span class="at">--output</span> ./build/nav.yaml</span></code></pre></div>
+        <p>Generates the navigation file with detailed logging and
+        writes it to <code>./build/nav.yaml</code>.</p>
+        <h2 id="future-goals">Future Goals</h2>
+        <ul>
+        <li>Provide interactive editing of navigation structure.</li>
+        <li>Support multiple layouts for menus and sidebars.</li>
+        <li>Integrate with theme and template customization
+        options.</li>
+        <li>Enable incremental updates for large sites to improve
+        efficiency.</li>
+        </ul>
+        <h2 id="purpose">Purpose</h2>
+        <ul>
+        <li>Reads the existing <code>sitemap.yaml</code> produced by
+        <code>rotkeeper sitemap</code>.</li>
+        <li>Filters pages based on <code>show_in_nav</code> flags and
+        sections.</li>
+        <li>Builds a hierarchical structure suitable for navigation
+        templates.</li>
+        </ul>
+        <h2 id="usage">Usage</h2>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> nav <span class="pp">[</span><span class="ss">OPTIONS</span><span class="pp">]</span></span></code></pre></div>
+        <h3 id="options">Options</h3>
+        <ul>
+        <li><code>--dry-run</code> – outputs the structure without
+        writing to disk.</li>
+        <li><code>--output PATH</code> – optionally specify a different
+        output file for the navigation YAML/JSON.</li>
+        <li><code>--verbose</code> – prints detailed logs during
+        generation.</li>
+        </ul>
+        <h2 id="navigation-ordering">Navigation Ordering</h2>
+        <p>Navigation paths defined in <code>rotkeeper_nav</code> may
+        include a numeric prefix to control ordering.</p>
+        <p>Example:</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;01_Docs&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;02_Commands&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;Navigation&quot;</span></span></code></pre></div>
+        <p>Behavior:</p>
+        <ul>
+        <li>A prefix in the form <code>NN_</code> (number + underscore)
+        is used only for sorting.</li>
+        <li>The numeric prefix is <strong>not displayed</strong> in
+        navigation menus or breadcrumbs.</li>
+        <li>Items without a numeric prefix fall back to alphabetical
+        ordering.</li>
+        </ul>
+        <p>Example rendering:</p>
+        <p>Docs &gt; Commands &gt; Navigation</p>
+        <p>This allows authors to override default alphabetical sorting
+        while keeping clean display labels in templates.</p>
+        <h2 id="notes">Notes</h2>
+        <ul>
+        <li>The command assumes the sitemap is up-to-date; run
+        <code>rotkeeper sitemap</code> first.</li>
+        <li>Navigation metadata comes from page frontmatter collected by
+        <code>rotkeeper sitemap</code>.</li>
+        <li>Key fields used for navigation include: <code>title</code>,
+        <code>rotkeeper_nav</code>, <code>keywords</code>,
+        <code>tags</code>, <code>author</code>, and
+        <code>show_in_nav</code>.</li>
+        <li><code>rotkeeper_nav</code> defines the hierarchical path
+        used to build menus, sidebars, and breadcrumbs.</li>
+        <li>Pages can also be grouped dynamically (for example by
+        <code>author</code> or <code>tags</code>) depending on how
+        templates consume the generated navigation data.</li>
+        <li>The output is typically consumed by templates to build menus
+        or sidebars.</li>
+        </ul>
+      </article>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-16 rotkeeper.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+
+</html>

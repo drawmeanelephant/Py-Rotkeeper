@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <title>Quickstart Guide for Rotkeeper</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="quickstart-guide-for-rotkeeper">Quickstart Guide for
+      Rotkeeper</h1>
+      <h2 id="requirements-setup">Requirements Setup</h2>
+      <p>Before using Rotkeeper, make sure your environment is properly
+      set up.</p>
+      <h3 id="create-a-virtual-environment">Create a Virtual
+      Environment</h3>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span></code></pre></div>
+      <h3 id="activate-the-virtual-environment">Activate the Virtual
+      Environment</h3>
+      <p>On macOS/Linux:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span></code></pre></div>
+      <p>On Windows:</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">venv\Scripts\activate</span></span></code></pre></div>
+      <h3 id="upgrade-pip-setuptools-and-wheel">Upgrade pip, setuptools,
+      and wheel</h3>
+      <div class="sourceCode" id="cb4"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip setuptools wheel</span></code></pre></div>
+      <h3 id="install-python-dependencies">Install Python
+      Dependencies</h3>
+      <p>Install all required Python packages from the
+      <code>requirements.txt</code> file:</p>
+      <div class="sourceCode" id="cb5"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+      <h3 id="optional-install-pandoc-system-binary">Optional: Install
+      Pandoc System Binary</h3>
+      <p>Rotkeeper may require Pandoc for certain rendering features.
+      Install Pandoc using your system package manager or download it
+      from the <a href="https://pandoc.org/installing.html">Pandoc
+      website</a>.</p>
+      <p>For example, on macOS with Homebrew:</p>
+      <div class="sourceCode" id="cb6"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install pandoc</span></code></pre></div>
+      <p>On Ubuntu/Debian:</p>
+      <div class="sourceCode" id="cb7"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install pandoc</span></code></pre></div>
+      <blockquote>
+      <p><strong>Note:</strong> Rotkeeper requires Python 3.7 or
+      higher.</p>
+      </blockquote>
+      <h2 id="installing-dependencies">Installing Dependencies</h2>
+      <p>After activating the virtual environment, install Rotkeeper and
+      its dependencies.</p>
+      <p>To install the latest released version from PyPI:</p>
+      <div class="sourceCode" id="cb8"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install rotkeeper</span></code></pre></div>
+      <p>Alternatively, to install the package in editable mode for
+      development:</p>
+      <div class="sourceCode" id="cb9"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> .</span></code></pre></div>
+      <h2 id="running-rotkeeper-commands">Running Rotkeeper
+      Commands</h2>
+      <p>You can run Rotkeeper commands using the <code>rotkeeper</code>
+      CLI tool.</p>
+      <h3 id="show-help">Show Help</h3>
+      <p>To see all available commands and options:</p>
+      <div class="sourceCode" id="cb10"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> <span class="at">--help</span></span></code></pre></div>
+      <h3 id="initialize-a-new-project">Initialize a New Project</h3>
+      <p>To initialize a new Rotkeeper project:</p>
+      <div class="sourceCode" id="cb11"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> init</span></code></pre></div>
+      <h3 id="render-rotations">Render Rotations</h3>
+      <p>To render rotations based on your configuration:</p>
+      <div class="sourceCode" id="cb12"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rotkeeper</span> render</span></code></pre></div>
+      <h2 id="serving-the-output-directory">Serving the Output
+      Directory</h2>
+      <p>To preview your rendered site locally and ensure CSS and asset
+      paths work correctly, you can serve the <code>output/</code>
+      directory using Python’s built-in HTTP server.</p>
+      <p>On macOS/Linux:</p>
+      <div class="sourceCode" id="cb13"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> output</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 8000</span></code></pre></div>
+      <p>On Windows:</p>
+      <div class="sourceCode" id="cb14"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> output</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> http.server 8000</span></code></pre></div>
+      <p>Then, open your browser and navigate to
+      <code>http://localhost:8000</code> to view the site.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-15 draw me an elephant.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

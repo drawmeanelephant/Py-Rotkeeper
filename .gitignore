@@ -1,10 +1,16 @@
 output/
-*.html
-!home/bones/templates/*.html
-home/bones/assets/styles/*.css
-__pycache__/
+md/
 *.py[cod]
+__pycache__/
 .venv/
 env/
 *.swp
 .DS_Store
+
+# Track HTML in docs for GitHub Pages
+!docs/**/*.html
+# Keep templates ignored
+home/bones/templates/*.html
+
+# Track CSS in assets/styles
+home/bones/assets/styles/*.css
