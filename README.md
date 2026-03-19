@@ -1,6 +1,6 @@
 # Py-Rotkeeper
 
-![Sora Mascot](rc/rotkeeper/sources/images/mascot.png)
+![Patch](rc/rotkeeper/sources/images/mascot.png)
 
 Py-Rotkeeper is a modular Python pipeline for content rendering, log rotation, and project scaffolding. It replaces scattered scripts with a **central CONFIG-driven structure**, multi-site safe workflow, and modular CLI commands.
 
@@ -103,7 +103,3 @@ Guidelines:
 ## License
 
 This project is licensed under the MIT License.
-
-This will render the mascot at the top of the GitHub page.  
-
-If you want, I can **also create a “Quickstart Example” section** below this that shows Sora the mascot guiding a new user through `init` → `render` → viewing output, which will make the README more engaging and tutorial-like. Do you want me to add that?

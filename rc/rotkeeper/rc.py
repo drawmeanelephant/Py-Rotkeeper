@@ -153,6 +153,21 @@ def _build_parser() -> argparse.ArgumentParser:
             help="Collect Markdown pages, build metadata trees, and write sitemap_pipeline.yaml"
         )
         parser.add_argument(
+            "--index-only",
+            action="store_true",
+            help="Collect pages but do not build metadata"
+        )
+        parser.add_argument(
+            "--metadata-only",
+            action="store_true",
+            help="Build tags/author/date trees only"
+        )
+        parser.add_argument(
+            "--write-only",
+            action="store_true",
+            help="Write YAML only"
+        )
+        parser.add_argument(
             "--dry-run",
             action="store_true",
             help="Simulate actions without writing files"
@@ -164,15 +179,32 @@ def _build_parser() -> argparse.ArgumentParser:
         )
 
         def run(args, ctx):
+            # Extract staged flags locally
+            index_only = getattr(args, "index_only", False)
+            metadata_only = getattr(args, "metadata_only", False)
+            write_only = getattr(args, "write_only", False)
+
+            # Keep RunContext clean (only dry_run and verbose)
             mutable_ctx = replace(
                 ctx,
                 dry_run=getattr(args, "dry_run", False),
                 verbose=getattr(args, "verbose", False)
             )
+
             if getattr(mutable_ctx, "verbose", False):
                 import logging
                 logging.basicConfig(level=logging.INFO)
+
+            # Instantiate pipeline
+            from .lib.sitemap_pipeline import SitemapPipeline as UnifiedSitemapPipeline
             pipeline = UnifiedSitemapPipeline(ctx=mutable_ctx)
+
+            # Manually assign staged flags to the pipeline
+            pipeline.index_only = index_only
+            pipeline.metadata_only = metadata_only
+            pipeline.write_only = write_only
+
+            # Run the pipeline
             pipeline.run()
 
         parser.set_defaults(func=run)

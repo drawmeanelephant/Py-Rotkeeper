@@ -10,7 +10,53 @@
 ---
 
 ## MUST-REMEMBER ROTKEEPER BIBLE (Quote this in EVERY response)
-[PASTE THE ENTIRE CLEAN v0.4 I GAVE YOU HERE — the one with the table, pipeline diagram, feature template, everything]
+
+```markdown
+## Pipeline Diagram (v0.4–v0.5)
+```text
+home/content/*.md
+        │
+        ▼
+   [sitemap]
+        │
+        └──> bones/reports/sitemap.yaml
+              (parses Markdown + frontmatter)
+        │
+        ▼
+   [nav]
+        │
+        └──> bones/reports/nav.yaml
+              (builds hierarchical navigation)
+        │
+        ▼
+   [render]
+        │
+        ├──> output/*.html
+        └──> bones/reports/build-manifest.yaml
+             bones/reports/render-manifest.yaml
+```
+
+## Execution Modes (All Commands Must Support)
+| Mode     | Flag          | Behavior                              |
+|----------|---------------|---------------------------------------|
+| Verbose  | `--verbose`   | Full logging & detailed steps         |
+| Dry-run  | `--dry-run`   | Simulate everything, no file writes   |
+| Minimal  | `--minimal`   | Errors & critical status only         |
+
+## Feature Planning Template (Use Before Any New Implementation)
+**Feature Name**  
+**Purpose**  
+**Scope** (what’s included / explicitly excluded)  
+**Pipeline Stage** (sitemap, nav, render, etc.)  
+**Inputs** (files, data structures, CLI args)  
+**Outputs** (updated files, formats, side-effects)  
+**CLI Arguments** (if adding/modifying any)  
+**Edge Cases & Error Handling**  
+**Expected Metadata Changes**  
+**Example Outputs** (snippets or samples)  
+**Post-Implementation Notes** (testing, docs, follow-up)
+```
+
 
 ---
 
