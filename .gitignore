@@ -1,0 +1,10 @@
+output/
+*.html
+!home/bones/templates/*.html
+home/bones/assets/styles/*.css
+__pycache__/
+*.py[cod]
+.venv/
+env/
+*.swp
+.DS_Store
