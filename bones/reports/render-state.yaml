@@ -1,51 +1,48 @@
-index.md:
-  src_mtime: 1773838748.8173535
-  template_mtime: 1773524406.9523463
-sample.md:
-  src_mtime: 1773756455.1070917
-  template_mtime: 1773524406.9523463
-docs/commands/assets.md:
+commands/assets.md:
   src_mtime: 1773715949.6849198
   template_mtime: 1773768472.742986
-docs/commands/book.md:
+commands/book.md:
   src_mtime: 1773715949.6850057
   template_mtime: 1773768472.742986
-docs/commands/cleanup_bones.md:
+commands/cleanup_bones.md:
   src_mtime: 1773715949.6851385
   template_mtime: 1773768472.742986
-docs/commands/collect_assets.md:
+commands/collect_assets.md:
   src_mtime: 1773715949.6852677
   template_mtime: 1773768472.742986
-docs/commands/index.md:
+commands/index.md:
   src_mtime: 1773715949.6853805
   template_mtime: 1773524406.9523463
-docs/commands/init.md:
+commands/init.md:
   src_mtime: 1773715949.6854835
   template_mtime: 1773768472.742986
-docs/commands/nav.md:
+commands/nav.md:
   src_mtime: 1773715949.6855752
   template_mtime: 1773768472.742986
-docs/commands/render.md:
+commands/render.md:
   src_mtime: 1773715949.6856704
   template_mtime: 1773524406.9523463
-docs/commands/render_sitemap.md:
+commands/render_sitemap.md:
   src_mtime: 1773754279.5856726
   template_mtime: 1773768472.742986
-docs/commands/reseed.md:
+commands/reseed.md:
   src_mtime: 1773715949.6857665
   template_mtime: 1773524406.9523463
-docs/commands/sitemap.md:
+commands/sitemap.md:
   src_mtime: 1773715949.685858
   template_mtime: 1773768472.742986
-docs/commands/sitemap_pipeline.md:
+commands/sitemap_pipeline.md:
   src_mtime: 1773877731.039186
   template_mtime: 1773768472.742986
-docs/patch.md:
+patch.md:
   src_mtime: 1773715949.6859422
   template_mtime: 1773524406.9523463
-docs/quickstart.md:
+quickstart.md:
   src_mtime: 1773715949.6860645
   template_mtime: 1773524406.9523463
-docs/technologies/pandoc-frontmatter.md:
+technologies/pandoc-frontmatter.md:
   src_mtime: 1773715949.686201
   template_mtime: 1773524406.9523463
+index.md:
+  src_mtime: 1773957914.875261
+  template_mtime: 1773768472.742986

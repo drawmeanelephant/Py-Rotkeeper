@@ -1,7 +1,7 @@
 ---
 title: "Rotkeeper Documentation Index"
 slug: scripts-index
-template: rotkeeper-doc.html
+template: rot-doc.html
 version: "0.0.1-pre"
 updated: "2026-03-14"
 description: "Directory index for Rotkeeper. Explains each file's purpose and project structure."

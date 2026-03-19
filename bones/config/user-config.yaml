@@ -1,0 +1,4 @@
+HOME: home
+CONTENT_DIR: md
+OUTPUT_DIR: docs
+default_template: default
