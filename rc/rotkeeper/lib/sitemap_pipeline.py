@@ -10,7 +10,6 @@ import pprint
 
 logger = logging.getLogger("rotkeeper.sitemap_pipeline")
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -21,7 +20,6 @@ def _parse_nav_token(token: str):
     if match:
         return int(match.group(1)), match.group(2).strip()
     return 9999, token.strip()
-
 
 def _sort_nav_tree(node: dict) -> None:
     """Recursively sort nav tree nodes by numeric prefix, then title."""
@@ -37,11 +35,12 @@ def _sort_nav_tree(node: dict) -> None:
         for child in node["__children__"].values():
             _sort_nav_tree(child)
 
-
 def _nav_tree_to_markdown(node: dict, depth: int = 0) -> list[str]:
     """
     Recursively render a nav tree node to a nested Markdown list.
     Returns a list of lines.
+    Labels are always clean (stripped of numeric prefix) because
+    build_metadata_trees() inserts using the label from _parse_nav_token().
     """
     lines = []
     indent = "  " * depth
@@ -49,7 +48,7 @@ def _nav_tree_to_markdown(node: dict, depth: int = 0) -> list[str]:
         pages = child.get("__pages__", [])
         sub = child.get("__children__", {})
         if pages:
-            # Use the first page as the section link, rest as children
+            # Use the first page as the section link, rest as sub-items
             first = pages[0]
             lines.append(f"{indent}- [{label}]({first['path']})")
             for page in pages[1:]:
@@ -60,7 +59,6 @@ def _nav_tree_to_markdown(node: dict, depth: int = 0) -> list[str]:
             lines.extend(_nav_tree_to_markdown(child, depth + 1))
     return lines
 
-
 def _coerce_date(val) -> str | None:
     """Coerce datetime.date or other date-like objects to ISO string."""
     if val is None:
@@ -68,7 +66,6 @@ def _coerce_date(val) -> str | None:
     if isinstance(val, date_type):
         return val.isoformat()
     return str(val) or None
-
 
 # ---------------------------------------------------------------------------
 # Pipeline
@@ -168,6 +165,7 @@ class SitemapPipeline:
             current = self.metadata["rotkeeper_nav"]
             tokens = page.get("rotkeeper_nav") or ["Misc"]
             for token in tokens:
+                # _parse_nav_token strips numeric prefix; label is always clean
                 _, label = _parse_nav_token(token)
                 current.setdefault(label, {"__children__": {}, "__pages__": []})
                 current = current[label]["__children__"]
@@ -273,10 +271,10 @@ class SitemapPipeline:
         page gets consistent nav without modifying source files.
 
         The output is a fenced div so CSS can target div.site-nav:
-            ::: site-nav
-            - [Home](index.html)
-            ...
-            :::
+        ::: site-nav
+        - [Home](index.html)
+        ...
+        :::
         """
         output_file = self.reports_dir / "nav_partial.md"
 
@@ -310,8 +308,6 @@ class SitemapPipeline:
             return
 
         today = date_type.today().isoformat()
-
-        # Build a quick lookup: tag -> [pages]
         tag_index = self.metadata["tags"]
 
         for page in self.pages:
@@ -335,7 +331,7 @@ class SitemapPipeline:
                 if len(related) >= 5:
                     break
 
-            # Breadcrumb from rotkeeper_nav tokens
+            # Breadcrumb from rotkeeper_nav tokens (labels already clean)
             breadcrumb = []
             for token in page.get("rotkeeper_nav", []):
                 _, label = _parse_nav_token(token)
@@ -355,7 +351,7 @@ class SitemapPipeline:
                         }
                         for tag in page.get("tags", [])
                     ],
-                    "author_page": f"generated/authors/index.html",
+                    "author_page": "generated/authors/index.html",
                 }
             }
 
@@ -372,7 +368,7 @@ class SitemapPipeline:
         logger.info("Sidecar metadata written for %d pages", len(self.pages))
 
     # ------------------------------------------------------------------
-    # Stage 6: write unified report YAML (existing, kept for debugging)
+    # Stage 6: write unified report YAML
     # ------------------------------------------------------------------
 
     def write_yaml(self):
@@ -409,11 +405,11 @@ class SitemapPipeline:
         Run the sitemap pipeline.
 
         Stage flags (checked in priority order):
-          --index-only     collect pages only, print paths if verbose
-          --metadata-only  collect + build trees, print if verbose
-          --write-only     skip collection, write whatever is in memory
-        Default: full pipeline — collect → build → index pages →
-                 nav partial → sidecars → YAML report
+          --index-only    collect pages only, print paths if verbose
+          --metadata-only collect + build trees, print if verbose
+          --write-only    skip collection, write whatever is in memory
+          Default:        full pipeline — collect → build → index pages →
+                          nav partial → sidecars → YAML report
         """
         if self.index_only:
             logger.info("Stage: index-only")
@@ -446,7 +442,6 @@ class SitemapPipeline:
         self.write_sidecar_metadata()
         self.write_yaml()
 
-
 # ---------------------------------------------------------------------------
 # CLI wiring
 # ---------------------------------------------------------------------------
@@ -464,7 +459,6 @@ def add_parser(subparsers):
     p.set_defaults(func=run_command)
     return p
 
-
 def run_command(args, ctx=None):
     if ctx is None:
         raise ValueError("sitemap-pipeline requires a RunContext; ctx was None")
@@ -477,6 +471,7 @@ def run_command(args, ctx=None):
         metadata_only=getattr(args, "metadata_only", False),
         write_only=getattr(args, "write_only", False),
     )
+
     pipeline = SitemapPipeline(ctx=ctx)
     pipeline.run()
     return 0
