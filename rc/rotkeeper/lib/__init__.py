@@ -1,4 +1,3 @@
-
 from . import init, render, assets
 
 def get_commands():
@@ -10,4 +9,3 @@ def get_commands():
         ("render", render.add_parser),
         ("assets", assets.add_parser),
     ]
-

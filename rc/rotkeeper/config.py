@@ -1,6 +1,7 @@
-# rc/rotkeeper/config.py
+# rc/config.py
 from pathlib import Path
 import yaml
+
 
 class Config:
     """
@@ -10,50 +11,79 @@ class Config:
     """
 
     def __init__(self):
-        # Project root is the folder containing rc/
         self.ROOT_DIR = Path(__file__).resolve().parent.parent.parent
         self.BASE_DIR = Path.cwd()
         self.BONES = self.BASE_DIR / "bones"
-        # Path to user config file
-        user_config_path = self.BONES / "config" / "user-config.yaml"
-        config_data = None
-        if user_config_path.exists():
-            with open(user_config_path, "r", encoding="utf-8") as f:
-                config_data = yaml.safe_load(f)
-        # Set defaults
+
+        # Defaults
         self.HOME = self.BASE_DIR / "home"
         self.CONTENT_DIR = self.HOME / "content"
         self.OUTPUT_DIR = self.HOME / "output"
         self.default_template = None
-        # Override from config if available
-        if config_data:
-            if "HOME" in config_data:
-                self.HOME = (self.BASE_DIR / config_data["HOME"]).resolve()
-            if "CONTENT_DIR" in config_data:
-                self.CONTENT_DIR = (self.BASE_DIR / config_data["CONTENT_DIR"]).resolve()
-            if "OUTPUT_DIR" in config_data:
-                self.OUTPUT_DIR = (self.BASE_DIR / config_data["OUTPUT_DIR"]).resolve()
-            if "default_template" in config_data:
-                self.default_template = config_data["default_template"]
+        self.SCENARIO = "default"
+        self.DEPENDENCIES = {
+            "pandoc": {"check": ["pandoc", "--version"], "required": True},
+            "sass":   {"check": ["sass",   "--version"], "required": False},
+            "node":   {"check": ["node",   "--version"], "required": False},
+        }
 
-    # Flags
-    DRY_RUN: bool = False
-    DEBUG: bool = False
+        user_config_path = self.BONES / "config" / "user-config.yaml"
+        if user_config_path.exists():
+            with open(user_config_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+            self._apply(data)
 
-    # Scenario / sample content
-    SCENARIO: str = "default"
+    # ------------------------------------------------------------------
+    # Derived paths (override-friendly via user-config.yaml)
+    # ------------------------------------------------------------------
 
-    # Dependency registry (example)
-    DEPENDENCIES = {
-        "pandoc": {"check": ["pandoc", "--version"], "required": True},
-        "sass": {"check": ["sass", "--version"], "required": False},
-        "node": {"check": ["node", "--version"], "required": False},
-    }
+    @property
+    def REPORTS_DIR(self) -> Path:
+        return getattr(self, "_reports_dir", self.BONES / "reports")
 
-    # Utility methods
+    @property
+    def GENERATED_CONTENT_DIR(self) -> Path:
+        return getattr(self, "_generated_content_dir", self.CONTENT_DIR / "generated")
+
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+
+    def _apply(self, data: dict) -> None:
+        """Apply a config dict, overriding current values."""
+        if not data:
+            return
+        if "HOME" in data:
+            self.HOME = (self.BASE_DIR / data["HOME"]).resolve()
+        if "CONTENT_DIR" in data:
+            self.CONTENT_DIR = (self.BASE_DIR / data["CONTENT_DIR"]).resolve()
+        if "OUTPUT_DIR" in data:
+            self.OUTPUT_DIR = (self.BASE_DIR / data["OUTPUT_DIR"]).resolve()
+        if "default_template" in data:
+            self.default_template = data["default_template"]
+        if "SCENARIO" in data:
+            self.SCENARIO = data["SCENARIO"]
+        # Optional path overrides for generated outputs
+        if "REPORTS_DIR" in data:
+            self._reports_dir = (self.BASE_DIR / data["REPORTS_DIR"]).resolve()
+        if "GENERATED_CONTENT_DIR" in data:
+            self._generated_content_dir = (self.BASE_DIR / data["GENERATED_CONTENT_DIR"]).resolve()
+
+    def load(self, path: Path) -> None:
+        """Load configuration overrides from a YAML file."""
+        if not path.exists():
+            return
+        with open(path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+        self._apply(data)
+
+    # ------------------------------------------------------------------
+    # Utility
+    # ------------------------------------------------------------------
+
     def output_path(self, filename: str) -> Path:
-        """Compute output path for a given file."""
+        """Compute output path for a given file under the current scenario."""
         return self.OUTPUT_DIR / self.SCENARIO / filename
 
-# Single shared instance
+
 CONFIG = Config()
