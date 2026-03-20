@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="How Rotkeeper reads and uses YAML
+frontmatter fields, and how they map to Pandoc metadata." />
+  <title>Pandoc Frontmatter in Rotkeeper</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="pandoc-frontmatter-in-rotkeeper">Pandoc Frontmatter in
+      Rotkeeper</h1>
+      <p>Every Rotkeeper page is a Markdown file with a YAML frontmatter
+      block at the top.<br />
+      Pandoc reads this block as document metadata and makes it
+      available to templates as variables.<br />
+      Rotkeeper adds its own fields on top — they control nav, build
+      behavior, and pipeline logic.</p>
+      <hr />
+      <h2 id="how-it-works">How It Works</h2>
+      <p>Pandoc treats any valid YAML block delimited by
+      <code>---</code> at the top of a file as a metadata block.<br />
+      String scalars are interpreted as Markdown, so you can use inline
+      formatting (bold, links, etc.) in fields like
+      <code>description</code>.<br />
+      Fields ending in an underscore are <strong>ignored by
+      Pandoc</strong> and are reserved for external processors —
+      Rotkeeper uses this convention for <code>asset_meta</code>
+      sub-fields.</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;My Page&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;A short summary used in `&lt;meta&gt;` tags.&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> 2026-03-20</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+      <p>Pandoc passes all fields to your HTML template as variables,
+      accessible as <code>$title$</code>, <code>$description$</code>,
+      <code>$date$</code>, etc.</p>
+      <hr />
+      <h2 id="rotkeeper-specific-fields">Rotkeeper-Specific Fields</h2>
+      <p>These fields are read by the Rotkeeper pipeline — they are not
+      standard Pandoc variables but are available to templates that
+      reference them.</p>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>rotkeeper_nav</code></td>
+      <td>list of strings</td>
+      <td>Yes</td>
+      <td>Nav section tokens; controls placement and sort order</td>
+      </tr>
+      <tr>
+      <td><code>show_in_nav</code></td>
+      <td>bool</td>
+      <td>Yes</td>
+      <td><code>true</code> = appears in rendered nav;
+      <code>false</code> = built but hidden</td>
+      </tr>
+      <tr>
+      <td><code>draft</code></td>
+      <td>bool</td>
+      <td>Yes</td>
+      <td><code>true</code> = excluded from build entirely</td>
+      </tr>
+      <tr>
+      <td><code>published</code></td>
+      <td>bool</td>
+      <td>Yes</td>
+      <td><code>false</code> = treated same as
+      <code>draft: true</code></td>
+      </tr>
+      <tr>
+      <td><code>slug</code></td>
+      <td>string</td>
+      <td>Recommended</td>
+      <td>Output filename stem; defaults to source filename if
+      absent</td>
+      </tr>
+      <tr>
+      <td><code>template</code></td>
+      <td>string</td>
+      <td>Recommended</td>
+      <td>HTML template to use (e.g. <code>rot-doc.html</code>)</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="standard-pandoc-fields">Standard Pandoc Fields</h2>
+      <p>These are native Pandoc metadata variables passed directly to
+      templates.</p>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>title</code></td>
+      <td>string</td>
+      <td>Page title; maps to <code>$title$</code> in templates</td>
+      </tr>
+      <tr>
+      <td><code>author</code></td>
+      <td>string or list</td>
+      <td>Author name(s); maps to <code>$author$</code></td>
+      </tr>
+      <tr>
+      <td><code>date</code></td>
+      <td>string</td>
+      <td>Publication date; maps to <code>$date$</code></td>
+      </tr>
+      <tr>
+      <td><code>description</code></td>
+      <td>string</td>
+      <td>Page summary; used in
+      <code>&lt;meta name="description"&gt;</code></td>
+      </tr>
+      <tr>
+      <td><code>tags</code></td>
+      <td>list of strings</td>
+      <td>Keyword tags; available as <code>$tags$</code> in
+      templates</td>
+      </tr>
+      <tr>
+      <td><code>toc</code></td>
+      <td>bool</td>
+      <td><code>true</code> enables Pandoc’s auto table of contents</td>
+      </tr>
+      <tr>
+      <td><code>lang</code></td>
+      <td>string</td>
+      <td>Document language, e.g. <code>en</code></td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="rotkeeper_nav-in-detail"><code>rotkeeper_nav</code> in
+      Detail</h2>
+      <p>The <code>rotkeeper_nav</code> field is a list of string tokens
+      with a numeric prefix.<br />
+      The first token is always the <strong>section</strong>
+      (<code>10_Pipeline</code>, <code>20_Sitemap</code>, etc.).<br />
+      An optional second token is the <strong>page identifier</strong>
+      within that section.</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Section overview page — one token</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;10_Pipeline&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Command page — two tokens</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;10_Pipeline&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;render&quot;</span></span></code></pre></div>
+      <p>Sections sort by numeric prefix. Pages within a section sort by
+      the order they appear in the section overview’s nav list, or
+      alphabetically if unspecified.</p>
+      <p>The full section hierarchy:</p>
+      <table>
+      <thead>
+      <tr>
+      <th>Token</th>
+      <th>Section</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>00_Home</code></td>
+      <td>Landing / index</td>
+      </tr>
+      <tr>
+      <td><code>01_Quickstart</code></td>
+      <td>Getting started</td>
+      </tr>
+      <tr>
+      <td><code>02_Changelog</code></td>
+      <td>Release history</td>
+      </tr>
+      <tr>
+      <td><code>10_Pipeline</code></td>
+      <td>Core build pipeline</td>
+      </tr>
+      <tr>
+      <td><code>20_Sitemap</code></td>
+      <td>Sitemap and nav generation</td>
+      </tr>
+      <tr>
+      <td><code>30_Scaffold</code></td>
+      <td>Project init and reseed</td>
+      </tr>
+      <tr>
+      <td><code>40_Utilities</code></td>
+      <td>Nav, cleanup, book</td>
+      </tr>
+      <tr>
+      <td><code>50_Concepts</code></td>
+      <td>Reference concepts</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="yaml-gotchas">YAML Gotchas</h2>
+      <ul>
+      <li><strong>Field names cannot be bare numbers or
+      booleans.</strong> <code>yes</code>, <code>true</code>,
+      <code>15</code> are invalid as field names.</li>
+      <li><strong>Fields ending in <code>_</code> are ignored by
+      Pandoc</strong> but passed to external processors. Use this for
+      internal bookkeeping (e.g. <code>asset_meta</code>).</li>
+      <li><strong>Multiple metadata blocks are allowed</strong>, but if
+      two blocks set the same field, the second value wins.</li>
+      <li><strong>Close with <code>---</code> or
+      <code>...</code></strong> — both are valid YAML block terminators
+      in Pandoc.</li>
+      <li><strong>Do not leave a blank line</strong> between the opening
+      <code>---</code> and the first field; Pandoc will not parse it as
+      a metadata block.</li>
+      </ul>
+      <hr />
+      <h2 id="full-reference-block">Full Reference Block</h2>
+      <p>Copy this into any new page and fill in the values:</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">slug</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">template</span><span class="kw">:</span><span class="at"> rot-doc.html</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;0.0.1-pre&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">updated</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;YYYY-MM-DD&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Filed Systems&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> YYYY-MM-DD</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tags</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;10_Pipeline&quot;</span><span class="co">     # replace with correct section token</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;page-name&quot;</span><span class="co">       # optional; omit for section overview pages</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">show_in_nav</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">draft</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">published</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">asset_meta</span><span class="kw">:</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;0.0.1-pre&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Filed Systems&quot;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">project</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Rotkeeper&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tracked</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">license</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;MIT&quot;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

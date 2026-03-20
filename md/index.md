@@ -1,94 +1,120 @@
 ---
-title: "Rotkeeper Documentation Index"
-slug: scripts-index
+title: "Rotkeeper Documentation"
+slug: index
 template: rot-doc.html
-version: "0.0.1-pre"
-updated: "2026-03-14"
-description: "Directory index for Rotkeeper. Explains each file's purpose and project structure."
+version: "0.0.2-pre"
+updated: "2026-03-20"
+description: "Landing page and navigation guide for Rotkeeper documentation."
 tags:
   - rotkeeper
   - reference
-  - file-structure
+  - index
+rotkeeper_nav:
+  - "00_Home"
+show_in_nav: true
+draft: false
+published: true
+author: "Filed Systems"
 asset_meta:
-  name: "scripts-index.md"
-  version: "0.0.1-pre"
+  name: "index.md"
+  version: "0.0.2-pre"
   author: "Filed Systems"
   project: "Rotkeeper"
   tracked: true
   license: "MIT"
-status: published
 ---
 
-# 📖 Rotkeeper Project Reference
+# 📖 Rotkeeper
 
-Welcome to Rotkeeper, your command-line necropolis for managing static site rituals.  
-This document explains the **purpose of each file and folder** in the project, following the "rules" established in the old Rotkeeper.
+Rotkeeper is a Python-based static site generator that uses [Pandoc](https://pandoc.org) to render Markdown into HTML.  
+It is driven by YAML frontmatter — every page declares its own nav membership, visibility, and metadata.
 
 > 🕯️ Every file has a reason. Understanding it keeps your rituals tidy.
 
 ---
 
-## 📁 Project Structure & File Purpose
+## What Rotkeeper Does
 
-### 1. **Root**
-- `README.md` — high-level project description, getting started guide, and license info.  
-- `LICENSE` — MIT license for the project.  
-- `pyproject.toml` — Python packaging, dependencies, and entry points.  
-- `package.json` / `package-lock.json` — Node dependencies for SCSS compilation.  
-- `node_modules/` — local Node modules (ignored in Git).  
-- `output/` — rendered HTML/CSS output (ignored in Git).  
-- `home/` — main content, templates, and assets for Rotkeeper.  
-- `src/rotkeeper/` — Python code for CLI and commands.
+Rotkeeper reads Markdown files from `home/content/`, processes frontmatter, renders HTML via Pandoc, compiles SCSS, collects assets, and writes the final site to `output/`.
 
----
+The CLI is invoked as `rc`. A full build looks like:
 
-### 2. **Home Folder**
-- `home/content/` — Markdown source files for docs and tutorials.  
-- `home/bones/templates/` — HTML templates (e.g., `default.html`) for rendering pages.  
-- `home/bones/assets/styles/` — SCSS files (`main.scss`, `_variables.scss`, `_mixins.scss`) for site styling.  
-- `home/bones/config/` — configuration files like `render-flags.yaml`.  
-- `home/bones/reports/` — logs, manifests, or audit reports.  
-- `home/test_assets/` — sample posts or images for testing renders.
+```bash
+rc render
+rc assets
+rc sitemap
+```
+
+See [Quickstart](quickstart.md) for installation and first-run instructions.
 
 ---
 
-### 3. **Python Source (`src/rotkeeper`)**
-- `__init__.py` — package initializer.  
-- `__main__.py` — entry point for `python -m rotkeeper`.  
-- `cli.py` — parses command-line arguments.  
-- `commands/` — individual CLI commands:
-  - `init.py` / `rotkeeper_init.py` — initialize a new project.  
-  - `render.py` — compile Markdown to HTML, build SCSS.  
-  - `book.py` — scriptbook/book utilities.  
-  - `assets.py` / `collect_assets.py` — copy and manage static assets.  
-  - `reseed.py` — reseed content or scripts.  
-  - `sitemap.py` — generate navigation info.  
-  - `cleanup_bones.py` — remove old output or temporary files.  
-- `context.py` — runtime context and path management.  
-- `paths.py` — filesystem path helpers.  
-- `deps.py` — external dependency checks (Pandoc, Sass).  
-- `exec.py` — helper to run subprocesses safely.
+## Documentation Sections
+
+| Section | What it covers |
+|---|---|
+| [Quickstart](quickstart.md) | Install, initialize, and run your first build |
+| [Pipeline](pipeline/index.md) | `render`, `assets`, `collect_assets` — the core build pipeline |
+| [Sitemap](sitemap/index.md) | Sitemap generation and nav rendering |
+| [Scaffold](scaffold/index.md) | `init` and `reseed` — project setup and content seeding |
+| [Utilities](utilities/index.md) | `nav`, `cleanup_bones`, `book` |
+| [Concepts](concepts/pandoc-frontmatter.md) | Pandoc frontmatter fields and how Rotkeeper reads them |
 
 ---
 
-### 4. **Tests**
-- `src/tests/` — Python unit tests for command utilities, asset collection, and pipelines.
+## Project Layout
+
+```text
+rotkeeper/                  ← main Python repo
+  src/rotkeeper/
+    cli.py                  ← argument parsing; entry point is `rc`
+    commands/               ← one file per CLI command
+      render.py
+      assets.py
+      collect_assets.py
+      init.py
+      reseed.py
+      sitemap.py
+      cleanup_bones.py
+      book.py
+    context.py              ← runtime context and path resolution
+    paths.py                ← filesystem helpers
+    deps.py                 ← checks for Pandoc, Sass
+    exec.py                 ← subprocess runner
+  src/tests/                ← unit tests
+
+home/                       ← site source root
+  content/                  ← Markdown source files (including this file)
+  bones/
+    templates/              ← HTML templates (e.g. rot-doc.html)
+    assets/
+      styles/               ← SCSS: _variables.scss, _mixins.scss, main.scss
+    config/                 ← render-flags.yaml and other config
+    reports/                ← build logs and manifests (read-only)
+
+output/                     ← rendered site (git-ignored)
+```
 
 ---
 
-### 5. **Docs / Guides**
-- `home/content/docs/index.md` — this file; overview and rules for the project.  
-- Other Markdown files in `docs/` explain workflows, CLI usage, templates, configuration, and troubleshooting.
+## Frontmatter Quick Reference
 
+Every page should include these fields:
+
+```yaml
 ---
-
-### 6. **Rules for File Usage**
-1. **Every script should have metadata** (`version`, `author`, `tracked`) in frontmatter.  
-2. **Incremental builds only touch modified files**, using manifests in `reports/`.  
-3. **Assets (images, CSS, templates) live in `bones/assets/`** — do not mix with content Markdown.  
-4. **SCSS modularity**: `_variables.scss` → `_mixins.scss` → `main.scss` → compiled CSS.  
-5. **Logs and audit reports** are read-only for reference; never edit them manually.  
-
+title: ""
+rotkeeper_nav: ["00_Home"]   # controls nav section and sort order
+show_in_nav: true
+draft: false
+published: true
+author: ""
+tags: []
+description: ""
+date: YYYY-MM-DD
 ---
+```
 
-> With these rules, Rotkeeper keeps your static site rituals orderly and predictable.
+Nav tokens sort numerically by prefix: `00_Home` → `10_Pipeline` → `20_Sitemap` etc.  
+A page with `show_in_nav: false` renders but does not appear in navigation.  
+A page with `draft: true` is excluded from the build entirely.

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Stub: renders the sitemap data into
+final HTML nav and XML output." />
+  <title>rc render-sitemap</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="rc-render-sitemap">rc render-sitemap</h1>
+      <p><code>rc render-sitemap</code> is intended to be the final
+      rendering step of the sitemap workflow — taking the data written
+      by <code>rc sitemap</code> or <code>rc sitemap-pipeline</code> and
+      producing HTML nav output and an XML sitemap.</p>
+      <p>In practice, <code>rc sitemap-pipeline</code> already handles
+      nav partial generation and sidecar metadata as part of its
+      pipeline. <code>rc render-sitemap</code> exists as a dedicated
+      step for cases where you want to re-render the sitemap outputs
+      without re-running the full collection and tree-building
+      stages.</p>
+      <blockquote>
+      <p>⚠️ This command’s standalone behavior is currently handled
+      inside <code>rc sitemap-pipeline</code>. Check
+      <code>rc sitemap-pipeline --write-only</code> as an equivalent in
+      the meantime.</p>
+      </blockquote>
+      <hr />
+      <h2 id="relationship-to-other-commands">Relationship to Other
+      Commands</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Command</th>
+      <th>Role</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>rc sitemap</code></td>
+      <td>Collects pages and writes <code>sitemap.yaml</code></td>
+      </tr>
+      <tr>
+      <td><code>rc sitemap-pipeline</code></td>
+      <td>Full pipeline including nav partial, sidecars, and index
+      pages</td>
+      </tr>
+      <tr>
+      <td><code>rc render-sitemap</code></td>
+      <td>Renders sitemap data to final nav and XML outputs (see note
+      above)</td>
+      </tr>
+      <tr>
+      <td><code>rc nav</code></td>
+      <td>Reads <code>sitemap.yaml</code> and writes the structured
+      <code>nav.yaml</code></td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li>For most builds, <code>rc sitemap-pipeline</code> is the right
+      command — it covers everything <code>rc render-sitemap</code> is
+      intended to do.</li>
+      <li>See <a href="sitemap-pipeline.md">Sitemap →
+      sitemap-pipeline</a> for the full pipeline reference.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

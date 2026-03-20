@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Backup and prune stale files from
+bones/ based on a configurable retention window." />
+  <title>rc cleanup-bones</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-cleanup-bones">rc cleanup-bones</h1>
+      <p><code>rc cleanup-bones</code> prunes stale files from
+      <code>home/bones/</code> — primarily old reports, manifests, and
+      render logs — based on a configurable age threshold.</p>
+      <blockquote>
+      <p>⚠️ <code>rc cleanup-bones</code> is currently a stub. The flags
+      and behavior described here reflect the intended design and will
+      be implemented in a future release.</p>
+      </blockquote>
+      <hr />
+      <h2 id="what-it-does-intended">What it does (intended)</h2>
+      <ol type="1">
+      <li>Scans <code>home/bones/reports/</code> for files older than
+      <code>--days</code> days</li>
+      <li>Optionally backs up matched files before deletion</li>
+      <li>Removes stale files, leaving current reports and manifests
+      intact</li>
+      <li>Prompts for confirmation unless <code>--yes</code> is set</li>
+      </ol>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> cleanup-bones</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> cleanup-bones <span class="at">--days</span> 14</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> cleanup-bones <span class="at">--days</span> 7 <span class="at">--yes</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--days</code></td>
+      <td>int</td>
+      <td>30</td>
+      <td>Retention window in days; files older than this are candidates
+      for removal</td>
+      </tr>
+      <tr>
+      <td><code>--yes</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Skip confirmation prompt and delete immediately</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc cleanup-bones</code> targets
+      <code>home/bones/reports/</code> — it does not touch
+      <code>home/content/</code>, <code>home/bones/templates/</code>, or
+      <code>output/</code>.</li>
+      <li>This command is safe to skip entirely on small projects where
+      report accumulation is not a concern.</li>
+      <li>For removing orphaned HTML from <code>output/</code> (pages
+      deleted from source), the intended tool is a separate
+      <code>output</code> pruning mode — <code>cleanup-bones</code>
+      focuses on the <code>bones/</code> tree only.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

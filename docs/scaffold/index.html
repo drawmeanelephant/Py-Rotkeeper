@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Overview of Rotkeeper scaffold
+commands: init and reseed." />
+  <title>Scaffold</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="scaffold">Scaffold</h1>
+      <p>The scaffold commands set up and restore the directory
+      structure Rotkeeper needs to operate.<br />
+      Run these when starting a new project or when the
+      <code>home/</code> tree has drifted from the expected layout.</p>
+      <hr />
+      <h2 id="scaffold-commands">Scaffold Commands</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Command</th>
+      <th>What it does</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="init.md"><code>rc init</code></a></td>
+      <td>Creates the full <code>home/</code> directory structure with
+      starter content, templates, and config</td>
+      </tr>
+      <tr>
+      <td><a href="reseed.md"><code>rc reseed</code></a></td>
+      <td>Re-plants missing scaffold files without overwriting existing
+      content</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="when-to-use-each">When to Use Each</h2>
+      <p><strong>Use <code>rc init</code></strong> once, at the start of
+      a new project. It writes the full skeleton — templates, SCSS
+      stubs, config files, and a starter <code>index.md</code>.</p>
+      <p><strong>Use <code>rc reseed</code></strong> when: - You’ve
+      deleted a template or config file and need it back - A Rotkeeper
+      update adds new scaffold files your project doesn’t have yet -
+      You’re recovering a partially initialized project</p>
+      <p><code>reseed</code> is safe to run on an existing project — it
+      skips files that already exist.</p>
+      <hr />
+      <h2 id="pages-in-this-section">Pages in This Section</h2>
+      <ul>
+      <li><a href="init.md">init</a> — full project initialization</li>
+      <li><a href="reseed.md">reseed</a> — restore missing scaffold
+      files without overwriting</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

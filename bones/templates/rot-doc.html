@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <!-- Rotkeeper-style template -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="$description$" />
@@ -11,60 +9,47 @@
 
   <!-- Main CSS (compiled from SCSS) -->
   <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/assets/css/hiq.css" />
-  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
 
   $if(css)$
-  $for(css)$
-  <link rel="stylesheet" href="$css$" />
-  $endfor$
+    $for(css)$
+      <link rel="stylesheet" href="$css$" />
+    $endfor$
   $endif$
 
   $if(highlightcss)$
-  <link rel="stylesheet" href="$highlightcss$" />
+    <link rel="stylesheet" href="$highlightcss$" />
   $endif$
 
   $if(math)$
-  $math$
+    $math$
   $endif$
 
   $for(header-includes)$
-  $header-includes$
+    $header-includes$
   $endfor$
 </head>
-
 <body>
   <header class="site-header">
     <div class="container">
       <a class="site-title" href="/">$if(site_title)$$site_title$$else$py-rot$endif$</a>
       $if(nav)$
-      <nav class="site-nav">
-        $nav$
-      </nav>
+        <nav class="site-nav">
+          $nav$
+        </nav>
       $endif$
     </div>
   </header>
 
-  <div class="rotkeeper-body">
+  <main class="content container" id="content">
     $if(toc)$
-    <aside class="toc">
-      $toc$
-    </aside>
+      <aside class="toc">
+        $toc$
+      </aside>
     $endif$
-
-    <aside class="sidebar">
-      <!-- optional sidebar content -->
-    </aside>
-
-    <main class="content container" id="content">
-      <div class="highlighted">
-        <!-- highlighted announcement or key note -->
-      </div>
-      <article class="page-body">
-        $body$
-      </article>
-    </main>
-  </div>
+    <article class="page-body">
+      $body$
+    </article>
+  </main>
 
   <footer class="site-footer">
     <div class="container">
@@ -77,11 +62,10 @@
 
   <!-- Optional: highlight.js or other scripts -->
   $for(scripts)$
-  <script src="$scripts$"></script>
+    <script src="$scripts$"></script>
   $endfor$
   $if(js)$
-  $js$
+    $js$
   $endif$
 </body>
-
 </html>

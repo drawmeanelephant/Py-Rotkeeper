@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <!-- Rotkeeper-style template -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Directory index for Rotkeeper.
-Explains each file’s purpose and project structure." />
-  <title>Rotkeeper Documentation Index</title>
+  <meta name="description" content="Landing page and navigation guide
+for Rotkeeper documentation." />
+  <title>Rotkeeper Documentation</title>
 
   <!-- Main CSS (compiled from SCSS) -->
   <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/assets/css/hiq.css" />
-  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
 
   
   
   
   </head>
-
 <body>
   <header class="site-header">
     <div class="container">
@@ -27,172 +22,134 @@ Explains each file’s purpose and project structure." />
           </div>
   </header>
 
-  <div class="rotkeeper-body">
-    
-    <aside class="sidebar">
-      <!-- optional sidebar content -->
-    </aside>
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="rotkeeper">📖 Rotkeeper</h1>
+      <p>Rotkeeper is a Python-based static site generator that uses <a
+      href="https://pandoc.org">Pandoc</a> to render Markdown into
+      HTML.<br />
+      It is driven by YAML frontmatter — every page declares its own nav
+      membership, visibility, and metadata.</p>
+      <blockquote>
+      <p>🕯️ Every file has a reason. Understanding it keeps your rituals
+      tidy.</p>
+      </blockquote>
+      <hr />
+      <h2 id="what-rotkeeper-does">What Rotkeeper Does</h2>
+      <p>Rotkeeper reads Markdown files from <code>home/content/</code>,
+      processes frontmatter, renders HTML via Pandoc, compiles SCSS,
+      collects assets, and writes the final site to
+      <code>output/</code>.</p>
+      <p>The CLI is invoked as <code>rc</code>. A full build looks
+      like:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span></code></pre></div>
+      <p>See <a href="quickstart.md">Quickstart</a> for installation and
+      first-run instructions.</p>
+      <hr />
+      <h2 id="documentation-sections">Documentation Sections</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Section</th>
+      <th>What it covers</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="quickstart.md">Quickstart</a></td>
+      <td>Install, initialize, and run your first build</td>
+      </tr>
+      <tr>
+      <td><a href="pipeline/index.md">Pipeline</a></td>
+      <td><code>render</code>, <code>assets</code>,
+      <code>collect_assets</code> — the core build pipeline</td>
+      </tr>
+      <tr>
+      <td><a href="sitemap/index.md">Sitemap</a></td>
+      <td>Sitemap generation and nav rendering</td>
+      </tr>
+      <tr>
+      <td><a href="scaffold/index.md">Scaffold</a></td>
+      <td><code>init</code> and <code>reseed</code> — project setup and
+      content seeding</td>
+      </tr>
+      <tr>
+      <td><a href="utilities/index.md">Utilities</a></td>
+      <td><code>nav</code>, <code>cleanup_bones</code>,
+      <code>book</code></td>
+      </tr>
+      <tr>
+      <td><a href="concepts/pandoc-frontmatter.md">Concepts</a></td>
+      <td>Pandoc frontmatter fields and how Rotkeeper reads them</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="project-layout">Project Layout</h2>
+      <pre class="text"><code>rotkeeper/                  ← main Python repo
+  src/rotkeeper/
+    cli.py                  ← argument parsing; entry point is `rc`
+    commands/               ← one file per CLI command
+      render.py
+      assets.py
+      collect_assets.py
+      init.py
+      reseed.py
+      sitemap.py
+      cleanup_bones.py
+      book.py
+    context.py              ← runtime context and path resolution
+    paths.py                ← filesystem helpers
+    deps.py                 ← checks for Pandoc, Sass
+    exec.py                 ← subprocess runner
+  src/tests/                ← unit tests
 
-    <main class="content container" id="content">
-      <div class="highlighted">
-        <!-- highlighted announcement or key note -->
-      </div>
-      <article class="page-body">
-        <h1 id="rotkeeper-project-reference">📖 Rotkeeper Project
-        Reference</h1>
-        <p>Welcome to Rotkeeper, your command-line necropolis for
-        managing static site rituals.<br />
-        This document explains the <strong>purpose of each file and
-        folder</strong> in the project, following the “rules”
-        established in the old Rotkeeper.</p>
-        <blockquote>
-        <p>🕯️ Every file has a reason. Understanding it keeps your
-        rituals tidy.</p>
-        </blockquote>
-        <hr />
-        <h2 id="project-structure-file-purpose">📁 Project Structure
-        &amp; File Purpose</h2>
-        <h3 id="root">1. <strong>Root</strong></h3>
-        <ul>
-        <li><code>README.md</code> — high-level project description,
-        getting started guide, and license info.<br />
-        </li>
-        <li><code>LICENSE</code> — MIT license for the project.<br />
-        </li>
-        <li><code>pyproject.toml</code> — Python packaging,
-        dependencies, and entry points.<br />
-        </li>
-        <li><code>package.json</code> / <code>package-lock.json</code> —
-        Node dependencies for SCSS compilation.<br />
-        </li>
-        <li><code>node_modules/</code> — local Node modules (ignored in
-        Git).<br />
-        </li>
-        <li><code>output/</code> — rendered HTML/CSS output (ignored in
-        Git).<br />
-        </li>
-        <li><code>home/</code> — main content, templates, and assets for
-        Rotkeeper.<br />
-        </li>
-        <li><code>src/rotkeeper/</code> — Python code for CLI and
-        commands.</li>
-        </ul>
-        <hr />
-        <h3 id="home-folder">2. <strong>Home Folder</strong></h3>
-        <ul>
-        <li><code>home/content/</code> — Markdown source files for docs
-        and tutorials.<br />
-        </li>
-        <li><code>home/bones/templates/</code> — HTML templates (e.g.,
-        <code>default.html</code>) for rendering pages.<br />
-        </li>
-        <li><code>home/bones/assets/styles/</code> — SCSS files
-        (<code>main.scss</code>, <code>_variables.scss</code>,
-        <code>_mixins.scss</code>) for site styling.<br />
-        </li>
-        <li><code>home/bones/config/</code> — configuration files like
-        <code>render-flags.yaml</code>.<br />
-        </li>
-        <li><code>home/bones/reports/</code> — logs, manifests, or audit
-        reports.<br />
-        </li>
-        <li><code>home/test_assets/</code> — sample posts or images for
-        testing renders.</li>
-        </ul>
-        <hr />
-        <h3 id="python-source-srcrotkeeper">3. <strong>Python Source
-        (<code>src/rotkeeper</code>)</strong></h3>
-        <ul>
-        <li><code>__init__.py</code> — package initializer.<br />
-        </li>
-        <li><code>__main__.py</code> — entry point for
-        <code>python -m rotkeeper</code>.<br />
-        </li>
-        <li><code>cli.py</code> — parses command-line arguments.<br />
-        </li>
-        <li><code>commands/</code> — individual CLI commands:
-        <ul>
-        <li><code>init.py</code> / <code>rotkeeper_init.py</code> —
-        initialize a new project.<br />
-        </li>
-        <li><code>render.py</code> — compile Markdown to HTML, build
-        SCSS.<br />
-        </li>
-        <li><code>book.py</code> — scriptbook/book utilities.<br />
-        </li>
-        <li><code>assets.py</code> / <code>collect_assets.py</code> —
-        copy and manage static assets.<br />
-        </li>
-        <li><code>reseed.py</code> — reseed content or scripts.<br />
-        </li>
-        <li><code>sitemap.py</code> — generate navigation info.<br />
-        </li>
-        <li><code>cleanup_bones.py</code> — remove old output or
-        temporary files.<br />
-        </li>
-        </ul></li>
-        <li><code>context.py</code> — runtime context and path
-        management.<br />
-        </li>
-        <li><code>paths.py</code> — filesystem path helpers.<br />
-        </li>
-        <li><code>deps.py</code> — external dependency checks (Pandoc,
-        Sass).<br />
-        </li>
-        <li><code>exec.py</code> — helper to run subprocesses
-        safely.</li>
-        </ul>
-        <hr />
-        <h3 id="tests">4. <strong>Tests</strong></h3>
-        <ul>
-        <li><code>src/tests/</code> — Python unit tests for command
-        utilities, asset collection, and pipelines.</li>
-        </ul>
-        <hr />
-        <h3 id="docs-guides">5. <strong>Docs / Guides</strong></h3>
-        <ul>
-        <li><code>home/content/docs/index.md</code> — this file;
-        overview and rules for the project.<br />
-        </li>
-        <li>Other Markdown files in <code>docs/</code> explain
-        workflows, CLI usage, templates, configuration, and
-        troubleshooting.</li>
-        </ul>
-        <hr />
-        <h3 id="rules-for-file-usage">6. <strong>Rules for File
-        Usage</strong></h3>
-        <ol type="1">
-        <li><strong>Every script should have metadata</strong>
-        (<code>version</code>, <code>author</code>,
-        <code>tracked</code>) in frontmatter.<br />
-        </li>
-        <li><strong>Incremental builds only touch modified
-        files</strong>, using manifests in <code>reports/</code>.<br />
-        </li>
-        <li><strong>Assets (images, CSS, templates) live in
-        <code>bones/assets/</code></strong> — do not mix with content
-        Markdown.<br />
-        </li>
-        <li><strong>SCSS modularity</strong>:
-        <code>_variables.scss</code> → <code>_mixins.scss</code> →
-        <code>main.scss</code> → compiled CSS.<br />
-        </li>
-        <li><strong>Logs and audit reports</strong> are read-only for
-        reference; never edit them manually.</li>
-        </ol>
-        <hr />
-        <blockquote>
-        <p>With these rules, Rotkeeper keeps your static site rituals
-        orderly and predictable.</p>
-        </blockquote>
-      </article>
-    </main>
-  </div>
+home/                       ← site source root
+  content/                  ← Markdown source files (including this file)
+  bones/
+    templates/              ← HTML templates (e.g. rot-doc.html)
+    assets/
+      styles/               ← SCSS: _variables.scss, _mixins.scss, main.scss
+    config/                 ← render-flags.yaml and other config
+    reports/                ← build logs and manifests (read-only)
+
+output/                     ← rendered site (git-ignored)</code></pre>
+      <hr />
+      <h2 id="frontmatter-quick-reference">Frontmatter Quick
+      Reference</h2>
+      <p>Every page should include these fields:</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;00_Home&quot;</span><span class="kw">]</span><span class="co">   # controls nav section and sort order</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">show_in_nav</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">draft</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">published</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tags</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> YYYY-MM-DD</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+      <p>Nav tokens sort numerically by prefix: <code>00_Home</code> →
+      <code>10_Pipeline</code> → <code>20_Sitemap</code> etc.<br />
+      A page with <code>show_in_nav: false</code> renders but does not
+      appear in navigation.<br />
+      A page with <code>draft: true</code> is excluded from the build
+      entirely.</p>
+    </article>
+  </main>
 
   <footer class="site-footer">
     <div class="container">
       <small>
-        &copy;  py-rot.
+        &copy;  Filed Systems.
         Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
       </small>
     </div>
@@ -200,5 +157,4 @@ Explains each file’s purpose and project structure." />
 
   <!-- Optional: highlight.js or other scripts -->
     </body>
-
 </html>

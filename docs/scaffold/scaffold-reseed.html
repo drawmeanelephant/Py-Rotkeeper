@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Restores missing scaffold files from
+a book archive without overwriting existing content." />
+  <title>rc reseed</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-reseed">rc reseed</h1>
+      <p><code>rc reseed</code> reconstructs missing scaffold files from
+      a bound book archive.<br />
+      It is the complement to <code>rc book</code> — where
+      <code>book</code> packs a project up, <code>reseed</code> unpacks
+      it into a new or partial installation.<br />
+      Unlike <code>rc init --force</code>, reseed does not overwrite
+      files that already exist unless explicitly told to.</p>
+      <blockquote>
+      <p>⚠️ <code>rc reseed</code> is currently a stub. The flags and
+      behavior described here reflect the intended design and will be
+      implemented alongside <code>rc book</code>.</p>
+      </blockquote>
+      <hr />
+      <h2 id="what-it-does-intended">What it does (intended)</h2>
+      <ol type="1">
+      <li>Reads a book archive produced by <code>rc book</code> (via
+      <code>--input</code>) or scans all known books
+      (<code>--all</code>)</li>
+      <li>Extracts content, templates, config, and scaffold files</li>
+      <li>Writes extracted files into the current project tree</li>
+      <li>Skips any file that already exists at the destination unless
+      <code>--force</code> is set</li>
+      </ol>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> reseed <span class="at">--input</span> path/to/book.md</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> reseed <span class="at">--all</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> reseed <span class="at">--all</span> <span class="at">--force</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--input</code></td>
+      <td>path</td>
+      <td>none</td>
+      <td>Path to a specific book file to reseed from</td>
+      </tr>
+      <tr>
+      <td><code>--all</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Reseed from all known book archives</td>
+      </tr>
+      <tr>
+      <td><code>--force</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Allow overwriting files that already exist at the
+      destination</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc reseed</code> is designed to work in tandem with
+      <code>rc book</code>. A typical portability workflow is:
+      <code>rc book --mode contentbook</code> on the source machine,
+      then <code>rc reseed --input contentbook.md</code> on the
+      destination.</li>
+      <li>Without <code>--force</code>, reseed is safe to run on an
+      active project — only truly missing files are written.</li>
+      <li>See <a href="../utilities/book.md">Utilities → book</a> for
+      the full book mode reference.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

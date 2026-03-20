@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Overview of the Rotkeeper build
+pipeline: render, assets, and collect_assets." />
+  <title>Pipeline</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="pipeline">Pipeline</h1>
+      <p>The pipeline is the core of every Rotkeeper build.<br />
+      Running <code>rc render</code>, <code>rc assets</code>, and
+      <code>rc collect_assets</code> in sequence takes your source files
+      — Markdown, SCSS, images, templates — and produces a complete
+      static site in <code>output/</code>.</p>
+      <blockquote>
+      <p>🕯️ The pipeline does not clean up after itself by default. Run
+      <code>rc cleanup_bones</code> if you need a fresh output directory
+      before building.</p>
+      </blockquote>
+      <hr />
+      <h2 id="pipeline-commands">Pipeline Commands</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Command</th>
+      <th>What it does</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="render.md"><code>rc render</code></a></td>
+      <td>Compiles Markdown to HTML via Pandoc; applies templates</td>
+      </tr>
+      <tr>
+      <td><a href="assets.md"><code>rc assets</code></a></td>
+      <td>Copies static assets (CSS, images, fonts) into
+      <code>output/</code></td>
+      </tr>
+      <tr>
+      <td><a
+      href="collect_assets.md"><code>rc collect_assets</code></a></td>
+      <td>Gathers declared assets from frontmatter manifests</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>Run them in this order:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect_assets</span></code></pre></div>
+      <p><code>render</code> must come first — it produces the HTML and
+      generates the asset manifest that <code>collect_assets</code>
+      reads.</p>
+      <hr />
+      <h2 id="what-each-step-touches">What Each Step Touches</h2>
+      <pre class="text"><code>home/content/          →  rc render        →  output/*.html
+home/bones/assets/     →  rc assets        →  output/assets/
+frontmatter manifests  →  rc collect_assets →  output/assets/ (declared files)</code></pre>
+      <hr />
+      <h2 id="when-to-run-the-full-pipeline">When to Run the Full
+      Pipeline</h2>
+      <p>Run all three commands any time you:</p>
+      <ul>
+      <li>Add or edit a Markdown page</li>
+      <li>Change a template</li>
+      <li>Add new images or fonts</li>
+      <li>Modify SCSS (which <code>rc render</code> also compiles)</li>
+      </ul>
+      <p>For SCSS-only changes, <code>rc assets</code> alone is
+      sufficient.</p>
+      <hr />
+      <h2 id="pages-in-this-section">Pages in This Section</h2>
+      <ul>
+      <li><a href="render.md">render</a> — Markdown → HTML compilation,
+      template selection, SCSS build</li>
+      <li><a href="assets.md">assets</a> — static asset copying and path
+      resolution</li>
+      <li><a href="collect_assets.md">collect_assets</a> —
+      frontmatter-driven asset collection</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

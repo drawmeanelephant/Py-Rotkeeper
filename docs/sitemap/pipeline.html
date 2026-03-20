@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Full sitemap pipeline: collects
+pages, builds metadata trees, writes index pages, nav partial, sidecar
+metadata, and a unified YAML report." />
+  <title>rc sitemap-pipeline</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-sitemap-pipeline">rc sitemap-pipeline</h1>
+      <p><code>rc sitemap-pipeline</code> is the full-featured sitemap
+      command that runs all five stages in sequence.<br />
+      It is the recommended command for standard builds — use
+      <code>rc sitemap</code> only when you need the raw page catalog
+      without any of the generated outputs.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <p>The pipeline runs up to six stages in order:</p>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Stage</th>
+      <th>What it produces</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>1. <strong>Collect pages</strong></td>
+      <td>Reads frontmatter from all <code>.md</code> files; filters
+      drafts and hidden files</td>
+      </tr>
+      <tr>
+      <td>2. <strong>Build metadata trees</strong></td>
+      <td>Groups pages by <code>tags</code>, <code>author</code>,
+      <code>date</code>, and <code>rotkeeper_nav</code></td>
+      </tr>
+      <tr>
+      <td>3. <strong>Write index pages</strong></td>
+      <td>Generates <code>home/content/generated/</code> with tag,
+      author, date, and master sitemap pages</td>
+      </tr>
+      <tr>
+      <td>4. <strong>Write nav partial</strong></td>
+      <td>Writes <code>home/bones/reports/nav_partial.md</code> —
+      injected into every page by <code>rc render</code></td>
+      </tr>
+      <tr>
+      <td>5. <strong>Write sidecar metadata</strong></td>
+      <td>Writes a <code>.rk.yaml</code> file alongside each source
+      <code>.md</code> with related pages, breadcrumbs, and tag
+      links</td>
+      </tr>
+      <tr>
+      <td>6. <strong>Write unified YAML</strong></td>
+      <td>Writes <code>home/bones/reports/sitemap_pipeline.yaml</code>
+      with the full page + metadata tree</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline <span class="at">--dry-run</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline <span class="at">--verbose</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline <span class="at">--index-only</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline <span class="at">--metadata-only</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Log all actions without writing any files</td>
+      </tr>
+      <tr>
+      <td><code>--verbose</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Print extra diagnostic output including tree structures</td>
+      </tr>
+      <tr>
+      <td><code>--index-only</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Run stage 1 only (collect pages); skip all writes</td>
+      </tr>
+      <tr>
+      <td><code>--metadata-only</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Run stages 1–2 (collect + build trees); skip all writes</td>
+      </tr>
+      <tr>
+      <td><code>--write-only</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Skip collection; run stages 3–6 using whatever is already in
+      memory</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>Stage flags are evaluated in priority order:
+      <code>--index-only</code> → <code>--metadata-only</code> →
+      <code>--write-only</code> → full pipeline.</p>
+      <hr />
+      <h2 id="generated-index-pages">Generated Index Pages</h2>
+      <p>Stage 3 writes auto-generated Markdown files to
+      <code>home/content/generated/</code>. These are normal
+      <code>.md</code> files and are picked up by <code>rc render</code>
+      on the next build:</p>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>File</th>
+      <th>Contents</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>generated/tags/index.md</code></td>
+      <td>All tags with page lists</td>
+      </tr>
+      <tr>
+      <td><code>generated/tags/&lt;slug&gt;.md</code></td>
+      <td>One page per tag with descriptions</td>
+      </tr>
+      <tr>
+      <td><code>generated/authors/index.md</code></td>
+      <td>All authors with page lists</td>
+      </tr>
+      <tr>
+      <td><code>generated/dates/index.md</code></td>
+      <td>All pages grouped by date (reverse chronological)</td>
+      </tr>
+      <tr>
+      <td><code>generated/sitemap.md</code></td>
+      <td>Flat list of all pages</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>All generated files have <code>show_in_nav: false</code> by
+      default so they don’t pollute the main nav.</p>
+      <hr />
+      <h2 id="nav-partial">Nav Partial</h2>
+      <p>Stage 4 writes <code>home/bones/reports/nav_partial.md</code> —
+      a fenced Pandoc div:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>::: site-nav</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Home</span><span class="co">](index.html)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">Quickstart</span><span class="co">](quickstart.html)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pipeline</span><span class="co">](pipeline/index.html)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">render</span><span class="co">](pipeline/render.html)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div>
+      <p><code>rc render</code> passes this to Pandoc as
+      <code>--include-before-body</code>, so every page gets consistent
+      nav without modifying source files. The nav strips numeric
+      prefixes from display labels (<code>10_Pipeline</code> →
+      <code>Pipeline</code>).</p>
+      <hr />
+      <h2 id="sidecar-metadata">Sidecar Metadata</h2>
+      <p>Stage 5 writes a <code>.rk.yaml</code> file alongside each
+      source <code>.md</code> in <code>home/content/</code>.
+      <code>rc render</code> passes these to Pandoc as
+      <code>--metadata-file</code>, making these template variables
+      available:</p>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Variable</th>
+      <th>Contents</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>$rotkeeper.breadcrumb$</code></td>
+      <td>List of nav token labels from root to page</td>
+      </tr>
+      <tr>
+      <td><code>$rotkeeper.related_pages$</code></td>
+      <td>Up to 5 pages sharing at least one tag</td>
+      </tr>
+      <tr>
+      <td><code>$rotkeeper.tag_pages$</code></td>
+      <td>Links to each tag’s generated index page</td>
+      </tr>
+      <tr>
+      <td><code>$rotkeeper.author_page$</code></td>
+      <td>Link to the authors index page</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard full build</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap-pipeline</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render        <span class="co"># re-render to pick up nav partial and generated pages</span></span></code></pre></div>
+      <p>The double render is needed because
+      <code>sitemap-pipeline</code> writes files that
+      <code>render</code> needs to include. On incremental builds, only
+      changed files are re-rendered the second time.</p>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc sitemap-pipeline</code> requires
+      <code>python-frontmatter</code> to be installed
+      (<code>pip install rotkeeper</code> includes it).</li>
+      <li>Generated files in <code>home/content/generated/</code> are
+      machine-written. Do not edit them manually — they are overwritten
+      on every run.</li>
+      <li>The nav partial is written to
+      <code>home/bones/reports/</code>, not <code>home/content/</code>,
+      so it is never rendered as a standalone page.</li>
+      <li>Pages with duplicate output paths are skipped after the first
+      occurrence; a warning is logged.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

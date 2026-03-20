@@ -35,14 +35,74 @@ commands/sitemap_pipeline.md:
   src_mtime: 1773877731.039186
   template_mtime: 1773768472.742986
 patch.md:
-  src_mtime: 1773715949.6859422
-  template_mtime: 1773524406.9523463
+  src_mtime: 1774031052.0439863
+  template_mtime: 1774013623.0038853
 quickstart.md:
-  src_mtime: 1773715949.6860645
-  template_mtime: 1773524406.9523463
+  src_mtime: 1774011241.5748208
+  template_mtime: 1774013623.0038853
 technologies/pandoc-frontmatter.md:
   src_mtime: 1773715949.686201
   template_mtime: 1773524406.9523463
 index.md:
-  src_mtime: 1773957914.875261
+  src_mtime: 1774010949.3222587
+  template_mtime: 1774013623.0038853
+new/concepts/pandoc-frontmatter.md:
+  src_mtime: 1774011288.1246293
+  template_mtime: 1773524406.9523463
+new/index.md:
+  src_mtime: 1774010949.3222587
   template_mtime: 1773768472.742986
+new/quickstart.md:
+  src_mtime: 1774011241.5748208
+  template_mtime: 1773768472.742986
+changelog.md:
+  src_mtime: 1774012713.702536
+  template_mtime: 1774013623.0038853
+concepts/pandoc-frontmatter.md:
+  src_mtime: 1774011498.7197828
+  template_mtime: 1774013623.0038853
+pipeline/index.md:
+  src_mtime: 1774011665.4558043
+  template_mtime: 1774013623.0038853
+pipeline/pipeline-assets.md:
+  src_mtime: 1774011999.0628633
+  template_mtime: 1774013623.0038853
+pipeline/pipeline-collect-assets.md:
+  src_mtime: 1774012010.253786
+  template_mtime: 1774013623.0038853
+pipeline/pipeline-render.md:
+  src_mtime: 1774011912.2254872
+  template_mtime: 1774013623.0038853
+scaffold/index.md:
+  src_mtime: 1774011761.1411343
+  template_mtime: 1774013623.0038853
+scaffold/scaffold-init.md:
+  src_mtime: 1774012276.1330836
+  template_mtime: 1774013623.0038853
+scaffold/scaffold-reseed.md:
+  src_mtime: 1774012281.5345166
+  template_mtime: 1774013623.0038853
+sitemap/index.md:
+  src_mtime: 1774011770.5313787
+  template_mtime: 1774013623.0038853
+sitemap/pipeline.md:
+  src_mtime: 1774012468.1671767
+  template_mtime: 1774013623.0038853
+sitemap/render-sitemap.md:
+  src_mtime: 1774012472.5014126
+  template_mtime: 1774013623.0038853
+sitemap/sitemap.md:
+  src_mtime: 1774012478.7313762
+  template_mtime: 1774013623.0038853
+utils/index.md:
+  src_mtime: 1774011766.3581035
+  template_mtime: 1774013623.0038853
+utils/utilities-book.md:
+  src_mtime: 1774012308.0170264
+  template_mtime: 1774013623.0038853
+utils/utilities-cleanup-bones.md:
+  src_mtime: 1774012484.0240543
+  template_mtime: 1774013623.0038853
+utils/utilities-nav.md:
+  src_mtime: 1774012490.0244355
+  template_mtime: 1774013623.0038853

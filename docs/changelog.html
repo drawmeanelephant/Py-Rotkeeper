@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Release history and notable changes
+for Rotkeeper." />
+  <title>Changelog</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="changelog">Changelog</h1>
+      <p>All notable changes to Rotkeeper are documented here.<br />
+      Versions follow <a href="https://semver.org">Semantic
+      Versioning</a>: <code>MAJOR.MINOR.PATCH</code>.<br />
+      Dates are in <code>YYYY-MM-DD</code> format.</p>
+      <hr />
+      <h2 id="pre-2026-03-20">0.0.2-pre — 2026-03-20</h2>
+      <h3 id="fixed">Fixed</h3>
+      <ul>
+      <li><code>index.md</code> updated to reflect current project
+      layout; stale file paths removed</li>
+      <li><code>quickstart.md</code> Python requirement corrected from
+      3.7+ to 3.10+</li>
+      <li>All documentation CLI references updated from
+      <code>rotkeeper</code> to <code>rc</code></li>
+      <li><code>rotkeeper_nav</code> frontmatter added to all
+      documentation pages</li>
+      </ul>
+      <h3 id="added">Added</h3>
+      <ul>
+      <li>Full documentation site scaffolded under
+      <code>home/content/docs/</code></li>
+      <li>Section index pages for Pipeline, Sitemap, Scaffold,
+      Utilities, and Concepts</li>
+      <li>Command pages for: <code>render</code>, <code>assets</code>,
+      <code>collect-assets</code>, <code>init</code>,
+      <code>reseed</code>, <code>book</code>, <code>sitemap</code>,
+      <code>sitemap-pipeline</code>, <code>render-sitemap</code>,
+      <code>nav</code>, <code>cleanup-bones</code></li>
+      <li>Concepts page: Pandoc frontmatter field reference</li>
+      </ul>
+      <hr />
+      <h2 id="pre-2026-03-14">0.0.1-pre — 2026-03-14</h2>
+      <h3 id="added-1">Added</h3>
+      <ul>
+      <li>Initial project structure: <code>home/</code>,
+      <code>src/rotkeeper/</code>, <code>output/</code></li>
+      <li>Core pipeline commands: <code>rc render</code>,
+      <code>rc assets</code>, <code>rc collect-assets</code></li>
+      <li>Sitemap commands: <code>rc sitemap</code>,
+      <code>rc sitemap-pipeline</code></li>
+      <li>Scaffold commands: <code>rc init</code>,
+      <code>rc reseed</code> (stub)</li>
+      <li>Utility commands: <code>rc nav</code>,
+      <code>rc cleanup-bones</code> (stub), <code>rc book</code>
+      (stub)</li>
+      <li><code>pypandoc</code>-based Markdown → HTML rendering with
+      template resolution</li>
+      <li>Incremental build support via <code>render-state.yaml</code>
+      modification time cache</li>
+      <li>SCSS compilation via <code>sass</code> CLI</li>
+      <li>Nav partial injection via
+      <code>--include-before-body</code></li>
+      <li>Per-page sidecar metadata (<code>.rk.yaml</code>) with related
+      pages and breadcrumbs</li>
+      <li>Auto-generated index pages for tags, authors, dates, and
+      sitemap</li>
+      <li><code>pyproject.toml</code> packaging with <code>rc</code>
+      entry point</li>
+      <li>MIT license</li>
+      </ul>
+      <hr />
+      <h2 id="upcoming">Upcoming</h2>
+      <h3 id="planned-for-0.1.0">Planned for 0.1.0</h3>
+      <ul>
+      <li><code>rc book</code> — full implementation of all modes
+      (<code>contentbook</code>, <code>configbook</code>,
+      <code>docbook</code>, <code>collapse</code>, etc.)</li>
+      <li><code>rc reseed</code> — restore from book archives</li>
+      <li><code>rc cleanup-bones</code> — prune stale reports with
+      retention window</li>
+      <li><code>rc render-sitemap</code> — standalone sitemap rendering
+      step</li>
+      <li>External import support in <code>rc book</code> (WordPress
+      XML, Movable Type, RSS/Atom)</li>
+      <li><code>init.py</code> fix: update terminal next-steps output
+      from <code>rotkeeper render</code> → <code>rc render</code></li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

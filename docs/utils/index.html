@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Overview of Rotkeeper utility
+commands: nav, cleanup_bones, and book." />
+  <title>Utilities</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="utilities">Utilities</h1>
+      <p>Utility commands handle tasks that sit outside the core build
+      pipeline — nav rendering, output cleanup, and book/scriptbook
+      export.<br />
+      They are typically run selectively rather than as part of every
+      build.</p>
+      <hr />
+      <h2 id="utility-commands">Utility Commands</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Command</th>
+      <th>What it does</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="nav.md"><code>rc nav</code></a></td>
+      <td>Renders the navigation structure into templates</td>
+      </tr>
+      <tr>
+      <td><a
+      href="cleanup_bones.md"><code>rc cleanup_bones</code></a></td>
+      <td>Removes stale files from <code>output/</code> without touching
+      source</td>
+      </tr>
+      <tr>
+      <td><a href="book.md"><code>rc book</code></a></td>
+      <td>Exports content as a combined book or scriptbook artifact</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="when-to-use-each">When to Use Each</h2>
+      <p><strong><code>rc nav</code></strong> — run when nav structure
+      has changed (new pages, reordered tokens) but you don’t need a
+      full render. Useful for iterating on nav layout without rebuilding
+      all HTML.</p>
+      <p><strong><code>rc cleanup_bones</code></strong> — run before a
+      clean build to remove orphaned output files (pages that were
+      deleted from source but still exist in <code>output/</code>). Safe
+      to run at any time; it does not touch <code>home/</code>.</p>
+      <p><strong><code>rc book</code></strong> — run when you want a
+      single combined output (e.g. a PDF-ready or single-HTML artifact).
+      Typically a one-off rather than part of the standard build
+      loop.</p>
+      <hr />
+      <h2 id="pages-in-this-section">Pages in This Section</h2>
+      <ul>
+      <li><a href="nav.md">nav</a> — render nav structure into
+      templates</li>
+      <li><a href="cleanup_bones.md">cleanup_bones</a> — remove stale
+      output files</li>
+      <li><a href="book.md">book</a> — export content as a combined book
+      artifact</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

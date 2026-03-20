@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scans content frontmatter and writes
+sitemap.yaml — the page catalog used by nav and sitemap-pipeline." />
+  <title>rc sitemap</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-sitemap">rc sitemap</h1>
+      <p><code>rc sitemap</code> walks <code>home/content/</code>, reads
+      the frontmatter of every Markdown file, and writes a structured
+      page catalog to
+      <code>home/bones/reports/sitemap.yaml</code>.<br />
+      This catalog is the data source for <code>rc nav</code>,
+      <code>rc sitemap-pipeline</code>, and
+      <code>rc render_sitemap</code>.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li>Recursively scans <code>home/content/</code> for
+      <code>.md</code> files (skips files starting with <code>_</code>
+      and any hidden directories)</li>
+      <li>Loads frontmatter from each file; skips files where
+      <code>draft: true</code> or <code>published: false</code></li>
+      <li>Extracts <code>title</code>, <code>path</code>,
+      <code>author</code>, <code>date</code>, <code>keywords</code>,
+      <code>tags</code>, <code>rotkeeper_nav</code>, and
+      <code>show_in_nav</code> from each file</li>
+      <li>Sorts pages by <code>rotkeeper_nav</code> numeric prefix,
+      falling back to title alphabetically</li>
+      <li>Writes the sorted list to
+      <code>home/bones/reports/sitemap.yaml</code></li>
+      </ol>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap <span class="at">--dry-run</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Log what would be written without creating
+      <code>sitemap.yaml</code></td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="sitemap.yaml-format">sitemap.yaml format</h2>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> index.html</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Rotkeeper Documentation&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Filed Systems&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;2026-03-20&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">tags</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">rotkeeper</span><span class="kw">,</span><span class="at"> reference</span><span class="kw">]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">keywords</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">rotkeeper_nav</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;00_Home&quot;</span><span class="kw">]</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">show_in_nav</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
+      <p>Each entry maps directly to the frontmatter fields read from
+      the source file. Pages with <code>show_in_nav: false</code> are
+      included in <code>sitemap.yaml</code> but will be excluded from
+      rendered nav structures by downstream commands.</p>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav</span></code></pre></div>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc sitemap</code> only reads files — it never writes to
+      <code>home/content/</code> or <code>output/</code>.</li>
+      <li>Files without a <code>title</code> field use the filename stem
+      as the title.</li>
+      <li>If frontmatter cannot be parsed for a file, that file is
+      skipped with a warning logged.</li>
+      <li>Pages with duplicate output paths (two <code>.md</code> files
+      resolving to the same <code>.html</code>) are skipped after the
+      first with a warning.</li>
+      <li>For the full pipeline including nav partial and sidecar
+      generation, use <code>rc sitemap-pipeline</code> instead.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

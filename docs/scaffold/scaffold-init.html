@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Initializes a new Rotkeeper project,
+creating the full home/ directory structure with starter content,
+templates, and config." />
+  <title>rc init</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-init">rc init</h1>
+      <p><code>rc init</code> creates the full directory tree and
+      starter files a Rotkeeper project needs to function.<br />
+      Run it once in an empty directory at the start of a new project.
+      It is safe to re-run with <code>--force</code> to restore any
+      missing or overwritten files.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li><p>Creates the following directories (skips existing ones
+      unless <code>--force</code>):</p>
+      <pre class="text"><code>home/content/
+home/bones/templates/
+home/bones/assets/styles/
+home/bones/assets/images/
+home/bones/config/
+home/bones/reports/</code></pre></li>
+      <li><p>Writes <code>home/bones/config/user-config.yaml</code> with
+      default path settings</p></li>
+      <li><p>Copies starter content from the Rotkeeper package
+      (<code>src/rotkeeper/sources/</code>):</p>
+      <ul>
+      <li><code>home/content/index.md</code> and
+      <code>home/content/sample.md</code></li>
+      <li>All HTML templates into
+      <code>home/bones/templates/</code></li>
+      <li>All SCSS files into
+      <code>home/bones/assets/styles/</code></li>
+      <li><code>mascot.png</code> into
+      <code>home/bones/assets/images/</code></li>
+      </ul></li>
+      <li><p>Writes <code>home/bones/reports/README.md</code></p></li>
+      <li><p>Writes a <code>.gitignore</code> in the project
+      root</p></li>
+      </ol>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> init</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> init <span class="at">--force</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--force</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Overwrite existing directories and files; re-copies all
+      sources</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="files-created">Files Created</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Path</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>home/content/index.md</code></td>
+      <td>Starter home page</td>
+      </tr>
+      <tr>
+      <td><code>home/content/sample.md</code></td>
+      <td>Example content page</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/templates/</code></td>
+      <td>HTML templates copied from package sources</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/assets/styles/</code></td>
+      <td>SCSS stubs (<code>main.scss</code>,
+      <code>_variables.scss</code>, etc.)</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/assets/images/mascot.png</code></td>
+      <td>Rotkeeper mascot image</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/config/user-config.yaml</code></td>
+      <td>Default path configuration</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/reports/README.md</code></td>
+      <td>Reports directory readme</td>
+      </tr>
+      <tr>
+      <td><code>.gitignore</code></td>
+      <td>Ignores <code>output/</code>, compiled CSS, caches, and OS
+      files</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="user-config.yaml-defaults">user-config.yaml defaults</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">HOME</span><span class="kw">:</span><span class="at"> home</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">CONTENT_DIR</span><span class="kw">:</span><span class="at"> home/content</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">OUTPUT_DIR</span><span class="kw">:</span><span class="at"> home/output</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">default_template</span><span class="kw">:</span><span class="at"> default</span></span></code></pre></div>
+      <p>Edit this file to relocate your content, output, or template
+      directories.</p>
+      <hr />
+      <h2 id="gitignore-contents">.gitignore contents</h2>
+      <pre><code>output/
+*.html
+!bones/templates/*.html
+bones/assets/styles/*.css
+__pycache__/
+*.py[cod]
+.venv/
+env/
+*.swp
+.DS_Store</code></pre>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb5"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> my-site <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> my-site</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> init</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span></code></pre></div>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc init</code> will <strong>not</strong> overwrite
+      existing files unless <code>--force</code> is passed. New users
+      can safely re-run it after making changes.</li>
+      <li>With <code>--force</code>, all source-copied files (templates,
+      SCSS, starter content) are overwritten. Your own content in
+      <code>home/content/</code> is also overwritten if it has the same
+      filename as a starter file (<code>index.md</code>,
+      <code>sample.md</code>). Rename or back up custom content before
+      using <code>--force</code>.</li>
+      <li>After init, the next step is <code>rc render</code>. See <a
+      href="../pipeline/render.md">Pipeline → render</a>.</li>
+      <li><code>reseed</code> is the safer alternative to
+      <code>rc init --force</code> when you only need to restore missing
+      scaffold files. See <a href="reseed.md">reseed</a>.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

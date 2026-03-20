@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Compiles Markdown to HTML via
+Pandoc, applies templates, and compiles SCSS." />
+  <title>rc render</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-render">rc render</h1>
+      <p><code>rc render</code> is the first and most important step in
+      every Rotkeeper build.<br />
+      It walks <code>home/content/</code>, compiles each Markdown file
+      to HTML via Pandoc, applies the correct template, and then
+      compiles SCSS to CSS.<br />
+      After it runs, it writes a render manifest and a build manifest to
+      <code>home/bones/reports/</code> for use by downstream
+      commands.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li>Scans <code>home/content/</code> recursively for
+      <code>.md</code> files (skips files and folders prefixed with
+      <code>.</code> or <code>_</code>)</li>
+      <li>Resolves a template for each file — frontmatter
+      <code>template:</code> field wins, then
+      <code>render-flags.yaml</code>, then
+      <code>default.html</code></li>
+      <li>Checks modification times against
+      <code>render-state.yaml</code>; skips unchanged files unless
+      <code>--force</code> is set</li>
+      <li>Calls <code>pypandoc.convert_file()</code> to render each file
+      to <code>output/</code></li>
+      <li>Injects a nav partial
+      (<code>home/bones/reports/nav_partial.md</code>) before each page
+      body if one exists</li>
+      <li>Injects a sidecar metadata file (<code>.rk.yaml</code>)
+      alongside the source if one exists</li>
+      <li>Compiles <code>home/bones/assets/styles/main.scss</code> →
+      <code>output/css/main.css</code> via the <code>sass</code>
+      CLI</li>
+      <li>Writes <code>home/bones/reports/render-manifest.yaml</code>
+      and <code>build-manifest.yaml</code></li>
+      </ol>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render <span class="at">--force</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render <span class="at">--config</span> path/to/render-flags.yaml</span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--config</code></td>
+      <td>path</td>
+      <td>none</td>
+      <td>Path to a <code>render-flags.yaml</code> config file;
+      overrides the default config resolution</td>
+      </tr>
+      <tr>
+      <td><code>--force</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Render all files regardless of modification times; ignores
+      <code>render-state.yaml</code></td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The global <code>--dry-run</code> flag (set on <code>rc</code>
+      itself) is also respected — render will log what it would do
+      without writing any files or manifests.</p>
+      <hr />
+      <h2 id="template-resolution-order">Template Resolution Order</h2>
+      <p>For each <code>.md</code> file, the template is resolved in
+      this priority order:</p>
+      <ol type="1">
+      <li><strong>Frontmatter</strong> — <code>template:</code> field in
+      the file’s YAML frontmatter</li>
+      <li><strong>Render config</strong> — <code>template:</code> key in
+      <code>render-flags.yaml</code></li>
+      <li><strong>Default</strong> —
+      <code>home/bones/templates/default.html</code></li>
+      </ol>
+      <p>Templates are searched in two locations:
+      <code>home/bones/templates/</code> and
+      <code>home/bones/assets/templates/</code>.<br />
+      If no template is found anywhere, the file is rendered without one
+      and a warning is logged.</p>
+      <hr />
+      <h2 id="render-flags.yaml">render-flags.yaml</h2>
+      <p>Optional config file that sets Pandoc options for all files in
+      a build.<br />
+      Pass it with <code>--config</code> or place it at
+      <code>home/bones/config/render-flags.yaml</code>.</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">template</span><span class="kw">:</span><span class="at"> rot-doc.html</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">css</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> css/main.css</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">math</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">extra_args</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;--standalone&quot;</span></span></code></pre></div>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>template</code></td>
+      <td>string</td>
+      <td>Default template name (overridden by frontmatter)</td>
+      </tr>
+      <tr>
+      <td><code>css</code></td>
+      <td>string or list</td>
+      <td>CSS paths passed to Pandoc as <code>--css</code></td>
+      </tr>
+      <tr>
+      <td><code>toc</code></td>
+      <td>bool</td>
+      <td>Enables Pandoc’s auto table of contents</td>
+      </tr>
+      <tr>
+      <td><code>math</code></td>
+      <td>bool</td>
+      <td>Enables MathJax via <code>--mathjax</code></td>
+      </tr>
+      <tr>
+      <td><code>extra_args</code></td>
+      <td>list</td>
+      <td>Any additional raw Pandoc arguments</td>
+      </tr>
+      <tr>
+      <td><code>from</code> / <code>format</code></td>
+      <td>string</td>
+      <td>Pandoc input format (default: <code>markdown</code>)</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard build</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Force full rebuild, ignoring state cache</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render <span class="at">--force</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a non-default config</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render <span class="at">--config</span> home/bones/config/render-flags-draft.yaml</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview what would be rendered without writing anything</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> <span class="at">--dry-run</span> render</span></code></pre></div>
+      <hr />
+      <h2 id="output-files">Output Files</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>File</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>output/**/*.html</code></td>
+      <td>Rendered HTML pages, mirroring the <code>home/content/</code>
+      tree</td>
+      </tr>
+      <tr>
+      <td><code>output/css/main.css</code></td>
+      <td>Compiled and compressed CSS from <code>main.scss</code></td>
+      </tr>
+      <tr>
+      <td><code>home/bones/reports/render-manifest.yaml</code></td>
+      <td>Maps each <code>.md</code> source to its <code>.html</code>
+      output</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/reports/build-manifest.yaml</code></td>
+      <td>Full source/output path list for downstream commands</td>
+      </tr>
+      <tr>
+      <td><code>home/bones/reports/render-state.yaml</code></td>
+      <td>Modification time cache used for incremental builds</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li>Files and directories whose names begin with <code>.</code> or
+      <code>_</code> are skipped automatically and will never be
+      rendered.</li>
+      <li><code>rc render</code> does <strong>not</strong> clean
+      <code>output/</code> before running. Deleted source files leave
+      orphaned HTML behind. Run <code>rc cleanup_bones</code> to remove
+      them.</li>
+      <li>SCSS compilation requires the <code>sass</code> CLI. Install
+      it with <code>npm install -D sass</code>. If <code>sass</code> is
+      not found, a warning is logged and the CSS step is skipped — HTML
+      rendering is unaffected.</li>
+      <li><code>pypandoc</code> must be installed. If missing, render
+      exits with code <code>2</code> and logs an install hint:
+      <code>pip install rotkeeper[pandoc]</code>.</li>
+      <li>The nav partial (<code>nav_partial.md</code>) is written by
+      <code>rc sitemap_pipeline</code>. If it doesn’t exist yet, it is
+      silently skipped.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

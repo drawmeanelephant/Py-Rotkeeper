@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Overview of Rotkeeper sitemap
+commands: sitemap, sitemap_pipeline, and render_sitemap." />
+  <title>Sitemap</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+        <article class="page-body">
+      <h1 id="sitemap">Sitemap</h1>
+      <p>The sitemap commands read your content tree and frontmatter to
+      produce navigation structures and XML sitemaps.<br />
+      They run after <code>rc render</code> and depend on the
+      frontmatter fields — especially <code>rotkeeper_nav</code>,
+      <code>show_in_nav</code>, and <code>draft</code> — being correct
+      on every page.</p>
+      <hr />
+      <h2 id="sitemap-commands">Sitemap Commands</h2>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Command</th>
+      <th>What it does</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="sitemap.md"><code>rc sitemap</code></a></td>
+      <td>Scans content and generates the nav data and sitemap file</td>
+      </tr>
+      <tr>
+      <td><a
+      href="sitemap_pipeline.md"><code>rc sitemap_pipeline</code></a></td>
+      <td>Runs the full sitemap sequence as a single pipeline step</td>
+      </tr>
+      <tr>
+      <td><a
+      href="render_sitemap.md"><code>rc render_sitemap</code></a></td>
+      <td>Renders the sitemap data into the final HTML nav and XML
+      output</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="typical-run-order">Typical Run Order</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render_sitemap</span></code></pre></div>
+      <p>Or use the pipeline shortcut:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap_pipeline</span></code></pre></div>
+      <p><code>sitemap_pipeline</code> wraps <code>sitemap</code> and
+      <code>render_sitemap</code> into one call — use it when you don’t
+      need to inspect the intermediate sitemap data.</p>
+      <hr />
+      <h2 id="what-controls-the-nav">What Controls the Nav</h2>
+      <p>Pages appear in the nav when <strong>all three</strong> of
+      these are true:</p>
+      <ul>
+      <li><code>rotkeeper_nav</code> is set with at least one token</li>
+      <li><code>show_in_nav: true</code></li>
+      <li><code>draft: false</code> and
+      <code>published: true</code></li>
+      </ul>
+      <p>See <a href="../concepts/pandoc-frontmatter.md">Concepts →
+      Pandoc Frontmatter</a> for the full field reference.</p>
+      <hr />
+      <h2 id="pages-in-this-section">Pages in This Section</h2>
+      <ul>
+      <li><a href="sitemap.md">sitemap</a> — scan and generate sitemap
+      data</li>
+      <li><a href="sitemap_pipeline.md">sitemap_pipeline</a> — full
+      sitemap sequence in one command</li>
+      <li><a href="render_sitemap.md">render_sitemap</a> — render
+      sitemap data to HTML nav and XML</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>
