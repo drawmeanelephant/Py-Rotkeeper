@@ -16,7 +16,7 @@ pandoc = ["pypandoc>=1.13"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
-rotkeeper = "rotkeeper.cli:main"
+rotkeeper = "rotkeeper.rc:main"
 
 [tool.setuptools]
 package-dir = { "" = "rc" }

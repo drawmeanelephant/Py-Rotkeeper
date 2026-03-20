@@ -13,7 +13,6 @@ import yaml
 from ..config import CONFIG
 from ..context import RunContext
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -23,7 +22,6 @@ def compute_file_mtime(path: Path) -> float | None:
         return path.stat().st_mtime
     except Exception:
         return None
-
 
 def load_render_state(path: Path) -> dict[str, dict[str, float]]:
     if not path.exists():
@@ -36,11 +34,9 @@ def load_render_state(path: Path) -> dict[str, dict[str, float]]:
     except Exception:
         return {}
 
-
 def save_render_state(path: Path, state: dict[str, dict[str, float]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(yaml.safe_dump(state, sort_keys=False), encoding="utf-8")
-
 
 def _load_render_config(path: Path) -> dict[str, Any]:
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -49,7 +45,6 @@ def _load_render_config(path: Path) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("render config must be a mapping")
     return data
-
 
 def _normalize_css(value: Any) -> list[str]:
     if value is None:
@@ -60,7 +55,6 @@ def _normalize_css(value: Any) -> list[str]:
         return [item.strip() for item in value.split(",") if item.strip()]
     return [str(value).strip()] if str(value).strip() else []
 
-
 def _normalize_extra_args(value: Any) -> list[str]:
     if value is None:
         return []
@@ -70,10 +64,8 @@ def _normalize_extra_args(value: Any) -> list[str]:
         return [value]
     return [str(value)]
 
-
 def _is_hidden_or_private(rel: Path) -> bool:
     return any(part.startswith(".") or part.startswith("_") for part in rel.parts)
-
 
 def _resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path | None:
     """Search the two standard template locations; return resolved Path or None."""
@@ -81,7 +73,6 @@ def _resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path 
         if candidate.exists():
             return candidate
     return None
-
 
 def _build_pandoc_args(config: dict[str, Any], templates_dir: Path, assets_dir: Path) -> tuple[str | None, list[str]]:
     fmt: str | None = None
@@ -112,7 +103,6 @@ def _build_pandoc_args(config: dict[str, Any], templates_dir: Path, assets_dir: 
     args.extend(_normalize_extra_args(config.get("extra_args")))
     return fmt, args
 
-
 def _get_frontmatter_template(md_path: Path) -> str | None:
     """Return the template name from YAML frontmatter, or None."""
     try:
@@ -126,7 +116,6 @@ def _get_frontmatter_template(md_path: Path) -> str | None:
     if isinstance(data, dict):
         return data.get("template")
     return None
-
 
 def file_needs_render(
     src: Path,
@@ -146,9 +135,8 @@ def file_needs_render(
         return True
     return False
 
-
 # ---------------------------------------------------------------------------
-# Sass helper  (defined before run() so it is importable at call time)
+# Sass helper
 # ---------------------------------------------------------------------------
 
 def build_sass(scss_file: Path | None = None, output_file: Path | None = None) -> None:
@@ -178,6 +166,42 @@ def build_sass(scss_file: Path | None = None, output_file: Path | None = None) -
     except subprocess.CalledProcessError as exc:
         logging.error("Sass compilation failed: %s", exc)
 
+# ---------------------------------------------------------------------------
+# Public render helper (used by render_sitemap and other lib modules)
+# ---------------------------------------------------------------------------
+
+def render_template(
+    src: Path,
+    dest: Path,
+    template_path: Path | None = None,
+    extra_args: list[str] | None = None,
+    pandoc_format: str | None = None,
+) -> None:
+    """
+    Render a single Markdown file to HTML via pypandoc.
+
+    Args:
+        src: Source .md file path.
+        dest: Destination .html file path.
+        template_path: Optional Pandoc HTML template.
+        extra_args: Additional Pandoc CLI arguments.
+        pandoc_format: Input format string passed to pypandoc (e.g. "markdown").
+    """
+    import pypandoc  # type: ignore
+
+    args: list[str] = list(extra_args or [])
+    if template_path is not None and template_path.exists():
+        args = [f"--template={template_path}"] + [a for a in args if not a.startswith("--template=")]
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    pypandoc.convert_file(
+        str(src),
+        "html",
+        format=pandoc_format,
+        outputfile=str(dest),
+        extra_args=args,
+    )
+    logging.info("render_template: %s -> %s", src, dest)
 
 # ---------------------------------------------------------------------------
 # CLI wiring
@@ -192,7 +216,6 @@ def add_parser(subs: argparse._SubParsersAction) -> None:
         help="Render all files regardless of modification times",
     )
     p.set_defaults(func=run)
-
 
 # ---------------------------------------------------------------------------
 # Main pipeline
@@ -210,14 +233,12 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     manifest_path = reports_dir / "render-manifest.yaml"
     build_manifest_path = reports_dir / "build-manifest.yaml"
     render_state_path = reports_dir / "render-state.yaml"
-    base_dir = Path.cwd()  # intentional: project runs from site directory
+    base_dir = Path.cwd()
 
-    # Ensure output directories exist
     for d in [output_dir, templates_dir, assets_dir, reports_dir]:
         if not ctx.dry_run:
             d.mkdir(parents=True, exist_ok=True)
 
-    # Collect markdown files
     if not content_dir.exists() or not content_dir.is_dir():
         logging.info("No content directory found at %s", content_dir)
         markdown_files: list[Path] = []
@@ -234,7 +255,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         markdown_files.sort(key=lambda p: p.relative_to(content_dir).as_posix())
         logging.info("Found %d markdown files under %s", len(markdown_files), content_dir)
 
-    # Load optional render config
     render_config: dict[str, Any] = {}
     if args.config:
         config_path = Path(args.config).expanduser()
@@ -256,7 +276,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     if pandoc_args:
         logging.debug("Pandoc args: %s", pandoc_args)
 
-    # Import pypandoc only when we will actually render
     pypandoc = None
     if not ctx.dry_run and markdown_files:
         try:
@@ -281,7 +300,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         dest_rel = rel.with_suffix(".html")
         dest = output_dir / dest_rel
 
-        # Resolve template: frontmatter > render_config > default
         fm_template = _get_frontmatter_template(src)
         template_path: Path | None = None
         if fm_template:
@@ -336,17 +354,14 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
 
         try:
             dest.parent.mkdir(parents=True, exist_ok=True)
-            # Build per-file args: strip any existing --template from pandoc_args, then prepend ours
             file_args = [a for a in pandoc_args if not a.startswith("--template=")]
             if template_path is not None and template_path.exists():
                 file_args = [f"--template={template_path}"] + file_args
 
-            # sidecar metadata from sitemap-pipeline
             sidecar_path = src.with_suffix(".rk.yaml")
             if sidecar_path.exists():
                 file_args += [f"--metadata-file={sidecar_path}"]
 
-            # nav partial from sitemap-pipeline
             nav_partial = CONFIG.REPORTS_DIR / "nav_partial.md"
             if nav_partial.exists():
                 file_args += [f"--include-before-body={nav_partial}"]
@@ -369,7 +384,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
             failures += 1
             logging.error("Failed to render %s: %s", src, exc)
 
-    # Flush render state once after the loop
     if render_state_dirty:
         save_render_state(render_state_path, render_state)
 
@@ -395,6 +409,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         "Render summary: %d rendered, %d skipped, %d failed",
         successes, skipped, failures,
     )
+
     if failures:
         logging.error("Render completed with %d failure(s).", failures)
         return 2
