@@ -25,12 +25,6 @@ def _sha256_file(path: Path) -> str:
 
 
 def _yaml_quote(value: str) -> str:
-    """
-    Minimal YAML quoting for scalars in our report.
-
-    Keep unquoted values when they are plainly safe; otherwise use JSON-style
-    quoting which is also valid in YAML.
-    """
     safe = (
         value != ""
         and all(ch.isalnum() or ch in "._/-" for ch in value)
@@ -64,10 +58,11 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
 
-    assets_dir = CONFIG.BONES / "assets"
-    report_path = CONFIG.BONES / "reports" / "assets.yaml"
+    cfg = ctx.config if (ctx and ctx.config) else CONFIG  # respect --config
 
-    # --- Global assets (bones/assets/) ---
+    assets_dir  = cfg.BONES / "assets"
+    report_path = cfg.BONES / "reports" / "assets.yaml"
+
     if not assets_dir.exists():
         logging.info("No assets directory found at %s", assets_dir)
         global_assets: list[tuple[str, Path]] = []
@@ -92,9 +87,8 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
             sha = _sha256_file(src)
             assets.append({"path": rel, "sha256": sha, "origin": "global"})
 
-    # --- Page-local assets (home/content/, i.e. CONFIG.CONTENT_DIR) ---
     global_asset_paths = {rel for rel, _ in global_assets}
-    content_dir = CONFIG.CONTENT_DIR  # was incorrectly CONFIG.BONES / "content"
+    content_dir = cfg.CONTENT_DIR  # respect --config
 
     if content_dir.exists():
         for md_path in content_dir.rglob("*.md"):

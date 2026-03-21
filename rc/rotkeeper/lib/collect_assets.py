@@ -29,7 +29,6 @@ class _ResourceParser(HTMLParser):
             key = "href"
         else:
             return
-
         for attr, value in attrs:
             if attr == key and value:
                 self.refs.append(value)
@@ -90,13 +89,14 @@ def run(args: argparse.Namespace, ctx=None) -> int:
     import yaml
     import hashlib
 
-    output_dir = CONFIG.OUTPUT_DIR
-    output_assets_dir = output_dir / "assets"
-    bones_reports_dir = CONFIG.BONES / "reports"
+    cfg = ctx.config if (ctx and ctx.config) else CONFIG  # respect --config
+
+    output_dir         = cfg.OUTPUT_DIR
+    output_assets_dir  = output_dir / "assets"
+    bones_reports_dir  = cfg.BONES / "reports"
     assets_report_path = bones_reports_dir / "assets.yaml"
-    home_assets_dir = CONFIG.HOME / "assets"
-    # Markdown root for page-local assets
-    home_content_dir = CONFIG.CONTENT_DIR
+    home_assets_dir    = cfg.HOME / "assets"
+    home_content_dir   = cfg.CONTENT_DIR
 
     dry_run = getattr(args, "dry_run", False)
     verbose = getattr(args, "verbose", False)
@@ -122,7 +122,6 @@ def run(args: argparse.Namespace, ctx=None) -> int:
         logging.error("assets.yaml report is not a list")
         return 1
 
-    # Helper: compute sha256 of a file
     def sha256sum(path: Path) -> str:
         h = hashlib.sha256()
         with path.open("rb") as f:
@@ -130,47 +129,39 @@ def run(args: argparse.Namespace, ctx=None) -> int:
                 h.update(chunk)
         return h.hexdigest()
 
-    # For each asset in the report, copy to output_dir in the correct spot
     for asset in assets_report:
-        # asset: dict with at least keys: path, hash, [origin], [page_html], [page_md]
-        asset_path = asset.get("path")
-        asset_hash = asset.get("hash") or asset.get("sha256")
-        asset_origin = asset.get("origin")  # "global" or "page-local" or possibly "home/assets" or "markdown"
-        asset_abs = asset.get("abs")  # Not always present
-        page_html = asset.get("page_html")  # for page-local
-        page_md = asset.get("page_md")
+        asset_path   = asset.get("path")
+        asset_hash   = asset.get("hash") or asset.get("sha256")
+        asset_origin = asset.get("origin", "global")
+        asset_abs    = asset.get("abs")
+        page_html    = asset.get("page_html")
+        page_md      = asset.get("page_md")
 
         if not asset_path or not asset_hash:
             logging.warning("Asset report entry missing path or hash: %r", asset)
             continue
 
-        # Skip hidden files and .scss files
         path_obj = Path(asset_path)
         if path_obj.name.startswith('.') or path_obj.suffix.lower() == ".scss":
             if verbose:
                 logging.info("Skipping hidden or SCSS file: %s", asset_path)
             continue
 
-        # Try to find the source file
-        # If abs is present, use it, else try to reconstruct
         src = None
         if asset_abs:
             src = Path(asset_abs)
         else:
-            # Try home/assets for global, or markdown dir for page-local
             if asset_origin == "global" or (asset_origin and "home/assets" in asset_origin):
                 src = home_assets_dir / asset_path
             elif asset_origin == "page-local" or (asset_origin and "markdown" in asset_origin):
                 if page_md:
                     src = Path(page_md).parent / Path(asset_path).name
                 elif page_html:
-                    # Try reconstruct from html path
                     md_dir = Path(page_html).with_suffix(".md").parent
                     src = md_dir / Path(asset_path).name
                 else:
                     src = home_content_dir / asset_path
             else:
-                # Fallback: try home/assets first, then home/content
                 candidate1 = home_assets_dir / asset_path
                 candidate2 = home_content_dir / asset_path
                 if candidate1.exists():
@@ -179,17 +170,15 @@ def run(args: argparse.Namespace, ctx=None) -> int:
                     src = candidate2
                 else:
                     src = Path(asset_path)
+
         if not src.exists():
             logging.warning("Asset source file missing: %s", src)
             continue
 
-        # Determine destination
         if asset_origin == "global" or (asset_origin and "home/assets" in asset_origin):
-            # Global asset: output/assets/<relative_path>
             dest = output_assets_dir / asset_path
             dest_info = f"{src} -> {dest}"
         elif asset_origin == "page-local" or (asset_origin and "markdown" in asset_origin):
-            # Page-local: output/<html_dir>/<filename>
             if page_html:
                 html_path = output_dir / page_html
                 dest = html_path.parent / Path(asset_path).name
@@ -197,15 +186,12 @@ def run(args: argparse.Namespace, ctx=None) -> int:
                 html_path = output_dir / Path(page_md).with_suffix(".html")
                 dest = html_path.parent / Path(asset_path).name
             else:
-                # fallback: put in output_dir
                 dest = output_dir / Path(asset_path).name
             dest_info = f"page-local asset {src} -> {dest}"
         else:
-            # Fallback: treat as global
             dest = output_assets_dir / asset_path
             dest_info = f"{src} -> {dest}"
 
-        # If file exists and hash matches, skip
         if dest.exists():
             try:
                 dest_hash = sha256sum(dest)
@@ -218,7 +204,6 @@ def run(args: argparse.Namespace, ctx=None) -> int:
                         logging.info("Asset at %s hash mismatch (have %s, want %s), will overwrite", dest, dest_hash, asset_hash)
             except Exception as e:
                 logging.warning("Failed to compute hash for %s: %s", dest, e)
-                # Will overwrite
 
         if dry_run:
             logging.info("[dry-run] copy %s", dest_info)
@@ -227,7 +212,6 @@ def run(args: argparse.Namespace, ctx=None) -> int:
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dest)
 
-        # Verify hash
         try:
             copied_hash = sha256sum(dest)
             if copied_hash != asset_hash:

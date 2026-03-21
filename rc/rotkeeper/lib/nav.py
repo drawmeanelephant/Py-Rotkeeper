@@ -1,8 +1,15 @@
+from __future__ import annotations
+
 import argparse
-from pathlib import Path
-import yaml
-import sys
+import logging
 import re
+from pathlib import Path
+
+import yaml
+
+from ..config import CONFIG
+
+logger = logging.getLogger(__name__)
 
 
 def parse_nav_label(label):
@@ -15,23 +22,29 @@ def parse_nav_label(label):
     return (float('inf'), label.lower())
 
 
-def nav_command(args, ctx):
-    sitemap_path = ctx.config.BONES / "reports" / "sitemap_pipeline.yaml"
-    if not sitemap_path.exists():
-        print(f"Error: sitemap file not found at {sitemap_path}", file=sys.stderr)
-        print("Run 'rotkeeper sitemap-pipeline' first to generate it.", file=sys.stderr)
-        sys.exit(1)
+def nav_command(args, ctx=None):
+    cfg = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
 
-    with sitemap_path.open("r", encoding="utf-8") as f:
-        sitemap = yaml.safe_load(f)
+    sitemap_path = cfg.BONES / "reports" / "sitemap_pipeline.yaml"
+    if not sitemap_path.exists():
+        logger.error("Sitemap file not found at %s", sitemap_path)
+        logger.error("Run 'rotkeeper sitemap-pipeline' first to generate it.")
+        return 1
+
+    try:
+        with sitemap_path.open("r", encoding="utf-8") as f:
+            sitemap = yaml.safe_load(f)
+    except Exception as e:
+        logger.error("Failed to load sitemap_pipeline.yaml: %s", e)
+        return 1
 
     if isinstance(sitemap, dict) and "pages" in sitemap:
         pages_list = sitemap["pages"]
     elif isinstance(sitemap, list):
         pages_list = sitemap
     else:
-        print("Error: sitemap_pipeline.yaml structure not recognized", file=sys.stderr)
-        sys.exit(1)
+        logger.error("sitemap_pipeline.yaml structure not recognized")
+        return 1
 
     # Normalize and prepare pages
     pages = []
@@ -51,26 +64,22 @@ def nav_command(args, ctx):
 
     for page in pages:
         author = page.get("author") or "Misc"
-        date = page.get("date") or "Misc"
-        tags = page.get("tags") or ["Misc"]
+        date   = page.get("date")   or "Misc"
+        tags   = page.get("tags")   or ["Misc"]
         keywords = page.get("keywords") or ["Misc"]
-        rot_nav = page.get("rotkeeper_nav") or ["Misc"]
+        rot_nav  = page.get("rotkeeper_nav") or ["Misc"]
 
-        # Author grouping
         nav_tree["author"].setdefault(author, {"pages": []})
         nav_tree["author"][author]["pages"].append(page)
 
-        # Tags grouping
         for tag in tags:
             nav_tree["tags"].setdefault(tag, {"pages": []})
             nav_tree["tags"][tag]["pages"].append(page)
 
-        # Keywords grouping
         for kw in keywords:
             nav_tree["keywords"].setdefault(kw, {"pages": []})
             nav_tree["keywords"][kw]["pages"].append(page)
 
-        # Rotkeeper_nav grouping
         current = nav_tree["rotkeeper_nav"]
         for part in rot_nav:
             if part not in current or not isinstance(current.get(part), dict):
@@ -78,7 +87,6 @@ def nav_command(args, ctx):
             current = current[part]["__children__"]
         current.setdefault("__pages__", []).append(page)
 
-        # Date grouping
         try:
             from datetime import datetime
             dt = datetime.fromisoformat(str(date))
@@ -106,14 +114,12 @@ def nav_command(args, ctx):
 
     final_nav = {}
 
-    # Author group
     authors = []
     for author, data in sorted(nav_tree["author"].items(), key=lambda x: x[0].lower()):
         pages_out = [{k: p.get(k) for k in ("title", "path", "author", "date", "tags", "keywords", "rotkeeper_nav", "show_in_nav")} for p in data["pages"]]
         authors.append({"group": author, "pages": pages_out})
     final_nav["author"] = authors
 
-    # Date group - nested year -> month -> day -> pages
     dates = []
     for year in sorted(nav_tree["date"].keys()):
         months_list = []
@@ -126,29 +132,27 @@ def nav_command(args, ctx):
         dates.append({"group": year, "pages": months_list})
     final_nav["date"] = dates
 
-    # Tags group
     tags_list = []
     for tag, data in sorted(nav_tree["tags"].items(), key=lambda x: x[0].lower()):
         pages_out = [{k: p.get(k) for k in ("title", "path", "author", "date", "tags", "keywords", "rotkeeper_nav", "show_in_nav")} for p in data["pages"]]
         tags_list.append({"group": tag, "pages": pages_out})
     final_nav["tags"] = tags_list
 
-    # Keywords group
     keywords_list = []
     for kw, data in sorted(nav_tree["keywords"].items(), key=lambda x: x[0].lower()):
         pages_out = [{k: p.get(k) for k in ("title", "path", "author", "date", "tags", "keywords", "rotkeeper_nav", "show_in_nav")} for p in data["pages"]]
         keywords_list.append({"group": kw, "pages": pages_out})
     final_nav["keywords"] = keywords_list
 
-    # Rotkeeper_nav group
     final_nav["rotkeeper_nav"] = convert_rot_nav_tree(nav_tree["rotkeeper_nav"])
 
-    output_path = Path(args.output) if args.output else ctx.config.BONES / "reports" / "nav.yaml"
+    output_path = Path(args.output) if args.output else cfg.BONES / "reports" / "nav.yaml"
 
     if args.dry_run:
         print("Dry run enabled, navigation would be:")
         print(yaml.safe_dump(final_nav, sort_keys=False))
     else:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         with output_path.open("w", encoding="utf-8") as f:
             yaml.safe_dump(final_nav, f, sort_keys=False)
         if args.verbose:
@@ -161,6 +165,8 @@ def nav_command(args, ctx):
                         if isinstance(page, dict) and "title" in page:
                             print(f"    - Title: {page.get('title')}, Path: {page.get('path')}, Author: {page.get('author')}")
 
+    return 0
+
 
 def add_parser(subs):
     parser = subs.add_parser("nav", help="Generate navigation YAML from sitemap-pipeline output")
@@ -169,14 +175,6 @@ def add_parser(subs):
         type=str,
         help="Output path for navigation YAML (default: CONFIG.BONES / reports / nav.yaml)",
     )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Do not write output, just print it",
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Print additional information",
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Do not write output, just print it")
+    parser.add_argument("--verbose", action="store_true", help="Print additional information")
     parser.set_defaults(func=nav_command)

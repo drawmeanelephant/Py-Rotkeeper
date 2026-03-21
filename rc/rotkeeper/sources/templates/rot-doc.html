@@ -3,85 +3,66 @@
 
 <head>
   <meta charset="utf-8" />
-  <!-- Rotkeeper-style template -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="$description$" />
-  <title>$if(title)$$title$$else$py-rot$endif$</title>
+  <title>$if(title)$$title$ — $endif$Rotkeeper</title>
 
-  <!-- Main CSS (compiled from SCSS) -->
   <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/assets/css/hiq.css" />
-  <link rel="stylesheet" href="/assets/css/rotkeeper.css" />
 
   $if(css)$
   $for(css)$
   <link rel="stylesheet" href="$css$" />
   $endfor$
   $endif$
-
   $if(highlightcss)$
   <link rel="stylesheet" href="$highlightcss$" />
   $endif$
-
-  $if(math)$
-  $math$
-  $endif$
-
-  $for(header-includes)$
-  $header-includes$
-  $endfor$
+  $if(math)$$math$$endif$
+  $for(header-includes)$$header-includes$$endfor$
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a class="site-title" href="/">$if(site_title)$$site_title$$else$py-rot$endif$</a>
-      $if(nav)$
-      <nav class="site-nav">
-        $nav$
-      </nav>
-      $endif$
+
+  <div class="container-fluid py-4">
+    <div class="row">
+
+      <aside class="col-12 col-md-3 col-xl-2 mb-4">
+        $if(toc)$
+        <div class="sticky-top pt-2">
+          <h6 class="text-uppercase text-muted small fw-bold mb-2">On this page</h6>
+          $toc$
+        </div>
+        $endif$
+      </aside>
+
+      <main class="col-12 col-md-9 col-xl-10" id="content">
+        $if(highlighted)$
+        <div class="alert alert-info mb-4">$highlighted$</div>
+        $endif$
+        <article class="page-body">
+          $body$
+        </article>
+      </main>
+
     </div>
-  </header>
-
-  <div class="rotkeeper-body">
-    $if(toc)$
-    <aside class="toc">
-      $toc$
-    </aside>
-    $endif$
-
-    <aside class="sidebar">
-      <!-- optional sidebar content -->
-    </aside>
-
-    <main class="content container" id="content">
-      <div class="highlighted">
-        <!-- highlighted announcement or key note -->
-      </div>
-      <article class="page-body">
-        $body$
-      </article>
-    </main>
   </div>
 
-  <footer class="site-footer">
-    <div class="container">
+  <footer class="bg-dark text-light py-3 mt-5">
+    <div class="container-fluid">
       <small>
-        &copy; $if(year)$$year$$else$$date-meta$$endif$ $if(author)$$author$$else$py-rot$endif$.
-        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+        &copy; $if(year)$$year$$else$$date-meta$$endif$
+        $if(author)$$author$$else$Rotkeeper$endif$.
+        Built with <a href="https://github.com/drawmeanelephant/Py-Rotkeeper" class="text-light">Rotkeeper</a>.
       </small>
     </div>
   </footer>
 
-  <!-- Optional: highlight.js or other scripts -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
   $for(scripts)$
-  <script src="$scripts$"></script>
-  $endfor$
-  $if(js)$
-  $js$
-  $endif$
+  <script src="$scripts$"></script>$endfor$
+  $if(js)$$js$$endif$
+
 </body>
 
 </html>
