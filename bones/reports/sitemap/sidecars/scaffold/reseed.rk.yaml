@@ -1,0 +1,31 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: scaffold/reseed.md
+  breadcrumb:
+  - rc reseed
+  related_pages:
+  - title: Scaffold
+    path: scaffold/index.html
+    description: 'Overview of Rotkeeper scaffold commands: init and reseed.'
+  - title: rc init
+    path: scaffold/init.html
+    description: Initializes a new Rotkeeper project, creating the full home/ directory
+      structure with starter content, templates, and config.
+  - title: Changelog
+    path: changelog.html
+    description: Release history and notable changes for Rotkeeper.
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    description: How Rotkeeper reads and uses YAML frontmatter fields, and how they
+      map to Pandoc metadata.
+  - title: Rotkeeper Documentation
+    path: index.html
+    description: Landing page and navigation guide for Rotkeeper documentation.
+  tag_pages:
+  - tag: scaffold
+    url: /generated/tags/--------.html
+  - tag: reseed
+    url: /generated/tags/------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html

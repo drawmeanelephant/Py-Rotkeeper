@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Copies cataloged assets from source
+into output/, using SHA-256 hashes to skip unchanged files." />
+  <title>rc collect-assets</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/Py-Rotkeeper//css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-collect-assets">rc collect-assets</h1>
+      <p><code>rc collect-assets</code> reads the
+      <code>assets.yaml</code> catalog produced by
+      <code>rc assets</code> and copies each file into the correct
+      location under <code>output/</code>.<br />
+      It uses SHA-256 hashes to skip files that are already up-to-date,
+      so repeated runs are safe and fast.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li>Reads <code>home/bones/reports/assets.yaml</code> (exits with
+      error code <code>1</code> if missing)</li>
+      <li>For each entry, resolves the source file path based on its
+      <code>origin</code> field</li>
+      <li>Checks whether the destination file in <code>output/</code>
+      already exists with a matching SHA-256 hash — skips if so</li>
+      <li>Copies the file to <code>output/</code>, creating parent
+      directories as needed</li>
+      <li>Verifies the hash of the copied file and logs an error if it
+      doesn’t match</li>
+      </ol>
+      <p>Global assets land in <code>output/assets/</code>. Page-local
+      assets land next to their corresponding HTML file in
+      <code>output/</code>.</p>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets <span class="at">--dry-run</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets <span class="at">--verbose</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Log what would be copied without writing anything</td>
+      </tr>
+      <tr>
+      <td><code>--verbose</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Enable detailed per-file logging including hash
+      comparisons</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="destination-logic">Destination Logic</h2>
+      <p>Where a file lands in <code>output/</code> depends on its
+      <code>origin</code> value in <code>assets.yaml</code>:</p>
+      <table>
+      <colgroup>
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      <col style="width: 33%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Origin</th>
+      <th>Source root</th>
+      <th>Destination</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>global</code></td>
+      <td><code>home/bones/assets/</code></td>
+      <td><code>output/assets/&lt;path&gt;</code></td>
+      </tr>
+      <tr>
+      <td><code>page-local</code></td>
+      <td><code>home/content/&lt;page-dir&gt;/</code></td>
+      <td><code>output/&lt;page-dir&gt;/&lt;filename&gt;</code></td>
+      </tr>
+      <tr>
+      <td><em>(unknown)</em></td>
+      <td>Falls back to <code>home/assets/</code> then
+      <code>home/content/</code></td>
+      <td><code>output/assets/&lt;path&gt;</code></td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full standard run</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview without writing</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets <span class="at">--dry-run</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Verbose copy with hash logging</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> collect-assets <span class="at">--verbose</span></span></code></pre></div>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc collect-assets</code> <strong>requires</strong>
+      <code>assets.yaml</code> to exist. Always run
+      <code>rc assets</code> first.</li>
+      <li>Hidden files (dotfiles) and <code>.scss</code> files present
+      in <code>assets.yaml</code> are silently skipped.</li>
+      <li>Hash verification runs after every copy. If the copied file’s
+      hash doesn’t match the catalog, an error is logged but the run
+      continues — no files are deleted.</li>
+      <li>If a source file listed in <code>assets.yaml</code> cannot be
+      found on disk, a warning is logged and that entry is skipped;
+      other assets are still processed.</li>
+      <li><code>output/</code> must exist before running
+      <code>collect-assets</code>. It is created by
+      <code>rc render</code>. If <code>output/</code> is missing, the
+      command exits cleanly with code <code>0</code> and logs a
+      notice.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

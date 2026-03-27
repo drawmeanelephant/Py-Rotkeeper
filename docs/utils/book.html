@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Packages Rotkeeper content, config,
+and scripts into portable archive files for migration, backup, or import
+to another installation." />
+  <title>rc book</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/Py-Rotkeeper//css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-book">rc book</h1>
+      <p><code>rc book</code> packages your Rotkeeper project into
+      portable archive files called <strong>books</strong>.<br />
+      A book captures a specific slice of your project — content,
+      config, scripts, or all of the above — into a self-contained file
+      that can be moved to a new Rotkeeper installation and restored
+      with <code>rc reseed</code>.</p>
+      <blockquote>
+      <p>⚠️ <code>rc book</code> is currently a stub. The modes and
+      behavior described here reflect the intended design and are
+      actively being implemented.</p>
+      </blockquote>
+      <hr />
+      <h2 id="what-it-does-intended">What it does (intended)</h2>
+      <p>Each <code>--mode</code> produces a different archive:</p>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Mode</th>
+      <th>What it captures</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>contentbook</code></td>
+      <td>All Markdown files from <code>home/content/</code></td>
+      </tr>
+      <tr>
+      <td><code>configbook</code></td>
+      <td>All config files from <code>home/bones/config/</code></td>
+      </tr>
+      <tr>
+      <td><code>docbook</code></td>
+      <td>Templates, SCSS, and asset sources from
+      <code>home/bones/</code></td>
+      </tr>
+      <tr>
+      <td><code>docbook-clean</code></td>
+      <td>Same as <code>docbook</code> but strips build artifacts and
+      reports</td>
+      </tr>
+      <tr>
+      <td><code>scriptbook-full</code></td>
+      <td>All Python source files from <code>src/rotkeeper/</code></td>
+      </tr>
+      <tr>
+      <td><code>contentmeta</code></td>
+      <td>Frontmatter metadata only (no body content) — useful for
+      nav/sitemap migration</td>
+      </tr>
+      <tr>
+      <td><code>collapse</code></td>
+      <td>Full project collapse: content + config + scripts in one
+      archive</td>
+      </tr>
+      <tr>
+      <td><code>all</code></td>
+      <td>Runs all applicable modes and writes one archive per mode</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book <span class="at">--mode</span> contentbook</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book <span class="at">--mode</span> collapse</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book <span class="at">--dry-run</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--mode</code></td>
+      <td>choice</td>
+      <td><code>all</code></td>
+      <td>Which book to generate — see mode table above</td>
+      </tr>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Show what would be archived without writing any files</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="portability-workflow">Portability Workflow</h2>
+      <p>To move a Rotkeeper project to a new installation:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On the source machine</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book <span class="at">--mode</span> collapse</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the resulting archive to the new machine, then:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> init</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> reseed <span class="at">--input</span> collapse-book.md</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span></code></pre></div>
+      <p>For content-only migration (e.g. moving posts from one site to
+      another):</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> book <span class="at">--mode</span> contentbook</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer contentbook archive</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> reseed <span class="at">--input</span> contentbook.md</span></code></pre></div>
+      <hr />
+      <h2 id="future-importing-from-external-systems">Future: Importing
+      from External Systems</h2>
+      <p><code>rc book</code> is designed to eventually support import
+      modes that pull content from external publishing platforms into
+      the Rotkeeper content format, including:</p>
+      <ul>
+      <li><strong>WordPress</strong> — via XML export → Markdown
+      conversion with frontmatter mapping</li>
+      <li><strong>Movable Type</strong> — via MT export format
+      parsing</li>
+      <li><strong>Generic RSS/Atom</strong> — for pulling posts from any
+      feed-based system</li>
+      </ul>
+      <p>Imported content would land in <code>home/content/</code> with
+      a best-effort frontmatter mapping (<code>title</code>,
+      <code>date</code>, <code>tags</code>, <code>author</code>) and
+      would be ready to render with <code>rc render</code>.</p>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li>Book archives are written to <code>home/bones/reports/</code>
+      by default.</li>
+      <li><code>rc reseed</code> is the counterpart command that reads
+      book archives and restores files. See <a
+      href="../scaffold/reseed.md">Scaffold → reseed</a>.</li>
+      <li><code>contentmeta</code> mode is useful for rebuilding a
+      sitemap or nav on a new installation without transferring full
+      page bodies.</li>
+      <li><code>docbook-clean</code> is the recommended mode when
+      sharing a project template with another user — it omits logs,
+      manifests, and render state.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

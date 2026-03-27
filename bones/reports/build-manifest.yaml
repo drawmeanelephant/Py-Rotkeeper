@@ -5,24 +5,34 @@ pages:
   output: docs/concepts/pandoc-frontmatter.html
 - source: md/index.md
   output: docs/index.html
+- source: md/patch-lore.md
+  output: docs/patch-lore.html
 - source: md/patch.md
   output: docs/patch.html
+- source: md/pipeline/assets.md
+  output: docs/pipeline/assets.html
+- source: md/pipeline/collect-assets.md
+  output: docs/pipeline/collect-assets.html
 - source: md/pipeline/index.md
   output: docs/pipeline/index.html
-- source: md/pipeline/pipeline-assets.md
-  output: docs/pipeline/pipeline-assets.html
-- source: md/pipeline/pipeline-collect-assets.md
-  output: docs/pipeline/pipeline-collect-assets.html
-- source: md/pipeline/pipeline-render.md
-  output: docs/pipeline/pipeline-render.html
+- source: md/pipeline/render.md
+  output: docs/pipeline/render.html
 - source: md/quickstart.md
   output: docs/quickstart.html
+- source: md/rotkeeper-lore/chapter-01.md
+  output: docs/rotkeeper-lore/chapter-01.html
+- source: md/rotkeeper-lore/chapter-02.md
+  output: docs/rotkeeper-lore/chapter-02.html
+- source: md/rotkeeper-lore/chapter-03.md
+  output: docs/rotkeeper-lore/chapter-03.html
+- source: md/rotkeeper-lore/chapter-04.md
+  output: docs/rotkeeper-lore/chapter-04.html
 - source: md/scaffold/index.md
   output: docs/scaffold/index.html
-- source: md/scaffold/scaffold-init.md
-  output: docs/scaffold/scaffold-init.html
-- source: md/scaffold/scaffold-reseed.md
-  output: docs/scaffold/scaffold-reseed.html
+- source: md/scaffold/init.md
+  output: docs/scaffold/init.html
+- source: md/scaffold/reseed.md
+  output: docs/scaffold/reseed.html
 - source: md/sitemap/index.md
   output: docs/sitemap/index.html
 - source: md/sitemap/pipeline.md
@@ -31,11 +41,11 @@ pages:
   output: docs/sitemap/render-sitemap.html
 - source: md/sitemap/sitemap.md
   output: docs/sitemap/sitemap.html
+- source: md/utils/book.md
+  output: docs/utils/book.html
+- source: md/utils/cleanup-bones.md
+  output: docs/utils/cleanup-bones.html
 - source: md/utils/index.md
   output: docs/utils/index.html
-- source: md/utils/utilities-book.md
-  output: docs/utils/utilities-book.html
-- source: md/utils/utilities-cleanup-bones.md
-  output: docs/utils/utilities-cleanup-bones.html
-- source: md/utils/utilities-nav.md
-  output: docs/utils/utilities-nav.html
+- source: md/utils/nav.md
+  output: docs/utils/nav.html

@@ -1,0 +1,34 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: concepts/pandoc-frontmatter.md
+  breadcrumb:
+  - Pandoc Frontmatter in Rotkeeper
+  related_pages:
+  - title: rc render
+    path: pipeline/render.html
+    description: Compiles Markdown to HTML via Pandoc, applies templates, and compiles
+      SCSS.
+  - title: Changelog
+    path: changelog.html
+    description: Release history and notable changes for Rotkeeper.
+  - title: Rotkeeper Documentation
+    path: index.html
+    description: Landing page and navigation guide for Rotkeeper documentation.
+  - title: rc assets
+    path: pipeline/assets.html
+    description: Catalogs static assets from bones/assets/ and page-local files, writing
+      assets.yaml for use by collect_assets.
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    description: Copies cataloged assets from source into output/, using SHA-256 hashes
+      to skip unchanged files.
+  tag_pages:
+  - tag: concepts
+    url: /generated/tags/--------.html
+  - tag: frontmatter
+    url: /generated/tags/-----------.html
+  - tag: pandoc
+    url: /generated/tags/------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html

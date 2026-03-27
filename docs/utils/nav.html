@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Reads sitemap.yaml and writes
+nav.yaml — a structured navigation tree grouped by rotkeeper_nav,
+author, date, and tags." />
+  <title>rc nav</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/Py-Rotkeeper//css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-nav">rc nav</h1>
+      <p><code>rc nav</code> reads
+      <code>home/bones/reports/sitemap.yaml</code> and produces
+      <code>home/bones/reports/nav.yaml</code> — a fully structured
+      navigation tree organized by <code>rotkeeper_nav</code> section,
+      author, date, and tags.<br />
+      Use it when you need the nav data file updated without running the
+      full <code>sitemap-pipeline</code>.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li>Reads <code>home/bones/reports/sitemap.yaml</code> (exits with
+      error if not found)</li>
+      <li>Filters out pages where <code>show_in_nav</code> is false</li>
+      <li>Builds five parallel navigation trees from the page list:
+      <ul>
+      <li><strong><code>rotkeeper_nav</code></strong> — hierarchical
+      tree from nav tokens, sorted by numeric prefix</li>
+      <li><strong><code>author</code></strong> — pages grouped
+      alphabetically by author</li>
+      <li><strong><code>date</code></strong> — pages nested by year →
+      month → day</li>
+      <li><strong><code>tags</code></strong> — pages grouped
+      alphabetically by tag</li>
+      <li><strong><code>keywords</code></strong> — pages grouped
+      alphabetically by keyword</li>
+      </ul></li>
+      <li>Writes the combined structure to
+      <code>home/bones/reports/nav.yaml</code></li>
+      </ol>
+      <p>Numeric prefixes are stripped from display labels in the output
+      (<code>10_Pipeline</code> → <code>Pipeline</code>).</p>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav <span class="at">--dry-run</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav <span class="at">--verbose</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav <span class="at">--output</span> path/to/custom-nav.yaml</span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--output</code></td>
+      <td>path</td>
+      <td><code>home/bones/reports/nav.yaml</code></td>
+      <td>Custom output path for the nav YAML</td>
+      </tr>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Print the nav YAML to stdout without writing any file</td>
+      </tr>
+      <tr>
+      <td><code>--verbose</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Print top-level groups and page titles after writing</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="nav.yaml-structure">nav.yaml structure</h2>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Rotkeeper Documentation&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">path</span><span class="kw">:</span><span class="at"> index.html</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">        ...</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> Pipeline</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> render</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">pages</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">...</span><span class="kw">]</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Filed Systems&quot;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">...</span><span class="kw">]</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;2026&quot;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;03&quot;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">pages</span><span class="kw">:</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20&quot;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">pages</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">...</span><span class="kw">]</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">tags</span><span class="kw">:</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> pipeline</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">...</span><span class="kw">]</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">keywords</span><span class="kw">:</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">group</span><span class="kw">:</span><span class="at"> pandoc</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pages</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">...</span><span class="kw">]</span></span></code></pre></div>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> nav <span class="at">--dry-run</span>    <span class="co"># inspect nav structure without writing</span></span></code></pre></div>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>rc nav</code> requires <code>sitemap.yaml</code> to
+      exist. Run <code>rc sitemap</code> or
+      <code>rc sitemap-pipeline</code> first.</li>
+      <li>Pages without any <code>rotkeeper_nav</code> tokens are placed
+      in a <code>Misc</code> group.</li>
+      <li>Pages without a valid ISO date string in the <code>date</code>
+      field are placed in a <code>Misc</code> group in the date
+      tree.</li>
+      <li><code>rc nav</code> does <strong>not</strong> write a nav
+      partial for injection into rendered pages — that is done by
+      <code>rc sitemap-pipeline</code> stage 4. <code>rc nav</code>
+      produces a data file only.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

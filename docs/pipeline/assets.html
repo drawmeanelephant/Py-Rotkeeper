@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Catalogs static assets from
+bones/assets/ and page-local files, writing assets.yaml for use by
+collect_assets." />
+  <title>rc assets</title>
+
+  <!-- Main CSS (compiled from SCSS) -->
+  <link rel="stylesheet" href="/Py-Rotkeeper//css/main.css" />
+
+  
+  
+  
+  </head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="/">py-rot</a>
+          </div>
+  </header>
+
+  <main class="content container" id="content">
+          <aside class="toc">
+        true
+      </aside>
+        <article class="page-body">
+      <h1 id="rc-assets">rc assets</h1>
+      <p><code>rc assets</code> scans your asset directories, computes a
+      SHA-256 hash for every file it finds, and writes a catalog to
+      <code>home/bones/reports/assets.yaml</code>.<br />
+      It does <strong>not</strong> copy files — that is
+      <code>rc collect_assets</code>’s job.<br />
+      Think of <code>rc assets</code> as the inventory step and
+      <code>rc collect_assets</code> as the fulfillment step.</p>
+      <hr />
+      <h2 id="what-it-does">What it does</h2>
+      <ol type="1">
+      <li>Scans <code>home/bones/assets/</code> recursively for all
+      files (skips dotfiles and <code>.scss</code> files)</li>
+      <li>For each file found, computes a SHA-256 hash and records it as
+      a <strong>global</strong> asset</li>
+      <li>Scans <code>home/content/</code> for non-Markdown, non-SCSS
+      files sitting alongside <code>.md</code> files and records them as
+      <strong>page-local</strong> assets</li>
+      <li>Writes the full catalog to
+      <code>home/bones/reports/assets.yaml</code></li>
+      </ol>
+      <p>Page-local assets are only cataloged if they are not already
+      present in the global asset list.</p>
+      <hr />
+      <h2 id="usage">Usage</h2>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets <span class="at">--dry-run</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets <span class="at">--verbose</span></span></code></pre></div>
+      <hr />
+      <h2 id="flags">Flags</h2>
+      <table>
+      <colgroup>
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      <col style="width: 25%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Flag</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>--dry-run</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Log what would be cataloged without writing
+      <code>assets.yaml</code></td>
+      </tr>
+      <tr>
+      <td><code>--verbose</code></td>
+      <td>bool</td>
+      <td>false</td>
+      <td>Enable detailed per-file logging</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="assets.yaml-format">assets.yaml Format</h2>
+      <p>Each entry in the report has three fields:</p>
+      <div class="sourceCode" id="cb2"><pre
+      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> fonts/inter.woff2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sha256</span><span class="kw">:</span><span class="at"> a1b2c3d4...</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">origin</span><span class="kw">:</span><span class="at"> global</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> posts/hello/banner.jpg</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sha256</span><span class="kw">:</span><span class="at"> e5f6a7b8...</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">origin</span><span class="kw">:</span><span class="at"> page-local</span></span></code></pre></div>
+      <table>
+      <colgroup>
+      <col style="width: 50%" />
+      <col style="width: 50%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Field</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><code>path</code></td>
+      <td>Path relative to the asset’s source root
+      (<code>bones/assets/</code> for global, <code>home/content/</code>
+      for page-local)</td>
+      </tr>
+      <tr>
+      <td><code>sha256</code></td>
+      <td>SHA-256 hex digest of the file contents</td>
+      </tr>
+      <tr>
+      <td><code>origin</code></td>
+      <td><code>global</code> (from <code>bones/assets/</code>) or
+      <code>page-local</code> (found next to a <code>.md</code>
+      file)</td>
+      </tr>
+      </tbody>
+      </table>
+      <hr />
+      <h2 id="example">Example</h2>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Catalog all assets</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview what would be cataloged</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets <span class="at">--dry-run</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Catalog with per-file output</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets <span class="at">--verbose</span></span></code></pre></div>
+      <hr />
+      <h2 id="notes">Notes</h2>
+      <ul>
+      <li><code>.scss</code> files are always skipped — they are
+      compiled by <code>rc render</code>, not copied as assets.</li>
+      <li>Dotfiles (names starting with <code>.</code>) are skipped in
+      both global and page-local scans.</li>
+      <li><code>rc assets</code> must run <strong>before</strong>
+      <code>rc collect_assets</code>. <code>collect_assets</code> reads
+      <code>assets.yaml</code> and will exit with an error if it doesn’t
+      exist.</li>
+      <li>Running <code>rc assets</code> is safe at any time — it only
+      reads files and writes the report; it never modifies
+      <code>output/</code>.</li>
+      <li>The SHA-256 hash recorded here is used by
+      <code>rc collect_assets</code> to skip files that are already
+      up-to-date in <code>output/</code>.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>
+        &copy; 2026-03-20 Filed Systems.
+        Built with <a href="https://github.com/tbuddy/py-rot">py-rot</a>.
+      </small>
+    </div>
+  </footer>
+
+  <!-- Optional: highlight.js or other scripts -->
+    </body>
+</html>

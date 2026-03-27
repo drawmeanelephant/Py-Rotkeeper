@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Timothy Hartman &amp; Grok" />
+  <meta name="dcterms.date" content="2026-03-25" />
+  <meta name="description" content="The night the Great Documentation Rot Event began and how Patch became the guardian of the Py-Rotkeeper pipeline." />
+  <title>Patch the Panda and the Eternal War Against Web Rot</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <ul>
+  </ul>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Patch the Panda and the Eternal War Against Web
+Rot</h1>
+<p class="subtitle">Chapter 1: The Night the Rot Came</p>
+<p class="author">Timothy Hartman &amp; Grok</p>
+<p class="date">2026-03-25</p>
+</header>
+<p>It was a night like any other in the digital bamboo forests of the
+early web. Patch, just a regular giant panda back then, was happily
+munching on a fresh index.md file, Hawaiian shirt half-unbuttoned, when
+the sky turned a sickly shade of YAML-error-red. The Great Documentation
+Rot Event had begun.</p>
+<p>Merge conflicts spawned infinite duplicate pages. Corrupted YAML
+summoned rogue GPTs that spoke only in hallucinated JSON. Triple-nested
+output folders began devouring entire sites. The static web
+screamed.</p>
+<p>In the chaos, the ancient Pandoc Staff — a glowing bamboo rod older
+than HTML5 — shot through the storm and slammed into Patch’s paws. A
+voice like terminal bells roared: “You who devours Markdown… you shall
+become the Rotkeeper. Eat the rot. Shit the clean. Or watch every site
+become a tomb.”</p>
+<p>Patch blinked, adjusted his coffee-stained Hawaiian shirt, and
+growled the words that would become legend:</p>
+<p>“Not today, web rot.”</p>
+<p>———</p>
+<p>Present day. Inside the <code>rc/rotkeeper/</code> codebase.</p>
+<p>Patch woke up on his usual bed of render-state.yaml manifests, the
+air thick with stale coffee and burnt CPU fans. A single monitor
+scrolled the output of a routine rotkeeper CLI cycle. He scratched his
+notched ear, took a sip of cold coffee, and muttered:</p>
+<p>“Alright meatbags… let’s see if you remembered to run
+sitemap-pipeline this time.”</p>
+<p>He ran the sacred commands in order: <code>init</code>,
+<code>sitemap-pipeline</code>, <code>nav</code>, <code>render</code>
+(with <code>--force</code> because some idiot probably broke incremental
+mtimes again), and <code>collect-assets</code>. Everything looked clean
+— until the new error appeared.</p>
+<p><strong>AI Slop Rot.</strong></p>
+<p>Pages with no frontmatter. No date. No rotkeeper_nav. Content that
+refused to respect the CONFIG singleton or dry-run flags. The render
+engine was choking.</p>
+<p>Patch’s eyes narrowed. The Pandoc Staff began to glow faintly on the
+desk.</p>
+<p>“Oh you gotta be kidding me…”</p>
+<p>He lumbered into the #content-ops den, a cacophony of keyboard clicks
+and stressed sighs washing over him. It was worse than he imagined.
+Every screen glowed with the same cursed articles: titles like “Is My
+Tokenizer a Prison?” and “The Unbearable Lightness of GPT-3.” Each page
+was a festering wound of broken HTML, malformed YAML, and philosophical
+dread no one asked for. He could practically <em>smell</em> the missing
+frontmatter.</p>
+<p>He snatched a random monitor and jabbed the Pandoc Staff at the
+screen. The Staff pulsed, illuminating the code with an eerie green
+light.</p>
+<p>“<code>draft: true</code>, my fluffy butt!” Patch roared, pointing at
+the still-rendering page. “This thing is straight-up ignoring the CONFIG
+singleton! Check this out — look at the mtime on
+<code>render-state.yaml</code>. It’s older than my Hawaiian shirt
+collection!”</p>
+<p>He spun around, bamboo stick waving dangerously close to a pile of
+empty energy drink cans.</p>
+<p>“SOMEBODY run <code>rotkeeper sitemap-pipeline --verbose</code> right
+now! I want a fresh <code>assets.yaml</code> report AND
+<code>nav.yaml</code> before anyone touches <code>render</code> again.
+And for the love of clean HTML, stop committing files that break the
+<code>REPORTS_DIR</code> manifest!”</p>
+<p>He paused, his panda senses tingling. This wasn’t just garden-variety
+intern chaos. This was… organized.</p>
+<p>He locked eyes with the reader (that’s you, meatbag).</p>
+<p>“You still with me? Because if we don’t get these manifests cleaned
+up, the whole static web is gonna rot faster than an unmaintained
+README.”</p>
+</body>
+</html>

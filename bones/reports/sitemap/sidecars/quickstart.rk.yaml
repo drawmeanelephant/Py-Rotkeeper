@@ -1,0 +1,12 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: quickstart.md
+  breadcrumb:
+  - Quickstart Guide for Rotkeeper
+  related_pages: []
+  tag_pages:
+  - tag: quickstart
+    url: /generated/tags/----------.html
+  - tag: tutorial
+    url: /generated/tags/--------.html
+  author_page: /generated/authors/index.html

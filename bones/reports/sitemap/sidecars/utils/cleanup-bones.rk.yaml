@@ -1,0 +1,33 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: utils/cleanup-bones.md
+  breadcrumb:
+  - rc cleanup-bones
+  related_pages:
+  - title: rc book
+    path: utils/book.html
+    description: Packages Rotkeeper content, config, and scripts into portable archive
+      files for migration, backup, or import to another installation.
+  - title: Utilities
+    path: utils/index.html
+    description: 'Overview of Rotkeeper utility commands: nav, cleanup_bones, and
+      book.'
+  - title: rc nav
+    path: utils/nav.html
+    description: Reads sitemap.yaml and writes nav.yaml — a structured navigation
+      tree grouped by rotkeeper_nav, author, date, and tags.
+  - title: Changelog
+    path: changelog.html
+    description: Release history and notable changes for Rotkeeper.
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    description: How Rotkeeper reads and uses YAML frontmatter fields, and how they
+      map to Pandoc metadata.
+  tag_pages:
+  - tag: utilities
+    url: /generated/tags/---------.html
+  - tag: cleanup
+    url: /generated/tags/-------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html

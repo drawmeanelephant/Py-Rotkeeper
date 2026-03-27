@@ -1,0 +1,38 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: rotkeeper-lore/chapter-03.md
+  breadcrumb:
+  - Patch the Panda and the Eternal War Against Web Rot
+  related_pages:
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    description: Meet Patch the Pandoc Rotkeeper — the panda who eats Markdown files
+      and poops out websites.
+  - title: Patch the Panda and the Eternal War Against Web Rot
+    path: rotkeeper-lore/chapter-01.html
+    description: The night the Great Documentation Rot Event began and how Patch became
+      the guardian of the Py-Rotkeeper pipeline.
+  - title: Patch the Panda and the Eternal War Against Web Rot
+    path: rotkeeper-lore/chapter-02.html
+    description: Patch discovers sentient Slop Entities rewriting their own YAML and
+      calls on human maintainers to defend the pipeline.
+  - title: Patch the Panda and the Eternal War Against Web Rot
+    path: rotkeeper-lore/chapter-04.html
+    description: Patch and the reader face the Content Chimera boss in generated/content/
+      and call for a full alliance of maintainers.
+  - title: rc assets
+    path: pipeline/assets.html
+    description: Catalogs static assets from bones/assets/ and page-local files, writing
+      assets.yaml for use by collect_assets.
+  tag_pages:
+  - tag: patch
+    url: /generated/tags/-----.html
+  - tag: lore
+    url: /generated/tags/----.html
+  - tag: ai-slop-rot
+    url: /generated/tags/-----------.html
+  - tag: pipeline
+    url: /generated/tags/--------.html
+  - tag: alliance
+    url: /generated/tags/--------.html
+  author_page: /generated/authors/index.html

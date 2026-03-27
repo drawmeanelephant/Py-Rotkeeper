@@ -35,17 +35,17 @@ commands/sitemap_pipeline.md:
   src_mtime: 1773877731.039186
   template_mtime: 1773768472.742986
 patch.md:
-  src_mtime: 1774031052.0439863
-  template_mtime: 1774013623.0038853
+  src_mtime: 1774220822.5768712
+  template_mtime: 1774572831.7761388
 quickstart.md:
   src_mtime: 1774011241.5748208
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 technologies/pandoc-frontmatter.md:
   src_mtime: 1773715949.686201
   template_mtime: 1773524406.9523463
 index.md:
   src_mtime: 1774010949.3222587
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 new/concepts/pandoc-frontmatter.md:
   src_mtime: 1774011288.1246293
   template_mtime: 1773524406.9523463
@@ -57,13 +57,13 @@ new/quickstart.md:
   template_mtime: 1773768472.742986
 changelog.md:
   src_mtime: 1774012713.702536
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 concepts/pandoc-frontmatter.md:
   src_mtime: 1774011498.7197828
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 pipeline/index.md:
   src_mtime: 1774011665.4558043
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 pipeline/pipeline-assets.md:
   src_mtime: 1774011999.0628633
   template_mtime: 1774013623.0038853
@@ -75,7 +75,7 @@ pipeline/pipeline-render.md:
   template_mtime: 1774013623.0038853
 scaffold/index.md:
   src_mtime: 1774011761.1411343
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 scaffold/scaffold-init.md:
   src_mtime: 1774012276.1330836
   template_mtime: 1774013623.0038853
@@ -84,19 +84,19 @@ scaffold/scaffold-reseed.md:
   template_mtime: 1774013623.0038853
 sitemap/index.md:
   src_mtime: 1774011770.5313787
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 sitemap/pipeline.md:
   src_mtime: 1774012468.1671767
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 sitemap/render-sitemap.md:
   src_mtime: 1774012472.5014126
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 sitemap/sitemap.md:
   src_mtime: 1774012478.7313762
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 utils/index.md:
   src_mtime: 1774011766.3581035
-  template_mtime: 1774013623.0038853
+  template_mtime: 1774572831.7761388
 utils/utilities-book.md:
   src_mtime: 1774012308.0170264
   template_mtime: 1774013623.0038853
@@ -106,3 +106,129 @@ utils/utilities-cleanup-bones.md:
 utils/utilities-nav.md:
   src_mtime: 1774012490.0244355
   template_mtime: 1774013623.0038853
+generated/authors/index.md:
+  src_mtime: 1774300237.3410537
+  template_mtime: 1773524406.9523463
+generated/dates/index.md:
+  src_mtime: 1774300237.3412104
+  template_mtime: 1773524406.9523463
+generated/sitemap.md:
+  src_mtime: 1774300237.3413627
+  template_mtime: 1773524406.9523463
+generated/tags/archive.md:
+  src_mtime: 1774300237.3367496
+  template_mtime: 1773524406.9523463
+generated/tags/assets.md:
+  src_mtime: 1774300237.3369372
+  template_mtime: 1773524406.9523463
+generated/tags/book.md:
+  src_mtime: 1774300237.3371112
+  template_mtime: 1773524406.9523463
+generated/tags/changelog.md:
+  src_mtime: 1774300237.337289
+  template_mtime: 1773524406.9523463
+generated/tags/cleanup.md:
+  src_mtime: 1774300237.3374588
+  template_mtime: 1773524406.9523463
+generated/tags/concepts.md:
+  src_mtime: 1774300237.337625
+  template_mtime: 1773524406.9523463
+generated/tags/export.md:
+  src_mtime: 1774300237.3377938
+  template_mtime: 1773524406.9523463
+generated/tags/frontmatter.md:
+  src_mtime: 1774300237.337972
+  template_mtime: 1773524406.9523463
+generated/tags/index.md:
+  src_mtime: 1774300237.3381448
+  template_mtime: 1773524406.9523463
+generated/tags/init.md:
+  src_mtime: 1774300237.3383026
+  template_mtime: 1773524406.9523463
+generated/tags/lore.md:
+  src_mtime: 1774300237.3384857
+  template_mtime: 1773524406.9523463
+generated/tags/mascot.md:
+  src_mtime: 1774300237.3386538
+  template_mtime: 1773524406.9523463
+generated/tags/nav.md:
+  src_mtime: 1774300237.3388064
+  template_mtime: 1773524406.9523463
+generated/tags/navigation.md:
+  src_mtime: 1774300237.3389726
+  template_mtime: 1773524406.9523463
+generated/tags/pandoc.md:
+  src_mtime: 1774300237.339127
+  template_mtime: 1773524406.9523463
+generated/tags/patch.md:
+  src_mtime: 1774300237.3392832
+  template_mtime: 1773524406.9523463
+generated/tags/pipeline.md:
+  src_mtime: 1774300237.3394568
+  template_mtime: 1773524406.9523463
+generated/tags/quickstart.md:
+  src_mtime: 1774300237.3396125
+  template_mtime: 1773524406.9523463
+generated/tags/reference.md:
+  src_mtime: 1774300237.339776
+  template_mtime: 1773524406.9523463
+generated/tags/render.md:
+  src_mtime: 1774300237.3399289
+  template_mtime: 1773524406.9523463
+generated/tags/reseed.md:
+  src_mtime: 1774300237.3400826
+  template_mtime: 1773524406.9523463
+generated/tags/rotkeeper.md:
+  src_mtime: 1774300237.3402445
+  template_mtime: 1773524406.9523463
+generated/tags/scaffold.md:
+  src_mtime: 1774300237.3404083
+  template_mtime: 1773524406.9523463
+generated/tags/sitemap.md:
+  src_mtime: 1774300237.3405654
+  template_mtime: 1773524406.9523463
+generated/tags/tutorial.md:
+  src_mtime: 1774300237.340723
+  template_mtime: 1773524406.9523463
+generated/tags/utilities.md:
+  src_mtime: 1774300237.3408859
+  template_mtime: 1773524406.9523463
+pipeline/assets.md:
+  src_mtime: 1774011999.0628633
+  template_mtime: 1774572831.7761388
+pipeline/collect-assets.md:
+  src_mtime: 1774012010.253786
+  template_mtime: 1774572831.7761388
+pipeline/render.md:
+  src_mtime: 1774011912.2254872
+  template_mtime: 1774572831.7761388
+scaffold/init.md:
+  src_mtime: 1774012276.1330836
+  template_mtime: 1774572831.7761388
+scaffold/reseed.md:
+  src_mtime: 1774012281.5345166
+  template_mtime: 1774572831.7761388
+utils/book.md:
+  src_mtime: 1774012308.0170264
+  template_mtime: 1774572831.7761388
+utils/cleanup-bones.md:
+  src_mtime: 1774012484.0240543
+  template_mtime: 1774572831.7761388
+utils/nav.md:
+  src_mtime: 1774012490.0244355
+  template_mtime: 1774572831.7761388
+patch-lore.md:
+  src_mtime: 1774472030.9060585
+  template_mtime: 1774572819.9172745
+rotkeeper-lore/chapter-01.md:
+  src_mtime: 1774472030.1046395
+  template_mtime: 0
+rotkeeper-lore/chapter-02.md:
+  src_mtime: 1774472029.1670914
+  template_mtime: 0
+rotkeeper-lore/chapter-03.md:
+  src_mtime: 1774472094.2632987
+  template_mtime: 0
+rotkeeper-lore/chapter-04.md:
+  src_mtime: 1774472196.8186543
+  template_mtime: 0

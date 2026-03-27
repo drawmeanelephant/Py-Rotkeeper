@@ -5,24 +5,34 @@ render:
   output: concepts/pandoc-frontmatter.html
 - input: index.md
   output: index.html
+- input: patch-lore.md
+  output: patch-lore.html
 - input: patch.md
   output: patch.html
+- input: pipeline/assets.md
+  output: pipeline/assets.html
+- input: pipeline/collect-assets.md
+  output: pipeline/collect-assets.html
 - input: pipeline/index.md
   output: pipeline/index.html
-- input: pipeline/pipeline-assets.md
-  output: pipeline/pipeline-assets.html
-- input: pipeline/pipeline-collect-assets.md
-  output: pipeline/pipeline-collect-assets.html
-- input: pipeline/pipeline-render.md
-  output: pipeline/pipeline-render.html
+- input: pipeline/render.md
+  output: pipeline/render.html
 - input: quickstart.md
   output: quickstart.html
+- input: rotkeeper-lore/chapter-01.md
+  output: rotkeeper-lore/chapter-01.html
+- input: rotkeeper-lore/chapter-02.md
+  output: rotkeeper-lore/chapter-02.html
+- input: rotkeeper-lore/chapter-03.md
+  output: rotkeeper-lore/chapter-03.html
+- input: rotkeeper-lore/chapter-04.md
+  output: rotkeeper-lore/chapter-04.html
 - input: scaffold/index.md
   output: scaffold/index.html
-- input: scaffold/scaffold-init.md
-  output: scaffold/scaffold-init.html
-- input: scaffold/scaffold-reseed.md
-  output: scaffold/scaffold-reseed.html
+- input: scaffold/init.md
+  output: scaffold/init.html
+- input: scaffold/reseed.md
+  output: scaffold/reseed.html
 - input: sitemap/index.md
   output: sitemap/index.html
 - input: sitemap/pipeline.md
@@ -31,11 +41,11 @@ render:
   output: sitemap/render-sitemap.html
 - input: sitemap/sitemap.md
   output: sitemap/sitemap.html
+- input: utils/book.md
+  output: utils/book.html
+- input: utils/cleanup-bones.md
+  output: utils/cleanup-bones.html
 - input: utils/index.md
   output: utils/index.html
-- input: utils/utilities-book.md
-  output: utils/utilities-book.html
-- input: utils/utilities-cleanup-bones.md
-  output: utils/utilities-cleanup-bones.html
-- input: utils/utilities-nav.md
-  output: utils/utilities-nav.html
+- input: utils/nav.md
+  output: utils/nav.html

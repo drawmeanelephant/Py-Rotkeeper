@@ -1,0 +1,1231 @@
+author:
+- group: Filed Systems
+  pages:
+  - title: Changelog
+    path: changelog.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id001
+    - changelog
+    - reference
+    keywords: &id002 []
+    rotkeeper_nav: &id003
+    - 02_Changelog
+    show_in_nav: true
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id004
+    - concepts
+    - frontmatter
+    - pandoc
+    - reference
+    keywords: &id005 []
+    rotkeeper_nav: &id006
+    - 50_Concepts
+    - pandoc-frontmatter
+    show_in_nav: true
+  - title: Rotkeeper Documentation
+    path: index.html
+    author: Filed Systems
+    date: null
+    tags: &id058
+    - rotkeeper
+    - reference
+    - index
+    keywords: &id059 []
+    rotkeeper_nav: &id060
+    - 00_Home
+    show_in_nav: true
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id007
+    - mascot
+    - patch
+    - lore
+    keywords: &id008 []
+    rotkeeper_nav: &id009
+    - 00_Home
+    - patch
+    show_in_nav: true
+  - title: rc assets
+    path: pipeline/assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id010
+    - pipeline
+    - assets
+    - reference
+    keywords: &id011 []
+    rotkeeper_nav: &id012
+    - 10_Pipeline
+    - assets
+    show_in_nav: true
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id013
+    - pipeline
+    - assets
+    - reference
+    keywords: &id014 []
+    rotkeeper_nav: &id015
+    - 10_Pipeline
+    - collect_assets
+    show_in_nav: true
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id016
+    - pipeline
+    - render
+    - assets
+    - reference
+    keywords: &id017 []
+    rotkeeper_nav: &id018
+    - 10_Pipeline
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id019
+    - pipeline
+    - render
+    - pandoc
+    - reference
+    keywords: &id020 []
+    rotkeeper_nav: &id021
+    - 10_Pipeline
+    - render
+    show_in_nav: true
+  - title: Quickstart Guide for Rotkeeper
+    path: quickstart.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id022
+    - quickstart
+    - tutorial
+    keywords: &id023 []
+    rotkeeper_nav: &id024
+    - 01_Quickstart
+    show_in_nav: true
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id025
+    - scaffold
+    - init
+    - reseed
+    - reference
+    keywords: &id026 []
+    rotkeeper_nav: &id027
+    - 30_Scaffold
+    show_in_nav: true
+  - title: rc init
+    path: scaffold/init.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id028
+    - scaffold
+    - init
+    - reference
+    keywords: &id029 []
+    rotkeeper_nav: &id030
+    - 30_Scaffold
+    - init
+    show_in_nav: true
+  - title: rc reseed
+    path: scaffold/reseed.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id031
+    - scaffold
+    - reseed
+    - reference
+    keywords: &id032 []
+    rotkeeper_nav: &id033
+    - 30_Scaffold
+    - reseed
+    show_in_nav: true
+  - title: Sitemap
+    path: sitemap/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id034
+    - sitemap
+    - navigation
+    - reference
+    keywords: &id035 []
+    rotkeeper_nav: &id036
+    - 20_Sitemap
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id037
+    - sitemap
+    - navigation
+    - pipeline
+    - reference
+    keywords: &id038 []
+    rotkeeper_nav: &id039
+    - 20_Sitemap
+    - sitemap_pipeline
+    show_in_nav: true
+  - title: rc render-sitemap
+    path: sitemap/render-sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id040
+    - sitemap
+    - navigation
+    - reference
+    keywords: &id041 []
+    rotkeeper_nav: &id042
+    - 20_Sitemap
+    - render_sitemap
+    show_in_nav: true
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id043
+    - sitemap
+    - navigation
+    - reference
+    keywords: &id044 []
+    rotkeeper_nav: &id045
+    - 20_Sitemap
+    - sitemap
+    show_in_nav: true
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id046
+    - utilities
+    - book
+    - export
+    - archive
+    - reference
+    keywords: &id047 []
+    rotkeeper_nav: &id048
+    - 40_Utilities
+    - book
+    show_in_nav: true
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id049
+    - utilities
+    - cleanup
+    - reference
+    keywords: &id050 []
+    rotkeeper_nav: &id051
+    - 40_Utilities
+    - cleanup_bones
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id052
+    - utilities
+    - nav
+    - cleanup
+    - book
+    - reference
+    keywords: &id053 []
+    rotkeeper_nav: &id054
+    - 40_Utilities
+    show_in_nav: true
+  - title: rc nav
+    path: utils/nav.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: &id055
+    - utilities
+    - navigation
+    - reference
+    keywords: &id056 []
+    rotkeeper_nav: &id057
+    - 40_Utilities
+    - nav
+    show_in_nav: true
+date:
+- group: '2026'
+  pages:
+  - group: '03'
+    pages:
+    - group: '20'
+      pages:
+      - title: Changelog
+        path: changelog.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id001
+        keywords: *id002
+        rotkeeper_nav: *id003
+        show_in_nav: true
+      - title: Pandoc Frontmatter in Rotkeeper
+        path: concepts/pandoc-frontmatter.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id004
+        keywords: *id005
+        rotkeeper_nav: *id006
+        show_in_nav: true
+      - title: Patch the Pandoc Rotkeeper
+        path: patch.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id007
+        keywords: *id008
+        rotkeeper_nav: *id009
+        show_in_nav: true
+      - title: rc assets
+        path: pipeline/assets.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id010
+        keywords: *id011
+        rotkeeper_nav: *id012
+        show_in_nav: true
+      - title: rc collect-assets
+        path: pipeline/collect-assets.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id013
+        keywords: *id014
+        rotkeeper_nav: *id015
+        show_in_nav: true
+      - title: Pipeline
+        path: pipeline/index.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id016
+        keywords: *id017
+        rotkeeper_nav: *id018
+        show_in_nav: true
+      - title: rc render
+        path: pipeline/render.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id019
+        keywords: *id020
+        rotkeeper_nav: *id021
+        show_in_nav: true
+      - title: Quickstart Guide for Rotkeeper
+        path: quickstart.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id022
+        keywords: *id023
+        rotkeeper_nav: *id024
+        show_in_nav: true
+      - title: Scaffold
+        path: scaffold/index.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id025
+        keywords: *id026
+        rotkeeper_nav: *id027
+        show_in_nav: true
+      - title: rc init
+        path: scaffold/init.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id028
+        keywords: *id029
+        rotkeeper_nav: *id030
+        show_in_nav: true
+      - title: rc reseed
+        path: scaffold/reseed.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id031
+        keywords: *id032
+        rotkeeper_nav: *id033
+        show_in_nav: true
+      - title: Sitemap
+        path: sitemap/index.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id034
+        keywords: *id035
+        rotkeeper_nav: *id036
+        show_in_nav: true
+      - title: rc sitemap-pipeline
+        path: sitemap/pipeline.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id037
+        keywords: *id038
+        rotkeeper_nav: *id039
+        show_in_nav: true
+      - title: rc render-sitemap
+        path: sitemap/render-sitemap.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id040
+        keywords: *id041
+        rotkeeper_nav: *id042
+        show_in_nav: true
+      - title: rc sitemap
+        path: sitemap/sitemap.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id043
+        keywords: *id044
+        rotkeeper_nav: *id045
+        show_in_nav: true
+      - title: rc book
+        path: utils/book.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id046
+        keywords: *id047
+        rotkeeper_nav: *id048
+        show_in_nav: true
+      - title: rc cleanup-bones
+        path: utils/cleanup-bones.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id049
+        keywords: *id050
+        rotkeeper_nav: *id051
+        show_in_nav: true
+      - title: Utilities
+        path: utils/index.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id052
+        keywords: *id053
+        rotkeeper_nav: *id054
+        show_in_nav: true
+      - title: rc nav
+        path: utils/nav.html
+        author: Filed Systems
+        date: '2026-03-20'
+        tags: *id055
+        keywords: *id056
+        rotkeeper_nav: *id057
+        show_in_nav: true
+- group: Misc
+  pages:
+  - group: Misc
+    pages:
+    - group: Misc
+      pages:
+      - title: Rotkeeper Documentation
+        path: index.html
+        author: Filed Systems
+        date: null
+        tags: *id058
+        keywords: *id059
+        rotkeeper_nav: *id060
+        show_in_nav: true
+tags:
+- group: archive
+  pages:
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+- group: assets
+  pages:
+  - title: rc assets
+    path: pipeline/assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id010
+    keywords: *id011
+    rotkeeper_nav: *id012
+    show_in_nav: true
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id013
+    keywords: *id014
+    rotkeeper_nav: *id015
+    show_in_nav: true
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id016
+    keywords: *id017
+    rotkeeper_nav: *id018
+    show_in_nav: true
+- group: book
+  pages:
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+- group: changelog
+  pages:
+  - title: Changelog
+    path: changelog.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id001
+    keywords: *id002
+    rotkeeper_nav: *id003
+    show_in_nav: true
+- group: cleanup
+  pages:
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id049
+    keywords: *id050
+    rotkeeper_nav: *id051
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+- group: concepts
+  pages:
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id004
+    keywords: *id005
+    rotkeeper_nav: *id006
+    show_in_nav: true
+- group: export
+  pages:
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+- group: frontmatter
+  pages:
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id004
+    keywords: *id005
+    rotkeeper_nav: *id006
+    show_in_nav: true
+- group: index
+  pages:
+  - title: Rotkeeper Documentation
+    path: index.html
+    author: Filed Systems
+    date: null
+    tags: *id058
+    keywords: *id059
+    rotkeeper_nav: *id060
+    show_in_nav: true
+- group: init
+  pages:
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id025
+    keywords: *id026
+    rotkeeper_nav: *id027
+    show_in_nav: true
+  - title: rc init
+    path: scaffold/init.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id028
+    keywords: *id029
+    rotkeeper_nav: *id030
+    show_in_nav: true
+- group: lore
+  pages:
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id007
+    keywords: *id008
+    rotkeeper_nav: *id009
+    show_in_nav: true
+- group: mascot
+  pages:
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id007
+    keywords: *id008
+    rotkeeper_nav: *id009
+    show_in_nav: true
+- group: nav
+  pages:
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+- group: navigation
+  pages:
+  - title: Sitemap
+    path: sitemap/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id034
+    keywords: *id035
+    rotkeeper_nav: *id036
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id037
+    keywords: *id038
+    rotkeeper_nav: *id039
+    show_in_nav: true
+  - title: rc render-sitemap
+    path: sitemap/render-sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id040
+    keywords: *id041
+    rotkeeper_nav: *id042
+    show_in_nav: true
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id043
+    keywords: *id044
+    rotkeeper_nav: *id045
+    show_in_nav: true
+  - title: rc nav
+    path: utils/nav.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id055
+    keywords: *id056
+    rotkeeper_nav: *id057
+    show_in_nav: true
+- group: pandoc
+  pages:
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id004
+    keywords: *id005
+    rotkeeper_nav: *id006
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id019
+    keywords: *id020
+    rotkeeper_nav: *id021
+    show_in_nav: true
+- group: patch
+  pages:
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id007
+    keywords: *id008
+    rotkeeper_nav: *id009
+    show_in_nav: true
+- group: pipeline
+  pages:
+  - title: rc assets
+    path: pipeline/assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id010
+    keywords: *id011
+    rotkeeper_nav: *id012
+    show_in_nav: true
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id013
+    keywords: *id014
+    rotkeeper_nav: *id015
+    show_in_nav: true
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id016
+    keywords: *id017
+    rotkeeper_nav: *id018
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id019
+    keywords: *id020
+    rotkeeper_nav: *id021
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id037
+    keywords: *id038
+    rotkeeper_nav: *id039
+    show_in_nav: true
+- group: quickstart
+  pages:
+  - title: Quickstart Guide for Rotkeeper
+    path: quickstart.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id022
+    keywords: *id023
+    rotkeeper_nav: *id024
+    show_in_nav: true
+- group: reference
+  pages:
+  - title: Changelog
+    path: changelog.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id001
+    keywords: *id002
+    rotkeeper_nav: *id003
+    show_in_nav: true
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id004
+    keywords: *id005
+    rotkeeper_nav: *id006
+    show_in_nav: true
+  - title: Rotkeeper Documentation
+    path: index.html
+    author: Filed Systems
+    date: null
+    tags: *id058
+    keywords: *id059
+    rotkeeper_nav: *id060
+    show_in_nav: true
+  - title: rc assets
+    path: pipeline/assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id010
+    keywords: *id011
+    rotkeeper_nav: *id012
+    show_in_nav: true
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id013
+    keywords: *id014
+    rotkeeper_nav: *id015
+    show_in_nav: true
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id016
+    keywords: *id017
+    rotkeeper_nav: *id018
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id019
+    keywords: *id020
+    rotkeeper_nav: *id021
+    show_in_nav: true
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id025
+    keywords: *id026
+    rotkeeper_nav: *id027
+    show_in_nav: true
+  - title: rc init
+    path: scaffold/init.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id028
+    keywords: *id029
+    rotkeeper_nav: *id030
+    show_in_nav: true
+  - title: rc reseed
+    path: scaffold/reseed.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id031
+    keywords: *id032
+    rotkeeper_nav: *id033
+    show_in_nav: true
+  - title: Sitemap
+    path: sitemap/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id034
+    keywords: *id035
+    rotkeeper_nav: *id036
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id037
+    keywords: *id038
+    rotkeeper_nav: *id039
+    show_in_nav: true
+  - title: rc render-sitemap
+    path: sitemap/render-sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id040
+    keywords: *id041
+    rotkeeper_nav: *id042
+    show_in_nav: true
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id043
+    keywords: *id044
+    rotkeeper_nav: *id045
+    show_in_nav: true
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id049
+    keywords: *id050
+    rotkeeper_nav: *id051
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+  - title: rc nav
+    path: utils/nav.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id055
+    keywords: *id056
+    rotkeeper_nav: *id057
+    show_in_nav: true
+- group: render
+  pages:
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id016
+    keywords: *id017
+    rotkeeper_nav: *id018
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id019
+    keywords: *id020
+    rotkeeper_nav: *id021
+    show_in_nav: true
+- group: reseed
+  pages:
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id025
+    keywords: *id026
+    rotkeeper_nav: *id027
+    show_in_nav: true
+  - title: rc reseed
+    path: scaffold/reseed.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id031
+    keywords: *id032
+    rotkeeper_nav: *id033
+    show_in_nav: true
+- group: rotkeeper
+  pages:
+  - title: Rotkeeper Documentation
+    path: index.html
+    author: Filed Systems
+    date: null
+    tags: *id058
+    keywords: *id059
+    rotkeeper_nav: *id060
+    show_in_nav: true
+- group: scaffold
+  pages:
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id025
+    keywords: *id026
+    rotkeeper_nav: *id027
+    show_in_nav: true
+  - title: rc init
+    path: scaffold/init.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id028
+    keywords: *id029
+    rotkeeper_nav: *id030
+    show_in_nav: true
+  - title: rc reseed
+    path: scaffold/reseed.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id031
+    keywords: *id032
+    rotkeeper_nav: *id033
+    show_in_nav: true
+- group: sitemap
+  pages:
+  - title: Sitemap
+    path: sitemap/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id034
+    keywords: *id035
+    rotkeeper_nav: *id036
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id037
+    keywords: *id038
+    rotkeeper_nav: *id039
+    show_in_nav: true
+  - title: rc render-sitemap
+    path: sitemap/render-sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id040
+    keywords: *id041
+    rotkeeper_nav: *id042
+    show_in_nav: true
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id043
+    keywords: *id044
+    rotkeeper_nav: *id045
+    show_in_nav: true
+- group: tutorial
+  pages:
+  - title: Quickstart Guide for Rotkeeper
+    path: quickstart.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id022
+    keywords: *id023
+    rotkeeper_nav: *id024
+    show_in_nav: true
+- group: utilities
+  pages:
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id049
+    keywords: *id050
+    rotkeeper_nav: *id051
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+  - title: rc nav
+    path: utils/nav.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id055
+    keywords: *id056
+    rotkeeper_nav: *id057
+    show_in_nav: true
+keywords:
+- group: Misc
+  pages:
+  - title: Changelog
+    path: changelog.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id001
+    keywords: *id002
+    rotkeeper_nav: *id003
+    show_in_nav: true
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id004
+    keywords: *id005
+    rotkeeper_nav: *id006
+    show_in_nav: true
+  - title: Rotkeeper Documentation
+    path: index.html
+    author: Filed Systems
+    date: null
+    tags: *id058
+    keywords: *id059
+    rotkeeper_nav: *id060
+    show_in_nav: true
+  - title: Patch the Pandoc Rotkeeper
+    path: patch.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id007
+    keywords: *id008
+    rotkeeper_nav: *id009
+    show_in_nav: true
+  - title: rc assets
+    path: pipeline/assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id010
+    keywords: *id011
+    rotkeeper_nav: *id012
+    show_in_nav: true
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id013
+    keywords: *id014
+    rotkeeper_nav: *id015
+    show_in_nav: true
+  - title: Pipeline
+    path: pipeline/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id016
+    keywords: *id017
+    rotkeeper_nav: *id018
+    show_in_nav: true
+  - title: rc render
+    path: pipeline/render.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id019
+    keywords: *id020
+    rotkeeper_nav: *id021
+    show_in_nav: true
+  - title: Quickstart Guide for Rotkeeper
+    path: quickstart.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id022
+    keywords: *id023
+    rotkeeper_nav: *id024
+    show_in_nav: true
+  - title: Scaffold
+    path: scaffold/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id025
+    keywords: *id026
+    rotkeeper_nav: *id027
+    show_in_nav: true
+  - title: rc init
+    path: scaffold/init.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id028
+    keywords: *id029
+    rotkeeper_nav: *id030
+    show_in_nav: true
+  - title: rc reseed
+    path: scaffold/reseed.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id031
+    keywords: *id032
+    rotkeeper_nav: *id033
+    show_in_nav: true
+  - title: Sitemap
+    path: sitemap/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id034
+    keywords: *id035
+    rotkeeper_nav: *id036
+    show_in_nav: true
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id037
+    keywords: *id038
+    rotkeeper_nav: *id039
+    show_in_nav: true
+  - title: rc render-sitemap
+    path: sitemap/render-sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id040
+    keywords: *id041
+    rotkeeper_nav: *id042
+    show_in_nav: true
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id043
+    keywords: *id044
+    rotkeeper_nav: *id045
+    show_in_nav: true
+  - title: rc book
+    path: utils/book.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id046
+    keywords: *id047
+    rotkeeper_nav: *id048
+    show_in_nav: true
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id049
+    keywords: *id050
+    rotkeeper_nav: *id051
+    show_in_nav: true
+  - title: Utilities
+    path: utils/index.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id052
+    keywords: *id053
+    rotkeeper_nav: *id054
+    show_in_nav: true
+  - title: rc nav
+    path: utils/nav.html
+    author: Filed Systems
+    date: '2026-03-20'
+    tags: *id055
+    keywords: *id056
+    rotkeeper_nav: *id057
+    show_in_nav: true
+rotkeeper_nav:
+- group: Home
+  pages:
+  - group: patch
+    pages: []
+- group: Quickstart
+  pages: []
+- group: Changelog
+  pages: []
+- group: Pipeline
+  pages:
+  - group: assets
+    pages: []
+  - group: collect_assets
+    pages: []
+  - group: render
+    pages: []
+- group: Sitemap
+  pages:
+  - group: render_sitemap
+    pages: []
+  - group: sitemap
+    pages: []
+  - group: sitemap_pipeline
+    pages: []
+- group: Scaffold
+  pages:
+  - group: init
+    pages: []
+  - group: reseed
+    pages: []
+- group: Utilities
+  pages:
+  - group: book
+    pages: []
+  - group: cleanup_bones
+    pages: []
+  - group: nav
+    pages: []
+- group: Concepts
+  pages:
+  - group: pandoc-frontmatter
+    pages: []

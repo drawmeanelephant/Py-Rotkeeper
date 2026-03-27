@@ -1,0 +1,34 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: utils/nav.md
+  breadcrumb:
+  - rc nav
+  related_pages:
+  - title: rc book
+    path: utils/book.html
+    description: Packages Rotkeeper content, config, and scripts into portable archive
+      files for migration, backup, or import to another installation.
+  - title: rc cleanup-bones
+    path: utils/cleanup-bones.html
+    description: Backup and prune stale files from bones/ based on a configurable
+      retention window.
+  - title: Utilities
+    path: utils/index.html
+    description: 'Overview of Rotkeeper utility commands: nav, cleanup_bones, and
+      book.'
+  - title: Sitemap
+    path: sitemap/index.html
+    description: 'Overview of Rotkeeper sitemap commands: sitemap, sitemap_pipeline,
+      and render_sitemap.'
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    description: 'Full sitemap pipeline: collects pages, builds metadata trees, writes
+      index pages, nav partial, sidecar metadata, and a unified YAML report.'
+  tag_pages:
+  - tag: utilities
+    url: /generated/tags/---------.html
+  - tag: navigation
+    url: /generated/tags/----------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html

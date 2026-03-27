@@ -1,0 +1,32 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: index.md
+  breadcrumb:
+  - Rotkeeper Documentation
+  related_pages:
+  - title: Changelog
+    path: changelog.html
+    description: Release history and notable changes for Rotkeeper.
+  - title: Pandoc Frontmatter in Rotkeeper
+    path: concepts/pandoc-frontmatter.html
+    description: How Rotkeeper reads and uses YAML frontmatter fields, and how they
+      map to Pandoc metadata.
+  - title: rc assets
+    path: pipeline/assets.html
+    description: Catalogs static assets from bones/assets/ and page-local files, writing
+      assets.yaml for use by collect_assets.
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    description: Copies cataloged assets from source into output/, using SHA-256 hashes
+      to skip unchanged files.
+  - title: Pipeline
+    path: pipeline/index.html
+    description: 'Overview of the Rotkeeper build pipeline: render, assets, and collect_assets.'
+  tag_pages:
+  - tag: rotkeeper
+    url: /generated/tags/---------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  - tag: index
+    url: /generated/tags/-----.html
+  author_page: /generated/authors/index.html

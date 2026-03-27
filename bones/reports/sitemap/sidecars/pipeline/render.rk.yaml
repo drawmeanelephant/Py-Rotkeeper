@@ -1,0 +1,35 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: pipeline/render.md
+  breadcrumb:
+  - rc render
+  related_pages:
+  - title: rc assets
+    path: pipeline/assets.html
+    description: Catalogs static assets from bones/assets/ and page-local files, writing
+      assets.yaml for use by collect_assets.
+  - title: rc collect-assets
+    path: pipeline/collect-assets.html
+    description: Copies cataloged assets from source into output/, using SHA-256 hashes
+      to skip unchanged files.
+  - title: Pipeline
+    path: pipeline/index.html
+    description: 'Overview of the Rotkeeper build pipeline: render, assets, and collect_assets.'
+  - title: Patch the Panda and the Eternal War Against Web Rot
+    path: rotkeeper-lore/chapter-02.html
+    description: Patch discovers sentient Slop Entities rewriting their own YAML and
+      calls on human maintainers to defend the pipeline.
+  - title: Patch the Panda and the Eternal War Against Web Rot
+    path: rotkeeper-lore/chapter-03.html
+    description: The reader joins Patch for Operation Clean Sweep, defeats the first
+      Slop Entity, and learns Pipeline 101 before sensing the bigger threat ahead.
+  tag_pages:
+  - tag: pipeline
+    url: /generated/tags/--------.html
+  - tag: render
+    url: /generated/tags/------.html
+  - tag: pandoc
+    url: /generated/tags/------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html

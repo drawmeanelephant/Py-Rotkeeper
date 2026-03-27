@@ -1,0 +1,33 @@
+rotkeeper:
+  generated_at: '2026-03-26'
+  source: sitemap/render-sitemap.md
+  breadcrumb:
+  - rc render-sitemap
+  related_pages:
+  - title: Sitemap
+    path: sitemap/index.html
+    description: 'Overview of Rotkeeper sitemap commands: sitemap, sitemap_pipeline,
+      and render_sitemap.'
+  - title: rc sitemap-pipeline
+    path: sitemap/pipeline.html
+    description: 'Full sitemap pipeline: collects pages, builds metadata trees, writes
+      index pages, nav partial, sidecar metadata, and a unified YAML report.'
+  - title: rc sitemap
+    path: sitemap/sitemap.html
+    description: Scans content frontmatter and writes sitemap.yaml — the page catalog
+      used by nav and sitemap-pipeline.
+  - title: rc nav
+    path: utils/nav.html
+    description: Reads sitemap.yaml and writes nav.yaml — a structured navigation
+      tree grouped by rotkeeper_nav, author, date, and tags.
+  - title: Changelog
+    path: changelog.html
+    description: Release history and notable changes for Rotkeeper.
+  tag_pages:
+  - tag: sitemap
+    url: /generated/tags/-------.html
+  - tag: navigation
+    url: /generated/tags/----------.html
+  - tag: reference
+    url: /generated/tags/---------.html
+  author_page: /generated/authors/index.html
