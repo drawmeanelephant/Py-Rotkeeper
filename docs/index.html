@@ -24,125 +24,52 @@ for Rotkeeper documentation." />
 
   <main class="content container" id="content">
         <article class="page-body">
-      <h1 id="rotkeeper">📖 Rotkeeper</h1>
-      <p>Rotkeeper is a Python-based static site generator that uses <a
-      href="https://pandoc.org">Pandoc</a> to render Markdown into
-      HTML.<br />
-      It is driven by YAML frontmatter — every page declares its own nav
-      membership, visibility, and metadata.</p>
+      <h1 id="welcome-to-rotkeeper">📖 Welcome to Rotkeeper</h1>
+      <p>Rotkeeper is a Python-based static site generator that turns
+      Markdown into HTML using <a
+      href="https://pandoc.org">Pandoc</a>.<br />
+      Every page has a purpose — understanding the structure keeps your
+      builds neat and predictable.</p>
+      <hr />
+      <h2 id="key-sections">Key Sections</h2>
+      <p>Here are the major areas of the documentation:</p>
+      <ul>
+      <li><a href="quickstart.html">Quickstart</a> – Install,
+      initialize, and run your first build<br />
+      </li>
+      <li><a href="pipeline/index.html">Pipeline</a> – Core commands:
+      <code>render</code>, <code>assets</code>,
+      <code>collect_assets</code><br />
+      </li>
+      <li><a href="sitemap/index.html">Sitemap</a> – How navigation and
+      site maps are generated<br />
+      </li>
+      <li><a href="scaffold/index.html">Scaffold</a> – <code>init</code>
+      and <code>reseed</code> project setup<br />
+      </li>
+      <li><a href="utils/index.html">Utilities</a> – Helpful commands
+      like <code>nav</code>, <code>cleanup_bones</code>,
+      <code>book</code><br />
+      </li>
+      <li><a href="concepts/pandoc-frontmatter.html">Concepts</a> – How
+      Rotkeeper reads frontmatter</li>
+      </ul>
+      <hr />
+      <h2 id="full-documentation">Full Documentation</h2>
+      <p>A single-page, comprehensive reference of all Rotkeeper docs is
+      coming soon:<br />
+      <a
+      href="https://drawmeanelephant.github.io/Py-Rotkeeper/docs.html">Py-Rotkeeper
+      Full Docs</a></p>
       <blockquote>
-      <p>🕯️ Every file has a reason. Understanding it keeps your rituals
-      tidy.</p>
+      <p>This page will eventually include every chapter, utility, and
+      pipeline detail in one place.</p>
       </blockquote>
       <hr />
-      <h2 id="what-rotkeeper-does">What Rotkeeper Does</h2>
-      <p>Rotkeeper reads Markdown files from <code>home/content/</code>,
-      processes frontmatter, renders HTML via Pandoc, compiles SCSS,
-      collects assets, and writes the final site to
-      <code>output/</code>.</p>
-      <p>The CLI is invoked as <code>rc</code>. A full build looks
-      like:</p>
-      <div class="sourceCode" id="cb1"><pre
-      class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> render</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> assets</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rc</span> sitemap</span></code></pre></div>
-      <p>See <a href="quickstart.md">Quickstart</a> for installation and
-      first-run instructions.</p>
-      <hr />
-      <h2 id="documentation-sections">Documentation Sections</h2>
-      <table>
-      <colgroup>
-      <col style="width: 50%" />
-      <col style="width: 50%" />
-      </colgroup>
-      <thead>
-      <tr>
-      <th>Section</th>
-      <th>What it covers</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td><a href="quickstart.md">Quickstart</a></td>
-      <td>Install, initialize, and run your first build</td>
-      </tr>
-      <tr>
-      <td><a href="pipeline/index.md">Pipeline</a></td>
-      <td><code>render</code>, <code>assets</code>,
-      <code>collect_assets</code> — the core build pipeline</td>
-      </tr>
-      <tr>
-      <td><a href="sitemap/index.md">Sitemap</a></td>
-      <td>Sitemap generation and nav rendering</td>
-      </tr>
-      <tr>
-      <td><a href="scaffold/index.md">Scaffold</a></td>
-      <td><code>init</code> and <code>reseed</code> — project setup and
-      content seeding</td>
-      </tr>
-      <tr>
-      <td><a href="utilities/index.md">Utilities</a></td>
-      <td><code>nav</code>, <code>cleanup_bones</code>,
-      <code>book</code></td>
-      </tr>
-      <tr>
-      <td><a href="concepts/pandoc-frontmatter.md">Concepts</a></td>
-      <td>Pandoc frontmatter fields and how Rotkeeper reads them</td>
-      </tr>
-      </tbody>
-      </table>
-      <hr />
-      <h2 id="project-layout">Project Layout</h2>
-      <pre class="text"><code>rotkeeper/                  ← main Python repo
-  src/rotkeeper/
-    cli.py                  ← argument parsing; entry point is `rc`
-    commands/               ← one file per CLI command
-      render.py
-      assets.py
-      collect_assets.py
-      init.py
-      reseed.py
-      sitemap.py
-      cleanup_bones.py
-      book.py
-    context.py              ← runtime context and path resolution
-    paths.py                ← filesystem helpers
-    deps.py                 ← checks for Pandoc, Sass
-    exec.py                 ← subprocess runner
-  src/tests/                ← unit tests
-
-home/                       ← site source root
-  content/                  ← Markdown source files (including this file)
-  bones/
-    templates/              ← HTML templates (e.g. rot-doc.html)
-    assets/
-      styles/               ← SCSS: _variables.scss, _mixins.scss, main.scss
-    config/                 ← render-flags.yaml and other config
-    reports/                ← build logs and manifests (read-only)
-
-output/                     ← rendered site (git-ignored)</code></pre>
-      <hr />
-      <h2 id="frontmatter-quick-reference">Frontmatter Quick
-      Reference</h2>
-      <p>Every page should include these fields:</p>
-      <div class="sourceCode" id="cb3"><pre
-      class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rotkeeper_nav</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="st">&quot;00_Home&quot;</span><span class="kw">]</span><span class="co">   # controls nav section and sort order</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">show_in_nav</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">draft</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">published</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tags</span><span class="kw">:</span><span class="at"> </span><span class="kw">[]</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;&quot;</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> YYYY-MM-DD</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
-      <p>Nav tokens sort numerically by prefix: <code>00_Home</code> →
-      <code>10_Pipeline</code> → <code>20_Sitemap</code> etc.<br />
-      A page with <code>show_in_nav: false</code> renders but does not
-      appear in navigation.<br />
-      A page with <code>draft: true</code> is excluded from the build
-      entirely.</p>
+      <blockquote>
+      <p>🕯️ Tip: Start with Quickstart if you’re new, then explore the
+      Pipeline to see how your Markdown turns into a live site.</p>
+      </blockquote>
     </article>
   </main>
 
