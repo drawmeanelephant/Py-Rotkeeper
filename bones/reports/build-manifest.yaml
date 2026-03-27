@@ -3,6 +3,8 @@ pages:
   output: docs/changelog.html
 - source: md/concepts/pandoc-frontmatter.md
   output: docs/concepts/pandoc-frontmatter.html
+- source: md/docs.md
+  output: docs/docs.html
 - source: md/index.md
   output: docs/index.html
 - source: md/patch-lore.md

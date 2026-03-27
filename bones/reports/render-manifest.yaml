@@ -3,6 +3,8 @@ render:
   output: changelog.html
 - input: concepts/pandoc-frontmatter.md
   output: concepts/pandoc-frontmatter.html
+- input: docs.md
+  output: docs.html
 - input: index.md
   output: index.html
 - input: patch-lore.md

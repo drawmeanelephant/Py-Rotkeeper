@@ -1,4 +1,5 @@
 HOME: home
 CONTENT_DIR: md
 OUTPUT_DIR: docs
+# REPORTS_DIR: bones/reports   # optional: override reports output location
 default_template: default

@@ -29,6 +29,21 @@ pages:
   description: How Rotkeeper reads and uses YAML frontmatter fields, and how they
     map to Pandoc metadata.
 - &id003
+  title: Py-Rotkeeper Full Documentation
+  path: docs.html
+  source: docs.md
+  author: Filed Systems
+  tags:
+  - rotkeeper
+  - reference
+  - full-docs
+  keywords: []
+  date: null
+  rotkeepernav: []
+  show_in_nav: true
+  description: 'Complete reference for Rotkeeper: pipeline, scaffold, utilities, concepts,
+    and sitemap.'
+- &id004
   title: Rotkeeper Documentation
   path: index.html
   source: index.md
@@ -42,7 +57,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: Landing page and navigation guide for Rotkeeper documentation.
-- &id025
+- &id026
   title: patch-lore
   path: patch-lore.html
   source: patch-lore.md
@@ -53,7 +68,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: ''
-- &id019
+- &id020
   title: Patch the Pandoc Rotkeeper
   path: patch.html
   source: patch.md
@@ -68,7 +83,7 @@ pages:
   show_in_nav: true
   description: Meet Patch the Pandoc Rotkeeper — the panda who eats Markdown files
     and poops out websites.
-- &id004
+- &id005
   title: rc assets
   path: pipeline/assets.html
   source: pipeline/assets.md
@@ -83,7 +98,7 @@ pages:
   show_in_nav: true
   description: Catalogs static assets from bones/assets/ and page-local files, writing
     assets.yaml for use by collect_assets.
-- &id005
+- &id006
   title: rc collect-assets
   path: pipeline/collect-assets.html
   source: pipeline/collect-assets.md
@@ -98,7 +113,7 @@ pages:
   show_in_nav: true
   description: Copies cataloged assets from source into output/, using SHA-256 hashes
     to skip unchanged files.
-- &id006
+- &id007
   title: Pipeline
   path: pipeline/index.html
   source: pipeline/index.md
@@ -113,7 +128,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: 'Overview of the Rotkeeper build pipeline: render, assets, and collect_assets.'
-- &id007
+- &id008
   title: rc render
   path: pipeline/render.html
   source: pipeline/render.md
@@ -129,7 +144,7 @@ pages:
   show_in_nav: true
   description: Compiles Markdown to HTML via Pandoc, applies templates, and compiles
     SCSS.
-- &id024
+- &id025
   title: Quickstart Guide for Rotkeeper
   path: quickstart.html
   source: quickstart.md
@@ -142,7 +157,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: Install Rotkeeper, initialize a project, and run your first build.
-- &id020
+- &id021
   title: Patch the Panda and the Eternal War Against Web Rot
   path: rotkeeper-lore/chapter-01.html
   source: rotkeeper-lore/chapter-01.md
@@ -158,7 +173,7 @@ pages:
   show_in_nav: true
   description: The night the Great Documentation Rot Event began and how Patch became
     the guardian of the Py-Rotkeeper pipeline.
-- &id021
+- &id022
   title: Patch the Panda and the Eternal War Against Web Rot
   path: rotkeeper-lore/chapter-02.html
   source: rotkeeper-lore/chapter-02.md
@@ -174,7 +189,7 @@ pages:
   show_in_nav: true
   description: Patch discovers sentient Slop Entities rewriting their own YAML and
     calls on human maintainers to defend the pipeline.
-- &id022
+- &id023
   title: Patch the Panda and the Eternal War Against Web Rot
   path: rotkeeper-lore/chapter-03.html
   source: rotkeeper-lore/chapter-03.md
@@ -191,7 +206,7 @@ pages:
   show_in_nav: true
   description: The reader joins Patch for Operation Clean Sweep, defeats the first
     Slop Entity, and learns Pipeline 101 before sensing the bigger threat ahead.
-- &id023
+- &id024
   title: Patch the Panda and the Eternal War Against Web Rot
   path: rotkeeper-lore/chapter-04.html
   source: rotkeeper-lore/chapter-04.md
@@ -208,7 +223,7 @@ pages:
   show_in_nav: true
   description: Patch and the reader face the Content Chimera boss in generated/content/
     and call for a full alliance of maintainers.
-- &id008
+- &id009
   title: Scaffold
   path: scaffold/index.html
   source: scaffold/index.md
@@ -223,7 +238,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: 'Overview of Rotkeeper scaffold commands: init and reseed.'
-- &id009
+- &id010
   title: rc init
   path: scaffold/init.html
   source: scaffold/init.md
@@ -238,7 +253,7 @@ pages:
   show_in_nav: true
   description: Initializes a new Rotkeeper project, creating the full home/ directory
     structure with starter content, templates, and config.
-- &id010
+- &id011
   title: rc reseed
   path: scaffold/reseed.html
   source: scaffold/reseed.md
@@ -253,7 +268,7 @@ pages:
   show_in_nav: true
   description: Restores missing scaffold files from a book archive without overwriting
     existing content.
-- &id011
+- &id012
   title: Sitemap
   path: sitemap/index.html
   source: sitemap/index.md
@@ -268,7 +283,7 @@ pages:
   show_in_nav: true
   description: 'Overview of Rotkeeper sitemap commands: sitemap, sitemap_pipeline,
     and render_sitemap.'
-- &id012
+- &id013
   title: rc sitemap-pipeline
   path: sitemap/pipeline.html
   source: sitemap/pipeline.md
@@ -284,7 +299,7 @@ pages:
   show_in_nav: true
   description: 'Full sitemap pipeline: collects pages, builds metadata trees, writes
     index pages, nav partial, sidecar metadata, and a unified YAML report.'
-- &id013
+- &id014
   title: rc render-sitemap
   path: sitemap/render-sitemap.html
   source: sitemap/render-sitemap.md
@@ -298,7 +313,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: 'Stub: renders the sitemap data into final HTML nav and XML output.'
-- &id014
+- &id015
   title: rc sitemap
   path: sitemap/sitemap.html
   source: sitemap/sitemap.md
@@ -313,7 +328,7 @@ pages:
   show_in_nav: true
   description: Scans content frontmatter and writes sitemap.yaml — the page catalog
     used by nav and sitemap-pipeline.
-- &id015
+- &id016
   title: rc book
   path: utils/book.html
   source: utils/book.md
@@ -330,7 +345,7 @@ pages:
   show_in_nav: true
   description: Packages Rotkeeper content, config, and scripts into portable archive
     files for migration, backup, or import to another installation.
-- &id016
+- &id017
   title: rc cleanup-bones
   path: utils/cleanup-bones.html
   source: utils/cleanup-bones.md
@@ -345,7 +360,7 @@ pages:
   show_in_nav: true
   description: Backup and prune stale files from bones/ based on a configurable retention
     window.
-- &id017
+- &id018
   title: Utilities
   path: utils/index.html
   source: utils/index.md
@@ -361,7 +376,7 @@ pages:
   rotkeepernav: []
   show_in_nav: true
   description: 'Overview of Rotkeeper utility commands: nav, cleanup_bones, and book.'
-- &id018
+- &id019
   title: rc nav
   path: utils/nav.html
   source: utils/nav.md
@@ -400,6 +415,7 @@ tags:
     - *id016
     - *id017
     - *id018
+    - *id019
   concepts:
     pages:
     - *id002
@@ -409,132 +425,136 @@ tags:
   pandoc:
     pages:
     - *id002
-    - *id007
+    - *id008
   rotkeeper:
+    pages:
+    - *id003
+    - *id004
+  full-docs:
     pages:
     - *id003
   index:
     pages:
-    - *id003
+    - *id004
   mascot:
     pages:
-    - *id019
+    - *id020
   patch:
     pages:
-    - *id019
     - *id020
     - *id021
     - *id022
     - *id023
+    - *id024
   lore:
     pages:
-    - *id019
     - *id020
     - *id021
     - *id022
     - *id023
+    - *id024
   pipeline:
     pages:
-    - *id004
     - *id005
     - *id006
     - *id007
-    - *id021
+    - *id008
     - *id022
-    - *id012
+    - *id023
+    - *id013
   assets:
     pages:
-    - *id004
     - *id005
     - *id006
+    - *id007
   render:
     pages:
-    - *id006
     - *id007
+    - *id008
   quickstart:
     pages:
-    - *id024
+    - *id025
   tutorial:
     pages:
-    - *id024
+    - *id025
   origin:
     pages:
-    - *id020
+    - *id021
   ai-slop-rot:
     pages:
-    - *id020
     - *id021
     - *id022
     - *id023
+    - *id024
   alliance:
     pages:
-    - *id022
     - *id023
+    - *id024
   chimera:
     pages:
-    - *id023
+    - *id024
   scaffold:
     pages:
-    - *id008
     - *id009
     - *id010
+    - *id011
   init:
     pages:
-    - *id008
     - *id009
+    - *id010
   reseed:
     pages:
-    - *id008
-    - *id010
+    - *id009
+    - *id011
   sitemap:
     pages:
-    - *id011
     - *id012
     - *id013
     - *id014
+    - *id015
   navigation:
     pages:
-    - *id011
     - *id012
     - *id013
     - *id014
-    - *id018
+    - *id015
+    - *id019
   utilities:
     pages:
-    - *id015
     - *id016
     - *id017
     - *id018
+    - *id019
   book:
     pages:
-    - *id015
-    - *id017
+    - *id016
+    - *id018
   export:
     pages:
-    - *id015
+    - *id016
   archive:
     pages:
-    - *id015
+    - *id016
   cleanup:
     pages:
-    - *id016
     - *id017
+    - *id018
   nav:
     pages:
-    - *id017
+    - *id018
 authors:
   Filed Systems:
     pages:
     - *id001
     - *id002
     - *id003
-    - *id019
     - *id004
+    - *id020
     - *id005
     - *id006
     - *id007
-    - *id024
     - *id008
+    - *id025
     - *id009
     - *id010
     - *id011
@@ -545,27 +565,27 @@ authors:
     - *id016
     - *id017
     - *id018
+    - *id019
   Misc:
     pages:
-    - *id025
+    - *id026
   Timothy Hartman & Grok:
     pages:
-    - *id020
     - *id021
     - *id022
     - *id023
+    - *id024
 dates:
   '2026-03-20':
     pages:
     - *id001
     - *id002
-    - *id019
-    - *id004
+    - *id020
     - *id005
     - *id006
     - *id007
-    - *id024
     - *id008
+    - *id025
     - *id009
     - *id010
     - *id011
@@ -576,16 +596,18 @@ dates:
     - *id016
     - *id017
     - *id018
+    - *id019
   Misc:
     pages:
     - *id003
-    - *id025
+    - *id004
+    - *id026
   '2026-03-25':
     pages:
-    - *id020
     - *id021
     - *id022
     - *id023
+    - *id024
 rotkeepernav:
   Misc:
     children:
@@ -593,18 +615,18 @@ rotkeepernav:
       - *id001
       - *id002
       - *id003
-      - *id025
-      - *id019
       - *id004
+      - *id026
+      - *id020
       - *id005
       - *id006
       - *id007
-      - *id024
-      - *id020
+      - *id008
+      - *id025
       - *id021
       - *id022
       - *id023
-      - *id008
+      - *id024
       - *id009
       - *id010
       - *id011
@@ -615,4 +637,5 @@ rotkeepernav:
       - *id016
       - *id017
       - *id018
+      - *id019
     pages: []

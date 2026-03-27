@@ -1,5 +1,5 @@
 rotkeeper:
-  generated_at: '2026-03-26'
+  generated_at: '2026-03-27'
   source: scaffold/reseed.md
   breadcrumb:
   - rc reseed
@@ -18,9 +18,10 @@ rotkeeper:
     path: concepts/pandoc-frontmatter.html
     description: How Rotkeeper reads and uses YAML frontmatter fields, and how they
       map to Pandoc metadata.
-  - title: Rotkeeper Documentation
-    path: index.html
-    description: Landing page and navigation guide for Rotkeeper documentation.
+  - title: Py-Rotkeeper Full Documentation
+    path: docs.html
+    description: 'Complete reference for Rotkeeper: pipeline, scaffold, utilities,
+      concepts, and sitemap.'
   tag_pages:
   - tag: scaffold
     url: /generated/tags/--------.html

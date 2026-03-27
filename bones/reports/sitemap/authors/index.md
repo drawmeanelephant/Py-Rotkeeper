@@ -2,7 +2,7 @@
 title: Authors
 draft: false
 generated_by: rotkeeper/sitemap_pipeline
-generated_at: '2026-03-26'
+generated_at: '2026-03-27'
 show_in_nav: false
 ---
 # Authors
@@ -10,6 +10,7 @@ show_in_nav: false
 ## Filed Systems
 - Changelog
 - Pandoc Frontmatter in Rotkeeper
+- Py-Rotkeeper Full Documentation
 - Rotkeeper Documentation
 - Patch the Pandoc Rotkeeper
 - rc assets

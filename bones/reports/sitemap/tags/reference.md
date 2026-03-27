@@ -2,7 +2,7 @@
 title: 'Tag: reference'
 draft: false
 generated_by: rotkeeper/sitemap_pipeline
-generated_at: '2026-03-26'
+generated_at: '2026-03-27'
 show_in_nav: false
 ---
 # reference
@@ -11,6 +11,8 @@ show_in_nav: false
   Release history and notable changes for Rotkeeper.
 - Pandoc Frontmatter in Rotkeeper
   How Rotkeeper reads and uses YAML frontmatter fields, and how they map to Pandoc metadata.
+- Py-Rotkeeper Full Documentation
+  Complete reference for Rotkeeper: pipeline, scaffold, utilities, concepts, and sitemap.
 - Rotkeeper Documentation
   Landing page and navigation guide for Rotkeeper documentation.
 - rc assets

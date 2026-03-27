@@ -2,12 +2,13 @@
 title: By Date
 draft: false
 generated_by: rotkeeper/sitemap_pipeline
-generated_at: '2026-03-26'
+generated_at: '2026-03-27'
 show_in_nav: false
 ---
 # By Date
 
 ## Misc
+- Py-Rotkeeper Full Documentation
 - Rotkeeper Documentation
 - patch-lore
 

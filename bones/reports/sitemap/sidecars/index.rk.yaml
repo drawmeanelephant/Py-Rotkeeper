@@ -1,9 +1,13 @@
 rotkeeper:
-  generated_at: '2026-03-26'
+  generated_at: '2026-03-27'
   source: index.md
   breadcrumb:
   - Rotkeeper Documentation
   related_pages:
+  - title: Py-Rotkeeper Full Documentation
+    path: docs.html
+    description: 'Complete reference for Rotkeeper: pipeline, scaffold, utilities,
+      concepts, and sitemap.'
   - title: Changelog
     path: changelog.html
     description: Release history and notable changes for Rotkeeper.
@@ -19,9 +23,6 @@ rotkeeper:
     path: pipeline/collect-assets.html
     description: Copies cataloged assets from source into output/, using SHA-256 hashes
       to skip unchanged files.
-  - title: Pipeline
-    path: pipeline/index.html
-    description: 'Overview of the Rotkeeper build pipeline: render, assets, and collect_assets.'
   tag_pages:
   - tag: rotkeeper
     url: /generated/tags/---------.html

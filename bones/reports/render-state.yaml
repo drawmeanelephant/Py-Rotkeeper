@@ -44,7 +44,7 @@ technologies/pandoc-frontmatter.md:
   src_mtime: 1773715949.686201
   template_mtime: 1773524406.9523463
 index.md:
-  src_mtime: 1774010949.3222587
+  src_mtime: 1774633473.0183482
   template_mtime: 1774572831.7761388
 new/concepts/pandoc-frontmatter.md:
   src_mtime: 1774011288.1246293
@@ -232,3 +232,6 @@ rotkeeper-lore/chapter-03.md:
 rotkeeper-lore/chapter-04.md:
   src_mtime: 1774472196.8186543
   template_mtime: 0
+docs.md:
+  src_mtime: 1774633524.2378483
+  template_mtime: 1774572831.7761388
