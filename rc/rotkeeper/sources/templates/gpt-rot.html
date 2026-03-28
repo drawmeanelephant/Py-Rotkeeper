@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$if(title)$$title$ — $endif$Rotkeeper</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    body {
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: system-ui, sans-serif;
+      margin: 0;
+    }
+
+    .rk-index-header {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 2rem;
+    }
+
+    .rk-index-header h1 {
+      margin: 0;
+      font-size: 1.75rem;
+    }
+
+    .rk-index-header .rk-desc {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+
+    .rk-breadcrumb {
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.5rem 2rem;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    .rk-breadcrumb a {
+      color: #64748b;
+    }
+
+    .rk-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .rk-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: box-shadow 0.15s;
+    }
+
+    .rk-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .rk-card a {
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .rk-card a:hover {
+      color: #3b82f6;
+    }
+
+    .rk-card .rk-card-meta {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.4rem;
+    }
+
+    .rk-card .rk-card-desc {
+      font-size: 0.85rem;
+      color: #475569;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 1rem 2rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="rk-index-header">
+    <h1>$if(title)$$title$$endif$</h1>
+    $if(description)$<div class="rk-desc">$description$</div>$endif$
+  </header>
+
+  $if(breadcrumb)$
+  <div class="rk-breadcrumb">
+    $for(breadcrumb)$<a href="$breadcrumb.url$">$breadcrumb.title$</a>$sep$ / $endfor$
+  </div>
+  $endif$
+
+  <!-- 
+    section_pages drives the cards.
+    For tag/author indexes, pump those page lists into section_pages via sidecar.
+  -->
+  $if(section_pages)$
+  <div class="rk-card-grid">
+    $for(section_pages)$
+    <div class="rk-card">
+      <a href="/$section_pages.path$">$section_pages.title$</a>
+      <div class="rk-card-meta">
+        $if(section_pages.author)$$section_pages.author$$endif$
+        $if(section_pages.date)$ &mdash; $section_pages.date$$endif$
+      </div>
+      $if(section_pages.description)$
+      <div class="rk-card-desc">$section_pages.description$</div>
+      $endif$
+    </div>
+    $endfor$
+  </div>
+  $else$
+  <div style="padding:2rem; color:#94a3b8;">$body$</div>
+  $endif$
+
+  <footer>Built with <a href="https://github.com/drawmeanelephant/Py-Rotkeeper">Rotkeeper</a></footer>
+
+</body>
+
+</html>

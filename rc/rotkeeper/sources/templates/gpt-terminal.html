@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="$description$" />
+  <title>$if(title)$$title$ — $endif$Rotkeeper</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  $if(highlightcss)$
+  <link rel="stylesheet" href="$highlightcss$" />$endif$
+  <style>
+    :root {
+      --rk-ink: #1a1a1a;
+      --rk-paper: #faf7f2;
+      --rk-rule: #d4c9b8;
+      --rk-accent: #c0392b;
+      --rk-mono-bg: #f0ede8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--rk-paper);
+      color: var(--rk-ink);
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .rk-masthead {
+      border-bottom: 3px double var(--rk-ink);
+      padding: 1.5rem 2rem 1rem;
+      text-align: center;
+    }
+
+    .rk-masthead .rk-site-name {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--rk-accent);
+    }
+
+    .rk-masthead h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      margin: 0.25rem 0;
+      line-height: 1.1;
+    }
+
+    .rk-masthead .rk-meta {
+      font-size: 0.8rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .rk-breadcrumb {
+      text-align: center;
+      border-bottom: 1px solid var(--rk-rule);
+      padding: 0.4rem;
+      font-size: 0.8rem;
+      font-family: ui-monospace, monospace;
+      color: #888;
+    }
+
+    .rk-breadcrumb a {
+      color: #888;
+    }
+
+    .rk-content {
+      max-width: 65ch;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .rk-content h2 {
+      border-bottom: 1px solid var(--rk-rule);
+      padding-bottom: 0.25rem;
+    }
+
+    .rk-content h3 {
+      font-style: italic;
+    }
+
+    .rk-content blockquote {
+      border-left: 4px solid var(--rk-accent);
+      margin: 1.5rem 0;
+      padding: 0.5rem 1.25rem;
+      background: #f5f0e8;
+      font-style: italic;
+    }
+
+    .rk-content pre {
+      background: var(--rk-mono-bg);
+      border: 1px solid var(--rk-rule);
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      border-radius: 4px;
+    }
+
+    :not(pre)>code {
+      background: var(--rk-mono-bg);
+      padding: 0.1em 0.3em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    .rk-tags {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 0.8rem;
+      font-family: ui-monospace, monospace;
+    }
+
+    .rk-tag {
+      background: var(--rk-ink);
+      color: var(--rk-paper);
+      padding: 0.15rem 0.5rem;
+      margin: 0 0.2rem;
+      border-radius: 2px;
+    }
+
+    footer {
+      border-top: 3px double var(--rk-ink);
+      margin-top: 4rem;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="rk-masthead">
+    <div class="rk-site-name">Rotkeeper</div>
+    <h1>$if(title)$$title$$endif$</h1>
+    <div class="rk-meta">
+      $if(author)$By $author$$endif$
+      $if(date)$ &mdash; $date$$endif$
+    </div>
+  </header>
+
+  $if(breadcrumb)$
+  <div class="rk-breadcrumb">
+    $for(breadcrumb)$$breadcrumb.title$$sep$ › $endfor$
+  </div>
+  $endif$
+
+  <div class="rk-content">
+    $if(tags)$
+    <div class="rk-tags">
+      $for(tags)$<span class="rk-tag">$tags$</span>$endfor$
+    </div>
+    $endif$
+
+    $body$
+  </div>
+
+  <footer>
+    &copy; $if(author)$$author$$endif$ — <a href="https://github.com/drawmeanelephant/Py-Rotkeeper">Rotkeeper</a>
+  </footer>
+
+  $for(scripts)$
+  <script src="$scripts$"></script>$endfor$
+</body>
+
+</html>

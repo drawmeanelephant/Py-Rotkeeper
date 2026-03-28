@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="$description$" />
+  <title>$if(title)$$title$ — $endif$Rotkeeper</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  $if(css)$$for(css)$
+  <link rel="stylesheet" href="$css$" />$endfor$$endif$
+  $if(highlightcss)$
+  <link rel="stylesheet" href="$highlightcss$" />$endif$
+  $for(header-includes)$$header-includes$$endfor$
+</head>
+
+<body data-current-path="$current_path$">
+  <!-- Global nav partial -->
+  $if(nav)$
+  <header class="rk-site-header bg-light border-bottom py-3">
+    <div class="container-fluid">
+      $nav$
+    </div>
+  </header>
+  $endif$
+
+  <!-- Breadcrumb -->
+  $if(breadcrumb)$
+  <nav class="rk-breadcrumb bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+      <ol class="breadcrumb mb-0">
+        $for(breadcrumb)$
+        <li class="breadcrumb-item">
+          $if(breadcrumb.last-of-all)$<span class="fw-semibold">$else$<a
+              href="$breadcrumb.url$">$endif$$breadcrumb.title$$if(breadcrumb.last-of-all)$</span>$else$</a>$endif$
+        </li>
+        $endfor$
+      </ol>
+    </div>
+  </nav>
+  $endif$
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <!-- TOC / Section nav -->
+      <aside class="col-12 col-md-3 col-xl-2 mb-4">
+        $if(section_pages)$
+        <div class="rk-section-nav mb-4">
+          <h6 class="text-uppercase text-muted small fw-bold mb-2">In this section</h6>
+          <ul class="list-unstyled">
+            $for(section_pages)$
+            <li><a href="/$section_pages.path$" class="rk-nav-link">$section_pages.title$</a></li>
+            $endfor$
+          </ul>
+        </div>
+        $endif$
+        $if(toc)$
+        <div class="rk-toc sticky-top pt-2">
+          <h6 class="text-uppercase text-muted small fw-bold mb-2">On this page</h6>
+          $toc$
+        </div>
+        $endif$
+      </aside>
+
+      <!-- Main content -->
+      <main class="col-12 col-md-9 col-xl-10">
+        <article class="rk-doc-body">
+          $if(highlighted)$<div class="alert alert-info mb-4">$highlighted$</div>$endif$
+          $body$
+        </article>
+      </main>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-light py-3 mt-5">
+    <div class="container-fluid">
+      <small>&copy; $if(author)$$author$$endif$ Rotkeeper. Built with <a
+          href="https://github.com/drawmeanelephant/Py-Rotkeeper" class="text-light">Rotkeeper</a>.</small>
+    </div>
+  </footer>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  $for(scripts)$
+  <script src="$scripts$"></script>$endfor$
+  $if(js)$$js$$endif$
+  <script>
+    // Progressive enhancement: highlight active nav item
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = document.body.dataset.currentPath;
+      if (!currentPath) return;
+      document.querySelectorAll('.rk-nav-link, .rk-site-nav a').forEach(link => {
+        if (link.getAttribute('href') === `/${currentPath}`) {
+          link.classList.add('rk-nav-active');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
