@@ -1,0 +1,5 @@
+HOME: home
+CONTENT_DIR: home
+OUTPUT_DIR: output
+default_template: default
+base_url: localhost:8000

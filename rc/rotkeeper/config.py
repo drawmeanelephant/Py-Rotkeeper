@@ -18,8 +18,9 @@ class Config:
         self.BASE_DIR = Path.cwd()
         self.BONES    = self.BASE_DIR / "bones"
         self.HOME     = self.BASE_DIR / "home"
-        self.CONTENT_DIR = self.HOME / "content"
-        self.OUTPUT_DIR  = self.HOME / "output"
+        self.CONTENT_DIR = self.HOME
+        self.OUTPUT_DIR  = self.BASE_DIR / "output"
+        self.base_url    = ""
         self.default_template = None
         self.SCENARIO = "default"
         self.DEPENDENCIES = {
@@ -65,7 +66,7 @@ class Config:
 
         known = {
             "HOME", "CONTENT_DIR", "OUTPUT_DIR", "default_template",
-            "SCENARIO", "REPORTS_DIR", "GENERATED_CONTENT_DIR",
+            "SCENARIO", "REPORTS_DIR", "GENERATED_CONTENT_DIR", "base_url",
         }
         unknown = set(data.keys()) - known
         if unknown:
@@ -89,6 +90,8 @@ class Config:
             self._generated_content_dir = (
                 self.BASE_DIR / data["GENERATED_CONTENT_DIR"]
             ).resolve()
+        if "base_url" in data:
+            self.base_url = data["base_url"]
 
     def load(self, path: Path) -> None:
         """Load configuration overrides from a YAML file.
@@ -114,8 +117,8 @@ class Config:
             self.BASE_DIR = inferred_root
             self.BONES    = self.BASE_DIR / "bones"
             self.HOME     = self.BASE_DIR / "home"
-            self.CONTENT_DIR = self.HOME / "content"
-            self.OUTPUT_DIR  = self.HOME / "output"
+            self.CONTENT_DIR = self.HOME
+            self.OUTPUT_DIR  = self.BASE_DIR / "output"
             logger.debug("Config: BASE_DIR rebound to %s", self.BASE_DIR)
         else:
             logger.warning(

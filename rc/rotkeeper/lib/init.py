@@ -1,23 +1,29 @@
 # rc/rotkeeper/lib/init.py
 from __future__ import annotations
 
+
 import argparse
 import logging
 import shutil
 from pathlib import Path
 
+
 from ..context import RunContext
 from ..config import CONFIG
 
+
 logger = logging.getLogger(__name__)
 
+
 SKIP_FILES = {".dsstore", ".gitkeep", "thumbs.db", "desktop.ini"}
+
 
 
 def add_parser(subs: argparse.SubParsersAction) -> None:
     p = subs.add_parser("init", help="Initialize a Rotkeeper project environment")
     p.add_argument("--force", action="store_true", help="Force rebuild/re-init of existing files")
     p.set_defaults(func=run)
+
 
 
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
@@ -33,12 +39,13 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
 
     # Create directory structure
     directories = [
-        cfg.CONTENT_DIR,
+        cfg.HOME,
         bones / "templates",
         bones / "assets" / "styles",
         bones / "assets" / "images",
         bones / "config",
         bones / "reports",
+        cfg.OUTPUT_DIR,
     ]
     for directory in directories:
         if directory.exists() and not force:
@@ -50,71 +57,55 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     # Write default user-config.yaml if not present
     user_config = bones / "config" / "user-config.yaml"
     if not user_config.exists() or force:
-        home_rel    = str(home.relative_to(base_dir))
-        content_rel = str(cfg.CONTENT_DIR.relative_to(base_dir))
-        output_rel  = str(cfg.OUTPUT_DIR.relative_to(base_dir))
+        home_rel   = str(home.relative_to(base_dir))
+        output_rel = str(cfg.OUTPUT_DIR.relative_to(base_dir))
         cfg_text = (
             "HOME: " + home_rel + "\n"
-            + "CONTENT_DIR: " + content_rel + "\n"
+            + "CONTENT_DIR: " + home_rel + "\n"
             + "OUTPUT_DIR: " + output_rel + "\n"
             + "default_template: default\n"
+            + "base_url: \"\"\n"
         )
         user_config.write_text(cfg_text, encoding="utf-8")
         print(f"  Created {user_config.relative_to(base_dir)}")
     else:
         print(f"  - Skipping existing file {user_config.relative_to(base_dir)}")
 
-    # Seed from bundled sources/
+    # Seed from bundled sources/ — new layout: sources/bones/ and sources/home/
     SOURCES_DIR = Path(__file__).parent.parent / "sources"
 
-    content_src_dir = SOURCES_DIR / "content"
-    if content_src_dir.exists():
-        for src in content_src_dir.rglob("*"):
-            if not src.is_file() or src.name.lower() in SKIP_FILES:
-                continue
-            rel = src.relative_to(content_src_dir)
-            dst = cfg.CONTENT_DIR / rel
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            if not dst.exists() or force:
-                shutil.copy2(src, dst)
-                print(f"  Created {dst.relative_to(base_dir)}")
-            else:
-                print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
+    if not SOURCES_DIR.exists():
+        logger.warning("sources/ directory not found at %s — skipping seed", SOURCES_DIR)
+    else:
+        # Seed bones/ (templates, assets, config)
+        bones_src = SOURCES_DIR / "bones"
+        if bones_src.exists():
+            for src in bones_src.rglob("*"):
+                if not src.is_file() or src.name.lower() in SKIP_FILES:
+                    continue
+                rel = src.relative_to(bones_src)
+                dst = bones / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                if not dst.exists() or force:
+                    shutil.copy2(src, dst)
+                    print(f"  Created {dst.relative_to(base_dir)}")
+                else:
+                    print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
 
-    templates_src_dir = SOURCES_DIR / "templates"
-    templates_dst_dir = bones / "templates"
-    if templates_src_dir.exists():
-        for src in templates_src_dir.iterdir():
-            if not src.is_file() or src.name.lower() in SKIP_FILES:
-                continue
-            dst = templates_dst_dir / src.name
-            if not dst.exists() or force:
-                shutil.copy2(src, dst)
-                print(f"  Created {dst.relative_to(base_dir)}")
-            else:
-                print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
-
-    styles_src_dir = SOURCES_DIR / "styles"
-    styles_dst_dir = bones / "assets" / "styles"
-    if styles_src_dir.exists():
-        for src in styles_src_dir.iterdir():
-            if not src.is_file() or src.name.lower() in SKIP_FILES:
-                continue
-            dst = styles_dst_dir / src.name
-            if not dst.exists() or force:
-                shutil.copy2(src, dst)
-                print(f"  Created {dst.relative_to(base_dir)}")
-            else:
-                print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
-
-    mascot_src = SOURCES_DIR / "images" / "mascot.png"
-    mascot_dst = bones / "assets" / "images" / "mascot.png"
-    if mascot_src.exists():
-        if not mascot_dst.exists() or force:
-            shutil.copy2(mascot_src, mascot_dst)
-            print(f"  Created {mascot_dst.relative_to(base_dir)}")
-        else:
-            print(f"  - Skipping existing file {mascot_dst.relative_to(base_dir)}")
+        # Seed home/ (markdown content)
+        home_src = SOURCES_DIR / "home"
+        if home_src.exists():
+            for src in home_src.rglob("*"):
+                if not src.is_file() or src.name.lower() in SKIP_FILES:
+                    continue
+                rel = src.relative_to(home_src)
+                dst = home / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                if not dst.exists() or force:
+                    shutil.copy2(src, dst)
+                    print(f"  Created {dst.relative_to(base_dir)}")
+                else:
+                    print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
 
     # Reports README
     reports_readme = bones / "reports" / "README.md"
@@ -149,9 +140,8 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
 
     print("Rotkeeper project initialized successfully!")
     print("Next steps:")
-    print("  1. Edit " + str(cfg.CONTENT_DIR.relative_to(base_dir)) + "/index.md or add new Markdown files")
-    print("  2. Customize " + str((bones / "templates" / "default.html").relative_to(base_dir)))
-    print("  3. Run: rotkeeper sitemap-pipeline")
-    print("  4. Run: rotkeeper render")
-    print("  5. Check " + str((bones / "reports").relative_to(base_dir)) + " for rendering manifests")
+    print("  1. Edit bones/config/user-config.yaml — set base_url for your site")
+    print("  2. Add Markdown content to " + str(home.relative_to(base_dir)))
+    print("  3. Run: rotkeeper render")
+    print("  4. Check " + str((bones / "reports").relative_to(base_dir)) + " for rendering manifests")
     return 0
