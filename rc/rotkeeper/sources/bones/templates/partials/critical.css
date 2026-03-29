@@ -1,0 +1,14 @@
+.rot-sidebar {
+  position: sticky;
+  top: 1rem;
+}
+
+.rot-sidebar .menu-list a.is-active {
+  background: #3e8ed0;
+  color: white;
+}
+
+.content h2,
+.content h3 {
+  margin-top: 1.5rem;
+}

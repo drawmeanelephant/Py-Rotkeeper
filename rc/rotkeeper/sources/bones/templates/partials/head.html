@@ -1,0 +1,10 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title if title else "Rotkeeper" }}{% if title %} &mdash; Rotkeeper{% endif %}</title>
+{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+<style>
+  .rot-sidebar { position: sticky; top: 1rem; }
+  .rot-sidebar .menu-list a.is-active { background: #3e8ed0; color: white; }
+  .content h2, .content h3 { margin-top: 1.5rem; }
+</style>
+<link rel="stylesheet" href="../assets/styles/bulma.min.css">

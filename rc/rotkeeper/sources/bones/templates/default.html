@@ -2,53 +2,65 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="$description$" />
-  <title>$if(title)$$title$ — $endif$Rotkeeper</title>
-
-  <link rel="stylesheet" href="/css/main.css" />
-
-  $if(css)$
-  $for(css)$
-  <link rel="stylesheet" href="$css$" />
-  $endfor$
-  $endif$
-  $if(highlightcss)$
-  <link rel="stylesheet" href="$highlightcss$" />
-  $endif$
-  $if(math)$$math$$endif$
-  $for(header-includes)$$header-includes$$endfor$
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title if title else "Rotkeeper" }}{% if title %} &mdash; Rotkeeper{% endif %}</title>
+  {% if description %}
+  <meta name="description" content="{{ description }}">
+  {% endif %}
+  <link rel="stylesheet" href="../assets/styles/bulma.min.css">
 </head>
 
 <body>
 
-  <main class="container py-4" id="content">
-    $if(toc)$
-    <aside class="mb-4">
-      $toc$
-    </aside>
-    $endif$
-    <article class="page-body">
-      $body$
-    </article>
-  </main>
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item has-text-weight-bold" href="../index.html">
+        🐼 Rotkeeper
+      </a>
+    </div>
+  </nav>
 
-  <footer class="bg-dark text-light py-3 mt-5">
+  <section class="section">
     <div class="container">
-      <small>
-        &copy; $if(year)$$year$$else$$date-meta$$endif$
-        $if(author)$$author$$else$Rotkeeper$endif$.
-        Built with <a href="https://github.com/drawmeanelephant/Py-Rotkeeper" class="text-light">Rotkeeper</a>.
-      </small>
+      <div class="columns">
+
+        {% if toc %}
+        <div class="column is-one-quarter">
+          <aside class="menu">
+            <p class="menu-label">Contents</p>
+            {{ toc }}
+          </aside>
+        </div>
+        <div class="column">
+        {% else %}
+        <div class="column is-10 is-offset-1">
+        {% endif %}
+
+          <div class="content">
+            {% if title %}<h1 class="title">{{ title }}</h1>{% endif %}
+            {% if author or date %}
+            <p class="subtitle is-6 has-text-grey">
+              {% if author %}by {{ author }}{% endif %}
+              {% if author and date %} &mdash; {% endif %}
+              {% if date %}{{ date }}{% endif %}
+            </p>
+            {% endif %}
+
+            {{ body }}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered has-text-grey is-size-7">
+      Built with Rotkeeper &mdash; version {{ version if version else "" }}
     </div>
   </footer>
-
-  <script src="/js/bootstrap.bundle.min.js"></script>
-  $for(scripts)$
-  <script src="$scripts$"></script>$endfor$
-  $if(js)$$js$$endif$
 
 </body>
 

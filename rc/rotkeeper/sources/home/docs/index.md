@@ -8,4 +8,3 @@ show_in_nav: true
 # Documentation
 
 - [Getting Started](getting-started.html)
-- [Bootstrap Kitchen Sink](kitchen-sink.html)

@@ -1,11 +1,10 @@
-# rc/rotkeeper/lib/render.py
 from __future__ import annotations
+
+from jinja2 import Environment, FileSystemLoader
 
 import argparse
 import logging
 import re
-import shutil
-import subprocess
 import time
 from pathlib import Path
 from typing import Any
@@ -21,6 +20,13 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+def _make_jinja_env(templates_dir: Path) -> "Environment":
+    return Environment(
+        loader=FileSystemLoader(str(templates_dir)),
+        autoescape=False,
+    )
+
 
 def compute_file_mtime(path: Path) -> float | None:
     try:
@@ -82,7 +88,6 @@ def is_hidden_or_private(rel: Path) -> bool:
 
 
 def resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path | None:
-    """Search the two standard template locations; return resolved Path or None."""
     for candidate in [templates_dir / name, assets_dir / "templates" / name]:
         if candidate.exists():
             return candidate
@@ -90,7 +95,6 @@ def resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path |
 
 
 def get_frontmatter_template(md_path: Path) -> str | None:
-    """Return the template name from YAML frontmatter, or None."""
     try:
         text = md_path.read_text(encoding="utf-8")
     except Exception:
@@ -151,70 +155,23 @@ def build_pandoc_args(
     return fmt, args
 
 
-def build_sass(
-    cfg,
-    dry_run: bool = False,
-    scss_file: Path | None = None,
-    output_file: Path | None = None,
-) -> None:
-    """Compile SCSS to CSS using the sass CLI. Respects dry_run."""
-    if scss_file is None:
-        scss_file = cfg.BONES / "assets" / "styles" / "main.scss"
-    if output_file is None:
-        output_file = cfg.OUTPUT_DIR / "css" / "main.css"
-    if not scss_file.exists():
-        logger.warning("SCSS file not found: %s", scss_file)
-        return
-    if dry_run:
-        logger.info("dry-run: Would compile SCSS %s -> %s", scss_file, output_file)
-        return
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    node_modules_path = cfg.ROOT_DIR / "node_modules"
-    cmd = [
-        "sass",
-        "--style=compressed",
-        "--no-source-map",
-        f"--load-path={node_modules_path}",
-        str(scss_file),
-        str(output_file),
-    ]
-    try:
-        subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
-        logger.info("Compiled SCSS -> CSS %s", output_file)
-    except FileNotFoundError:
-        logger.error("Sass CLI not installed. Run: npm install -D sass")
-    except subprocess.CalledProcessError as exc:
-        logger.error("Sass compilation failed: %s", exc)
-    # Copy Bootstrap JS if available
-    js_src = node_modules_path / "bootstrap" / "dist" / "js" / "bootstrap.bundle.min.js"
-    js_dest = cfg.OUTPUT_DIR / "js" / "bootstrap.bundle.min.js"
-    if js_src.exists():
-        js_dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(js_src, js_dest)
-        logger.info("Copied Bootstrap JS -> %s", js_dest)
-    else:
-        logger.warning("Bootstrap JS not found in node_modules: %s", js_src)
-
-
 # ---------------------------------------------------------------------------
 # Main render entry point
 # ---------------------------------------------------------------------------
 
 def run(args: argparse.Namespace, ctx: RunContext) -> int:
-    # Resolve config from ctx — this is the key fix.
-    # Previously this used global CONFIG and Path.cwd() which broke --config.
     cfg = ctx.config if (ctx is not None and getattr(ctx, "config", None) is not None) else CONFIG
 
-    content_dir  = cfg.CONTENT_DIR
-    output_dir   = cfg.OUTPUT_DIR
+    content_dir   = cfg.CONTENT_DIR
+    output_dir    = cfg.OUTPUT_DIR
     templates_dir = cfg.BONES / "templates"
-    assets_dir   = cfg.BONES / "assets"
-    reports_dir  = cfg.REPORTS_DIR
-    base_dir     = cfg.BASE_DIR
+    assets_dir    = cfg.BONES / "assets"
+    reports_dir   = cfg.REPORTS_DIR
+    base_dir      = cfg.BASE_DIR
 
-    manifest_path      = reports_dir / "render-manifest.yaml"
+    manifest_path       = reports_dir / "render-manifest.yaml"
     build_manifest_path = reports_dir / "build-manifest.yaml"
-    render_state_path  = reports_dir / "render-state.yaml"
+    render_state_path   = reports_dir / "render-state.yaml"
 
     logger.debug("render root: %s", cfg.BASE_DIR)
     logger.debug("render config arg: %s", getattr(args, "config", None))
@@ -223,7 +180,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         for d in [output_dir, templates_dir, assets_dir, reports_dir]:
             d.mkdir(parents=True, exist_ok=True)
 
-    # Collect markdown files
     if not content_dir.exists() or not content_dir.is_dir():
         logger.info("No content directory found at %s", content_dir)
         markdown_files: list[Path] = []
@@ -240,7 +196,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         markdown_files.sort(key=lambda p: p.relative_to(content_dir).as_posix())
         logger.info("Found %d markdown files under %s", len(markdown_files), content_dir)
 
-    # Load render-flags config
     render_config: dict[str, Any] = {}
     if getattr(args, "config", None):
         config_path = Path(args.config).expanduser()
@@ -257,12 +212,7 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         logger.info("Loaded render config %s", config_path)
 
     pandoc_format, pandoc_args = build_pandoc_args(render_config, templates_dir, assets_dir)
-    if pandoc_format:
-        logger.debug("Pandoc format: %s", pandoc_format)
-    if pandoc_args:
-        logger.debug("Pandoc args: %s", pandoc_args)
 
-    # Import pypandoc only if we'll actually render
     pypandoc = None
     if not ctx.dry_run and markdown_files:
         try:
@@ -286,7 +236,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         dest_rel = rel.with_suffix(".html")
         dest = output_dir / dest_rel
 
-        # Resolve template: frontmatter > render-flags config > default
         fm_template = get_frontmatter_template(src)
         if fm_template:
             if Path(fm_template).is_absolute():
@@ -339,23 +288,54 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
 
         try:
             dest.parent.mkdir(parents=True, exist_ok=True)
-            file_args = [a for a in pandoc_args if not a.startswith("--template")]
-            if template_path is not None and template_path.exists():
-                file_args += [f"--template={template_path}"]
+
+            raw = src.read_text(encoding="utf-8")
+            if raw.startswith("---"):
+                parts = raw.split("---", 2)
+                fm_meta = yaml.safe_load(parts[1]) or {} if len(parts) >= 3 else {}
+                body_md = parts[2] if len(parts) >= 3 else raw
+            else:
+                fm_meta = {}
+                body_md = raw
+
             sidecar_path = src.with_suffix(".rk.yaml")
             if sidecar_path.exists():
-                file_args += [f"--metadata-file={sidecar_path}"]
-            # nav partial — use cfg.REPORTS_DIR so --config overrides are respected
-            nav_partial = cfg.REPORTS_DIR / "nav_partial.html"
-            if nav_partial.exists():
-                file_args += [f"--include-before-body={nav_partial}"]
-            pypandoc.convert_file(
-                str(src),
+                try:
+                    sidecar_data = yaml.safe_load(sidecar_path.read_text(encoding="utf-8")) or {}
+                    fm_meta = {**sidecar_data, **fm_meta}
+                except Exception as sc_exc:
+                    logger.warning("Could not read sidecar %s: %s", sidecar_path, sc_exc)
+
+            file_args = [a for a in pandoc_args
+                         if not a.startswith("--template") and not a.startswith("--include-before-body")]
+            body_html = pypandoc.convert_text(
+                body_md,
                 "html",
-                format=pandoc_format,
-                outputfile=str(dest),
+                format=pandoc_format or "markdown",
                 extra_args=file_args,
             )
+
+            jinja_env = _make_jinja_env(templates_dir)
+            template_name = (fm_meta.get("template") or
+                             render_config.get("template") or
+                             "default.html")
+            try:
+                tmpl = jinja_env.get_template(str(template_name))
+            except Exception:
+                logger.warning("Template not found in Jinja2 env: %s, falling back to default.html", template_name)
+                tmpl = jinja_env.get_template("default.html")
+
+            html = tmpl.render(
+                title=fm_meta.get("title", ""),
+                author=fm_meta.get("author", ""),
+                date=str(fm_meta.get("date", "")),
+                description=fm_meta.get("description", ""),
+                version=fm_meta.get("version", ""),
+                tags=fm_meta.get("tags", []),
+                toc="",
+                body=body_html,
+            )
+            dest.write_text(html, encoding="utf-8")
             logger.info("Rendered %s -> %s", src, dest)
             successes += 1
             render_state[state_key] = {
@@ -370,9 +350,6 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     if render_state_dirty:
         save_render_state(render_state_path, render_state)
 
-    manifest_obj  = {"render": manifest_items}
-    build_manifest_obj = {"pages": build_pages}
-
     if ctx.dry_run:
         logger.info("dry-run: would write render manifest %s", manifest_path)
         logger.info("dry-run: would write build manifest %s", build_manifest_path)
@@ -380,18 +357,12 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         return 0
 
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_path.write_text(yaml.safe_dump(manifest_obj, sort_keys=False), encoding="utf-8")
+    manifest_path.write_text(yaml.safe_dump({"render": manifest_items}, sort_keys=False), encoding="utf-8")
     logger.info("Wrote render manifest %s", manifest_path)
-    build_manifest_path.write_text(yaml.safe_dump(build_manifest_obj, sort_keys=False), encoding="utf-8")
+    build_manifest_path.write_text(yaml.safe_dump({"pages": build_pages}, sort_keys=False), encoding="utf-8")
     logger.info("Wrote build manifest %s", build_manifest_path)
 
-    # Compile SCSS — now dry_run aware
-    build_sass(cfg, dry_run=ctx.dry_run)
-
-    logger.info(
-        "Render summary: %d rendered, %d skipped, %d failed",
-        successes, skipped, failures,
-    )
+    logger.info("Render summary: %d rendered, %d skipped, %d failed", successes, skipped, failures)
     if failures:
         logger.error("Render completed with %d failures.", failures)
         return 2
