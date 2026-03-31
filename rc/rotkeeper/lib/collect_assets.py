@@ -142,9 +142,13 @@ def run(args: argparse.Namespace, ctx=None) -> int:
             continue
 
         path_obj = Path(asset_path)
-        if path_obj.name.startswith('.') or path_obj.suffix.lower() == ".scss":
+        # Skip non-asset files (configs, source files, etc.)
+        if (
+            path_obj.name.startswith('.')
+            or path_obj.suffix.lower() in {".scss", ".yaml", ".yml"}
+        ):
             if verbose:
-                logging.info("Skipping hidden or SCSS file: %s", asset_path)
+                logging.info("Skipping non-asset file: %s", asset_path)
             continue
 
         src = None
