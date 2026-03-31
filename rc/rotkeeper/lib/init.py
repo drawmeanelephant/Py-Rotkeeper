@@ -1,38 +1,31 @@
 # rc/rotkeeper/lib/init.py
 from __future__ import annotations
 
-
 import argparse
 import logging
 import shutil
 from pathlib import Path
 
-
 from ..context import RunContext
 from ..config import CONFIG
 
-
 logger = logging.getLogger(__name__)
-
 
 SKIP_FILES = {".dsstore", ".gitkeep", "thumbs.db", "desktop.ini"}
 
 
-
-def add_parser(subs: argparse.SubParsersAction) -> None:
+def add_parser(subs: argparse._SubParsersAction) -> None:
     p = subs.add_parser("init", help="Initialize a Rotkeeper project environment")
     p.add_argument("--force", action="store_true", help="Force rebuild/re-init of existing files")
     p.set_defaults(func=run)
 
 
-
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
-    cfg = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
-
+    cfg = ctx.config if ctx is not None and ctx.config is not None else CONFIG
     base_dir = cfg.BASE_DIR
     home     = cfg.HOME
     bones    = cfg.BONES
-    force    = bool(getattr(args, 'force', False))
+    force    = bool(getattr(args, "force", False))
 
     logger.info("Initializing rotkeeper project at: %s", base_dir)
     print(f"Initializing rotkeeper project in {base_dir}")
@@ -54,30 +47,18 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
             directory.mkdir(parents=True, exist_ok=True)
             print(f"  Created {directory.relative_to(base_dir)}")
 
-    # Write default user-config.yaml if not present
-    user_config = bones / "config" / "user-config.yaml"
-    if not user_config.exists() or force:
-        home_rel   = str(home.relative_to(base_dir))
-        output_rel = str(cfg.OUTPUT_DIR.relative_to(base_dir))
-        cfg_text = (
-            "HOME: " + home_rel + "\n"
-            + "CONTENT_DIR: " + home_rel + "\n"
-            + "OUTPUT_DIR: " + output_rel + "\n"
-            + "default_template: default\n"
-            + "base_url: \"\"\n"
-        )
-        user_config.write_text(cfg_text, encoding="utf-8")
-        print(f"  Created {user_config.relative_to(base_dir)}")
-    else:
-        print(f"  - Skipping existing file {user_config.relative_to(base_dir)}")
-
-    # Seed from bundled sources/ — new layout: sources/bones/ and sources/home/
+    # ── Seed from bundled sources/ ──────────────────────────────────────────
+    # sources/bones/ → bones/   (includes config/user-config.yaml, templates, assets)
+    # sources/home/  → home/    (markdown content)
+    #
+    # Files are only copied if they don't exist yet, unless --force is set.
+    # This means a real user-config.yaml on disk is NEVER silently overwritten.
+    # ────────────────────────────────────────────────────────────────────────
     SOURCES_DIR = Path(__file__).parent.parent / "sources"
 
     if not SOURCES_DIR.exists():
         logger.warning("sources/ directory not found at %s — skipping seed", SOURCES_DIR)
     else:
-        # Seed bones/ (templates, assets, config)
         bones_src = SOURCES_DIR / "bones"
         if bones_src.exists():
             for src in bones_src.rglob("*"):
@@ -92,7 +73,6 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
                 else:
                     print(f"  - Skipping existing file {dst.relative_to(base_dir)}")
 
-        # Seed home/ (markdown content)
         home_src = SOURCES_DIR / "home"
         if home_src.exists():
             for src in home_src.rglob("*"):
@@ -141,7 +121,7 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     print("Rotkeeper project initialized successfully!")
     print("Next steps:")
     print("  1. Edit bones/config/user-config.yaml — set base_url for your site")
-    print("  2. Add Markdown content to " + str(home.relative_to(base_dir)))
+    print(f"  2. Add Markdown content to {home.relative_to(base_dir)}")
     print("  3. Run: rotkeeper render")
-    print("  4. Check " + str((bones / "reports").relative_to(base_dir)) + " for rendering manifests")
+    print(f"  4. Check {(bones / 'reports').relative_to(base_dir)} for rendering manifests")
     return 0
