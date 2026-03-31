@@ -57,6 +57,10 @@ class Config:
     def ROOTDIR(self) -> Path:
         return self.ROOT_DIR
 
+    @property
+    def GENERATE_INDEXES(self) -> bool:
+        return getattr(self, "_generate_indexes", True)
+
     # ------------------------------------------------------------------
 
     def _apply(self, data: dict) -> None:
@@ -67,6 +71,7 @@ class Config:
         known = {
             "HOME", "CONTENT_DIR", "OUTPUT_DIR", "default_template",
             "SCENARIO", "REPORTS_DIR", "GENERATED_CONTENT_DIR", "base_url",
+            "generate_indexes",          # NEW – controls generated/ folder
         }
         unknown = set(data.keys()) - known
         if unknown:
@@ -92,6 +97,8 @@ class Config:
             ).resolve()
         if "base_url" in data:
             self.base_url = data["base_url"]
+        if "generate_indexes" in data:
+            self._generate_indexes = bool(data["generate_indexes"])
 
     def load(self, path: Path) -> None:
         """Load configuration overrides from a YAML file.

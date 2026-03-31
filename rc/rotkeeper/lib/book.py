@@ -102,7 +102,7 @@ def _append_file_block(out: Path, rel: str, content: str) -> None:
 
 # ── modes ──────────────────────────────────────────────────────────────────────
 
-def _scriptbook_full(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _scriptbook_full(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-scriptbook-full.md"
     src_root = cfg.ROOT_DIR / "rc"
     _write_header(out, "Rotkeeper Scriptbook (Full)",
@@ -116,7 +116,7 @@ def _scriptbook_full(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: scriptbook-full -> %s", out)
 
 
-def _docbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _docbook(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-docbook.md"
     _write_header(out, "Rotkeeper Docbook",
                   "All markdown documentation in home/content/docs/ with path markers")
@@ -132,7 +132,7 @@ def _docbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: docbook -> %s", out)
 
 
-def _docbook_clean(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _docbook_clean(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-docbook-clean.md"
     _write_header(out, "Home Content (Cleaned)",
                   "Frontmatter-stripped, collapse-friendly version")
@@ -150,7 +150,7 @@ def _docbook_clean(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: docbook-clean -> %s", out)
 
 
-def _configbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _configbook(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-configbook.md"
     _write_header(out, "Rotkeeper Configbook",
                   "YAML configuration and templates used by rotkeeper")
@@ -171,7 +171,7 @@ def _configbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: configbook -> %s", out)
 
 
-def _contentbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _contentbook(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-contentbook.md"
     _write_header(out, "Rotkeeper Contentbook",
                   "All markdown in home/content/ with path markers")
@@ -187,7 +187,7 @@ def _contentbook(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: contentbook -> %s", out)
 
 
-def _contentmeta(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _contentmeta(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-contentmeta.yaml"
     content_dir = cfg.HOME / "content"
     if not content_dir.exists():
@@ -205,7 +205,7 @@ def _contentmeta(reports: Path, strip: bool, cfg=CONFIG) -> None:
     logging.info("book: contentmeta -> %s", out)
 
 
-def _collapse(reports: Path, strip: bool, cfg=CONFIG) -> None:
+def _collapse(reports: Path, strip: bool, cfg) -> None:
     out = reports / "collapsed-content.yaml"
     entries: list[str] = []
     for f in sorted(reports.glob("rotkeeper-*.md")):
