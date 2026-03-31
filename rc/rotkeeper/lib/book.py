@@ -120,9 +120,9 @@ def _docbook(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-docbook.md"
     _write_header(out, "Rotkeeper Docbook",
                   "All markdown documentation in home/content/docs/ with path markers")
-    docs_dir = cfg.HOME / "content" / "docs"
+    docs_dir = cfg.CONTENT_DIR / "docs"
     if not docs_dir.exists():
-        logging.warning("book: docbook: docs dir not found: %s", docs_dir)
+        logging.debug("book: docbook: docs dir not found: %s", docs_dir)
         return
     for f in sorted(docs_dir.rglob("*.md")):
         rel = str(f.relative_to(cfg.HOME))
@@ -136,9 +136,9 @@ def _docbook_clean(reports: Path, strip: bool, cfg) -> None:
     out = reports / "rotkeeper-docbook-clean.md"
     _write_header(out, "Home Content (Cleaned)",
                   "Frontmatter-stripped, collapse-friendly version")
-    docs_dir = cfg.HOME / "content" / "docs"
+    docs_dir = cfg.CONTENT_DIR / "docs"
     if not docs_dir.exists():
-        logging.warning("book: docbook-clean: docs dir not found: %s", docs_dir)
+        logging.debug("book: docbook-clean: docs dir not found: %s", docs_dir)
         return
     with out.open("a", encoding="utf-8") as fh:
         for f in sorted(docs_dir.rglob("*.md")):
