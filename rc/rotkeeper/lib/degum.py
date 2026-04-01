@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 """
+rc/rotkeeper/lib/degum.py
 CLI tool for Rotkeeper to check markdown files for missing/None metadata
 and dump a report.
 """
+from __future__ import annotations
 
-import os
-import yaml
 import glob
+import os
 import argparse
+import yaml
 
-def scan_md_files(source_dir, output_file):
-    report = []
+from ..context import RunContext
+
+
+def scan_md_files(source_dir: str, output_file: str) -> None:
+    report: list[str] = []
     md_files = glob.glob(os.path.join(source_dir, "**/*.md"), recursive=True)
-    
     for path in md_files:
         with open(path, "r", encoding="utf-8") as f:
             lines = f.readlines()
-        
-        # frontmatter detection
         if lines and lines[0].strip() == "---":
             end_idx = None
             for i, line in enumerate(lines[1:], start=1):
@@ -27,45 +29,47 @@ def scan_md_files(source_dir, output_file):
             if end_idx is None:
                 report.append(f"{path}: frontmatter not closed")
                 continue
-            
             frontmatter_text = "".join(lines[1:end_idx])
             try:
                 data = yaml.safe_load(frontmatter_text)
             except yaml.YAMLError as e:
                 report.append(f"{path}: YAML parse error: {e}")
                 continue
-
-            missing_fields = []
-            for field in ["title", "tags", "author", "date"]:
-                if not data or field not in data or data[field] is None:
-                    missing_fields.append(field)
+            missing_fields = [
+                field for field in ["title", "tags", "author", "date"]
+                if not data or field not in data or data[field] is None
+            ]
             if missing_fields:
                 report.append(f"{path}: missing {', '.join(missing_fields)}")
-    
-    if report:
-        with open(output_file, "w", encoding="utf-8") as out:
-            out.write("\n".join(report))
-    else:
-        with open(output_file, "w", encoding="utf-8") as out:
-            out.write("No issues found.\n")
+    with open(output_file, "w", encoding="utf-8") as out:
+        out.write("\n".join(report) if report else "No issues found.\n")
 
-def main():
-    parser = argparse.ArgumentParser(description="Degum markdown frontmatter")
-    parser.add_argument("--source", required=True, help="Directory of markdown files")
-    parser.add_argument("--output", required=True, help="Output report file")
-    args = parser.parse_args()
 
-    scan_md_files(args.source, args.output)
-    print(f"Scan complete. Report written to {args.output}")
-
-def add_parser(subparsers):
+def add_parser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
-        "degumfrontmatter",
-        help="Check markdown files for missing/None frontmatter metadata and dump a report"
+        "degum-frontmatter",
+        help="Check markdown files for missing/None frontmatter metadata and dump a report",
     )
     parser.add_argument("--source", required=True, help="Directory of markdown files")
     parser.add_argument("--output", required=True, help="Output report file")
-    parser.set_defaults(func=lambda args, ctx: scan_md_files(args.source, args.output) or print(f"Scan complete. Report written to {args.output}"))
+    parser.set_defaults(func=run)
+
+
+def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
+    if ctx is not None and not isinstance(ctx, RunContext):
+        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
+    scan_md_files(args.source, args.output)
+    print(f"Scan complete. Report written to {args.output}")
+    return 0
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Degum markdown frontmatter")
+    parser.add_argument("--source", required=True)
+    parser.add_argument("--output", required=True)
+    args = parser.parse_args()
+    run(args, ctx=None)
+
 
 if __name__ == "__main__":
     main()

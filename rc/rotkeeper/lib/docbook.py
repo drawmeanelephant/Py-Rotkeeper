@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-"""
-rc/rotkeeper/lib/docbook.py
-Binder ritual: bundle Markdown documentation and produce both a raw and
-a clean (frontmatter-stripped) version.
-
-Usage (standalone):
-    rotkeeper docbook --mode [docbook | docbook-clean | both]
-                      [--strip-frontmatter] [--dry-run] [--verbose]
-
-Produced reports:
-    bones/reports/rotkeeper-docbook.md
-    bones/reports/rotkeeper-docbook-clean.md
-"""
+"""rc/rotkeeper/lib/docbook.py"""
 from __future__ import annotations
 
 import argparse
@@ -28,25 +16,13 @@ def add_parser(subparsers: argparse._SubParsersAction) -> None:
         "docbook",
         help="Bundle Markdown documentation into docbook / docbook-clean reports",
     )
-    p.add_argument(
-        "--mode",
-        choices=["docbook", "docbook-clean", "both"],
-        default="both",
-        help="Which report(s) to produce (default: both)",
-    )
-    p.add_argument(
-        "--strip-frontmatter",
-        action="store_true",
-        default=False,
-        help="Strip YAML frontmatter from included files (docbook only)",
-    )
+    p.add_argument("--mode", choices=["docbook", "docbook-clean", "both"], default="both")
+    p.add_argument("--strip-frontmatter", action="store_true", default=False)
     p.add_argument("--dry-run",  action="store_true", default=False)
     p.add_argument("--verbose",  action="store_true", default=False)
     p.set_defaults(func=run)
     return p
 
-
-# ── helpers ───────────────────────────────────────────────────────────────────
 
 def _frontmatter_and_body(path: Path) -> tuple[dict[str, str], str]:
     text  = path.read_text(encoding="utf-8")
@@ -86,11 +62,7 @@ def _append_file_block(out: Path, rel: str, content: str) -> None:
 def _run_docbook(reports: Path, strip: bool, cfg) -> None:
     out      = reports / "rotkeeper-docbook.md"
     docs_dir = cfg.CONTENT_DIR / "docs"
-    _write_header(
-        out,
-        "Rotkeeper Docbook",
-        "All markdown documentation in home/content/docs/ with path markers",
-    )
+    _write_header(out, "Rotkeeper Docbook", "All markdown documentation in home/content/docs/ with path markers")
     if not docs_dir.exists():
         logging.debug("docbook: docs dir not found: %s", docs_dir)
         return
@@ -105,11 +77,7 @@ def _run_docbook(reports: Path, strip: bool, cfg) -> None:
 def _run_docbook_clean(reports: Path, cfg) -> None:
     out      = reports / "rotkeeper-docbook-clean.md"
     docs_dir = cfg.CONTENT_DIR / "docs"
-    _write_header(
-        out,
-        "Home Content (Cleaned)",
-        "Frontmatter-stripped, collapse-friendly version",
-    )
+    _write_header(out, "Home Content (Cleaned)", "Frontmatter-stripped, collapse-friendly version")
     if not docs_dir.exists():
         logging.debug("docbook-clean: docs dir not found: %s", docs_dir)
         return
@@ -123,22 +91,23 @@ def _run_docbook_clean(reports: Path, cfg) -> None:
     logging.info("docbook-clean -> %s", out)
 
 
-# ── entry point ───────────────────────────────────────────────────────────────
-
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
-    dry     = bool(getattr(args, "dry_run", False)) or (ctx.dry_run if ctx else False)
+    if ctx is not None and not isinstance(ctx, RunContext):
+        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
+
+    # ctx is the boss
+    dry     = ctx.dry_run if ctx is not None else False
+    verbose = ctx.verbose if ctx is not None else False
     strip   = bool(getattr(args, "strip_frontmatter", False))
-    verbose = bool(getattr(args, "verbose", False)) or (ctx.verbose if ctx else False)
-    cfg     = ctx.config if (ctx and ctx.config) else CONFIG
+
+    cfg     = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
     mode    = getattr(args, "mode", "both")
     reports = cfg.BONES / "reports"
 
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    targets = (
-        ["docbook", "docbook-clean"] if mode == "both" else [mode]
-    )
+    targets = ["docbook", "docbook-clean"] if mode == "both" else [mode]
 
     if dry:
         for t in targets:
@@ -146,10 +115,8 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
         return 0
 
     reports.mkdir(parents=True, exist_ok=True)
-
     if "docbook" in targets:
         _run_docbook(reports, strip, cfg)
     if "docbook-clean" in targets:
         _run_docbook_clean(reports, cfg)
-
     return 0

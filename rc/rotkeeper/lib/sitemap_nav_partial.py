@@ -5,73 +5,65 @@ import logging
 import yaml
 from pathlib import Path
 
-from ..config import CONFIG
+from ..config  import CONFIG
 from ..context import RunContext
 
 logger = logging.getLogger(__name__)
 
-def add_parser(subparsers):
-    p = subparsers.add_parser("sitemap-nav-partial",
-        help="Write HTML nav partial for Pandoc --include-before-body")
+
+def add_parser(subparsers: argparse._SubParsersAction) -> None:
+    p = subparsers.add_parser(
+        "sitemap-nav-partial",
+        help="Write HTML nav partial for Pandoc --include-before-body",
+    )
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--verbose", action="store_true")
     p.set_defaults(func=run)
 
+
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
-    cfg = ctx.config if (ctx and ctx.config) else CONFIG
-    dry_run = getattr(args, "dry_run", False) or getattr(ctx, "dry_run", False)
+    if ctx is not None and not isinstance(ctx, RunContext):
+        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
+
+    cfg     = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
+    dry_run = ctx.dry_run if ctx is not None else False
 
     sitemap_path = cfg.REPORTS_DIR / "sitemap_pipeline.yaml"
     if not sitemap_path.exists():
-        logger.error("sitemap_pipeline.yaml missing – run sitemap-collect first")
+        logger.error("sitemap_pipeline.yaml missing — run sitemap-collect first")
         return 1
 
-    data = yaml.safe_load(sitemap_path.read_text(encoding="utf-8"))
-    nav_tree = data.get("rotkeepernav", {})
+    data     = yaml.safe_load(sitemap_path.read_text(encoding="utf-8"))
+    nav_tree = data.get("rotkeeper_nav", {})
 
     if dry_run:
-        logger.info("[dry-run] Would write nav_partial.html")
+        logger.info("[dry-run] Would write navpartial.html")
         return 0
 
-    output_file = cfg.REPORTS_DIR / "nav_partial.html"
     cfg.REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    output_file = cfg.REPORTS_DIR / "navpartial.html"
 
-    def render_items(node: dict, depth: int = 0) -> list[str]:
-        lines = []
+    def render_items(tree: dict, depth: int = 0) -> list[str]:
+        lines: list[str] = []
         indent = "  " * (depth + 2)
-        for label, child in node.get("children", {}).items():
-            pages = child.get("pages", [])
-            sub_children = child.get("children", {})
-            if pages:
-                first = pages[0]
-                href = "/" + first.get("path", "#")
-                lines.append(f'{indent}<li><a href="{href}">{label}</a>')
-                if len(pages) > 1 or sub_children:
-                    lines.append(f"{indent}  <ul>")
-                    for page in pages[1:]:
-                        phref = "/" + page.get("path", "#")
-                        ptitle = page.get("title", "")
-                        lines.append(f'{indent}    <li><a href="{phref}">{ptitle}</a></li>')
-                    if sub_children:
-                        lines.extend(render_items(child, depth + 2))
-                    lines.append(f"{indent}  </ul>")
-                lines.append(f"{indent}</li>")
-            else:
-                lines.append(f"{indent}<li>{label}")
-                if sub_children:
-                    lines.append(f"{indent}  <ul>")
-                    lines.extend(render_items(child, depth + 2))
-                    lines.append(f"{indent}  </ul>")
-                lines.append(f"{indent}</li>")
+        for group_name, group_data in tree.items():
+            if group_name in ("pages", "children") or not isinstance(group_data, dict):
+                continue
+            lines.append(f'{indent}<li class="nav-group">')
+            lines.append(f"{indent}  <span>{group_name}</span>")
+            lines.append(f"{indent}  <ul>")
+            for page in group_data.get("pages", []):
+                title = page.get("title", "Untitled")
+                path  = page.get("path", "#")
+                lines.append(f'{indent}    <li><a href="/{path}">{title}</a></li>')
+            lines.extend(render_items(group_data.get("children", {}), depth + 2))
+            lines.append(f"{indent}  </ul>")
+            lines.append(f"{indent}</li>")
         return lines
 
-    items = render_items(nav_tree)
-    html_lines = ['<nav class="site-nav">']
-    html_lines.append("  <ul>")
-    html_lines.extend(items)
-    html_lines.append("  </ul>")
-    html_lines.append("</nav>")
-
+    html_lines = ['<nav class="site-nav">', "  <ul>"]
+    html_lines.extend(render_items(nav_tree))
+    html_lines += ["  </ul>", "</nav>"]
     output_file.write_text("\n".join(html_lines) + "\n", encoding="utf-8")
     logger.info("Wrote nav partial %s", output_file)
     return 0

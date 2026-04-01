@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 from ..config import CONFIG
+from ..context import RunContext
 
 
 class ResourceParser(HTMLParser):
@@ -66,91 +67,58 @@ def resolve_ref(
     home_assets_dir: Path,
     home_content_dir: Path,
 ) -> tuple[Path, Path] | None:
-    """
-    Resolve a ref found in an HTML file to (src, dest) paths.
-
-    Returns (src_path, dest_path) if resolvable and the dest is inside outputdir,
-    or None if it should be skipped.
-
-    Bug 1 fix: resolve both dest and outputdir to absolute paths before
-    calling is_relative_to(), so that ../assets/... refs from subdirs
-    (e.g. output/about/index.html) are correctly accepted when they
-    resolve inside output/.
-
-    Bug 2 fix: for refs whose clean form starts with "assets/" (global
-    asset refs, whether originally absolute /assets/... or relative
-    ../assets/...), strip the leading "assets/" segment before joining
-    with home_assets_dir to avoid the double assets/assets/ path.
-    """
     clean = strip_query_fragment(ref).lstrip("/")
 
-    # ------------------------------------------------------------------ #
-    # Branch A — explicit global asset ref (absolute /assets/... style)   #
-    # These arrive as clean = "assets/images/mascot.png" after lstrip.    #
-    # ------------------------------------------------------------------ #
     if clean.startswith("assets/"):
         rel = Path(clean)
-        # Bug 2 fix: strip the leading "assets/" component so we don't
-        # produce home/assets/assets/images/mascot.png
-        inner = Path(*rel.parts[1:])          # e.g. images/mascot.png
-        src = home_assets_dir / inner          # home/assets/images/mascot.png
-        dest = outputdir / rel                 # output/assets/images/mascot.png
+        inner = Path(*rel.parts[1:])
+        src = home_assets_dir / inner
+        dest = outputdir / rel
         if src.exists() and src.is_file():
             return src, dest
         logging.warning("Global asset source missing: %s (resolved to %s)", ref, src)
         return None
 
-    # ------------------------------------------------------------------ #
-    # Branch B — page-relative ref (e.g. ../assets/styles/bulma.min.css) #
-    # ------------------------------------------------------------------ #
-    # Bug 1 fix: resolve dest and outputdir to absolute paths BEFORE
-    # calling is_relative_to() so that ../ segments are collapsed.
     dest_abs = (html_path.parent / clean).resolve()
     outputdir_abs = outputdir.resolve()
 
     try:
         dest_rel = dest_abs.relative_to(outputdir_abs)
     except ValueError:
-        logging.warning(
-            "Skipping ref that escapes output dir: %s (from %s)", ref, html_path
-        )
+        logging.warning("Skipping ref that escapes output dir: %s (from %s)", ref, html_path)
         return None
 
     dest = outputdir_abs / dest_rel
-
-    # Determine source path.
-    # If the resolved destination is under output/assets/, the source
-    # lives at home/assets/<rest> — not home/<dest_rel>.
     outputassets_abs = (outputdir / "assets").resolve()
+
     try:
         asset_inner = dest_abs.relative_to(outputassets_abs)
-        # This is an assets ref that came in as a relative ../assets/...
         src = home_assets_dir / asset_inner
     except ValueError:
-        # Non-assets page-relative ref: source mirrors content dir layout
         src = home_content_dir / dest_rel
 
     if src.exists() and src.is_file():
         return src, dest
 
-    logging.warning(
-        "Page-relative asset source missing: %s -> %s (from %s)", ref, src, html_path
-    )
+    logging.warning("Page-relative asset source missing: %s -> %s (from %s)", ref, src, html_path)
     return None
 
 
-def run(args: argparse.Namespace, ctx=None) -> int:
-    import yaml
-    import hashlib
+def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
+    if ctx is not None and not isinstance(ctx, RunContext):
+        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
 
-    cfg = ctx.config if ctx and ctx.config else CONFIG  # respect --config
-
+    cfg = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
     outputdir = cfg.OUTPUT_DIR
     home_assets_dir = cfg.HOME / "assets"
     home_content_dir = cfg.CONTENT_DIR
 
-    dryrun = getattr(args, "dry_run", False)
+    dry_run = getattr(args, "dry_run", False)
     verbose = getattr(args, "verbose", False)
+    if ctx is not None:
+        dry_run = ctx.dry_run
+        verbose = ctx.verbose
+
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
 
@@ -158,9 +126,6 @@ def run(args: argparse.Namespace, ctx=None) -> int:
         logging.info("Output directory not found at %s", outputdir)
         return 0
 
-    # ------------------------------------------------------------------ #
-    # Walk output/ for rendered HTML files and collect asset refs          #
-    # ------------------------------------------------------------------ #
     copied = 0
     skipped = 0
 
@@ -169,47 +134,31 @@ def run(args: argparse.Namespace, ctx=None) -> int:
         for ref in refs:
             if is_external(ref):
                 continue
-
-            result = resolve_ref(
-                ref,
-                html_path,
-                outputdir,
-                home_assets_dir,
-                home_content_dir,
-            )
+            result = resolve_ref(ref, html_path, outputdir, home_assets_dir, home_content_dir)
             if result is None:
                 skipped += 1
                 continue
-
             src, dest = result
-
             if dest.exists():
-                # Quick hash comparison to avoid redundant copies
                 try:
-                    src_hash = _sha256(src)
-                    dest_hash = _sha256(dest)
-                    if src_hash == dest_hash:
+                    if _sha256(src) == _sha256(dest):
                         if verbose:
                             logging.info("Already up-to-date: %s", dest)
                         skipped += 1
                         continue
                 except Exception as e:
                     logging.warning("Hash check failed for %s: %s", dest, e)
-
-            if dryrun:
+            if dry_run:
                 logging.info("dry-run copy: %s -> %s", src, dest)
                 copied += 1
                 continue
-
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dest)
             if verbose:
                 logging.info("Copied: %s -> %s", src, dest)
             copied += 1
 
-    logging.info(
-        "collect-assets: %d copied, %d skipped/up-to-date", copied, skipped
-    )
+    logging.info("collect-assets: %d copied, %d skipped/up-to-date", copied, skipped)
     return 0
 
 

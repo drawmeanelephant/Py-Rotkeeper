@@ -27,7 +27,6 @@ def sha256file(path: Path) -> str:
 def yaml_quote(value: str) -> str:
     safe = (
         value
-        and value == value
         and all(ch.isalnum() or ch in "-_." for ch in value)
         and value not in ("null", "Null", "NULL", "true", "True", "TRUE", "false", "False", "FALSE")
     )
@@ -69,28 +68,20 @@ def is_asset_file(path: Path) -> bool:
 
 
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
-    # Normalize args/ctx in case they were passed in swapped order
-    if ctx is None or not hasattr(ctx, "dryrun"):
-        args, ctx = ctx, args
-    dryrun = getattr(ctx, "dryrun", getattr(args, "dry_run", False))
-    verbose = getattr(ctx, "verbose", getattr(args, "verbose", False))
+    if ctx is not None and not isinstance(ctx, RunContext):
+        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
+
+    dry_run = ctx.dry_run if ctx is not None else False
+    verbose = ctx.verbose if ctx is not None else False
+
     if verbose:
         logging.getLogger().setLevel(logging.INFO)
 
-    cfg = ctx.config if ctx and ctx.config else CONFIG  # respect --config
+    cfg = ctx.config if (ctx is not None and ctx.config is not None) else CONFIG
 
-    # Global assets live at bones/assets/ — paths catalogued as assets/<rel>
-    # so that collect-assets can locate sources at cfg.HOME / "assets" / <rel>.
     bones_assets_dir = cfg.BONES / "assets"
     report_path = cfg.BONES / "reports" / "assets.yaml"
 
-    # ------------------------------------------------------------------ #
-    # 1. Global assets — bones/assets/**                                   #
-    #    Catalog path as  assets/<rel-to-bones-assets-dir>                 #
-    #    Source on disk:  bones/assets/<rel>                               #
-    #    collect-assets:  src = cfg.HOME / "assets" / <rel>               #
-    #                     dest = output/assets/<rel>                       #
-    # ------------------------------------------------------------------ #
     global_assets: list[tuple[str, Path]] = []
     if bones_assets_dir.exists():
         global_assets = [
@@ -106,10 +97,8 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     assets: list[dict[str, str]] = []
 
     for rel, src in global_assets:
-        # path field: "assets/<rel>" — collect-assets strips "assets/" prefix
-        # to find src at cfg.HOME / "assets" / rel, then writes to output/assets/<rel>
         full_rel = f"assets/{rel}"
-        if dryrun:
+        if dry_run:
             logging.info("dry-run catalog %s", src)
         else:
             logging.info("Cataloged asset %s", full_rel)
@@ -118,12 +107,7 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
 
     global_asset_paths = {f"assets/{rel}" for rel, _ in global_assets}
 
-    # ------------------------------------------------------------------ #
-    # 2. Page-local assets — home/ (content dir)                          #
-    #    Catalog path as  content/<rel-to-contentdir>                     #
-    #    collect-assets resolves src from page context via assets.yaml    #
-    # ------------------------------------------------------------------ #
-    content_dir = cfg.CONTENT_DIR  # respect --config
+    content_dir = cfg.CONTENT_DIR
     if content_dir.exists():
         for path in content_dir.rglob("*"):
             if not is_asset_file(path):
@@ -132,14 +116,14 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
             full_rel_path = f"content/{rel_path}"
             if full_rel_path in global_asset_paths:
                 continue
-            if dryrun:
+            if dry_run:
                 logging.info("dry-run catalog page-local asset %s", path)
             else:
                 logging.info("Cataloged page-local asset %s", full_rel_path)
             sha = sha256file(path)
             assets.append({"path": full_rel_path, "sha256": sha, "origin": "page-local"})
 
-    if dryrun:
+    if dry_run:
         logging.info("dry-run would write report %s", report_path)
         return 0
 
