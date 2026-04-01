@@ -39,14 +39,14 @@ def add_parser(subparsers):
 
 def run_flow(args, ctx):
     steps = [
-        ("sitemap-collect",     lambda: sitemap_collect.run(   _ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("sitemap-indexes",     lambda: sitemap_indexes.run(   _ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("sitemap-nav-partial", lambda: sitemap_nav_partial.run(_ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("sitemap-sidecars",    lambda: sitemap_sidecars.run(  _ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("assets",              lambda: assets.run(            _ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("render",              lambda: render.run(            _ns(config=None, force=args.force, dryrun=args.dryrun), ctx)),
-        ("collect-assets",      lambda: collect.run(           _ns(dryrun=args.dryrun, verbose=args.verbose), ctx)),
-        ("nav",                 lambda: nav.navcommand(        _ns(output=None, dryrun=args.dryrun, verbose=args.verbose), ctx)),
+        ("sitemap-collect",     lambda: sitemap_collect.run(args, ctx)),
+        ("sitemap-indexes",     lambda: sitemap_indexes.run(args, ctx)),
+        ("sitemap-nav-partial", lambda: sitemap_nav_partial.run(args, ctx)),
+        ("sitemap-sidecars",    lambda: sitemap_sidecars.run(args, ctx)),
+        ("assets",              lambda: assets.run(args, ctx)),
+        ("render",              lambda: render.run(args, ctx)),
+        ("collect-assets",      lambda: collect.run(args, ctx)),
+        ("nav",                 lambda: nav.navcommand(args, ctx)),
     ]
 
     total = len(steps)

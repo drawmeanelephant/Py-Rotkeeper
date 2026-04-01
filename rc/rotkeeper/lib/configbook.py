@@ -154,6 +154,9 @@ def _collect_bones_files(
             continue
         if f.name in exclude_names:
             continue
+        # Exclude workflow asset index (too large / not useful for configbook)
+        if f.as_posix().endswith("bones/reports/assets.yaml"):
+            continue
         found.append(f)
     return found
 
