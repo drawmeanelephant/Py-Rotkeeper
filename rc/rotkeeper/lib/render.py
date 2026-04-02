@@ -1,134 +1,184 @@
 from __future__ import annotations
-
 from jinja2 import Environment, FileSystemLoader
 import argparse
 import logging
 import re
 import time
 from pathlib import Path
-from typing import Any, Generator
-
+from typing import Any
 import yaml
-
 from ..config import CONFIG
 from ..context import RunContext
+from .page import Page
 
 logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
-# Helper: iter_markdown_files
+# Helpers
 # ---------------------------------------------------------------------------
 
-def iter_markdown_files(cfg) -> Generator[Path, None, None]:
-    """Yield sorted renderable .md files under cfg.CONTENTDIR, skipping hidden/private paths."""
-    content_dir = cfg.CONTENTDIR
+def iter_markdown_files(cfg) -> list[Path]:
+    content_dir = cfg.CONTENT_DIR
     if not content_dir.exists() or not content_dir.is_dir():
-        return
-    paths = []
+        return []
+    files = []
     for path in content_dir.rglob("*.md"):
         if not path.is_file():
             continue
         rel = path.relative_to(content_dir)
         if _is_hidden_or_private(rel):
-            logger.debug("Skipping hidden/private file %s", rel.as_posix())
             continue
-        paths.append(path)
-    paths.sort(key=lambda p: p.relative_to(content_dir).as_posix())
-    yield from paths
+        files.append(path)
+    files.sort(key=lambda p: p.relative_to(content_dir).as_posix())
+    return files
 
+
+def read_frontmatter_and_body(src: Path) -> tuple[dict, str]:
+    raw = src.read_text(encoding="utf-8")
+    if raw.startswith("---"):
+        parts = raw.split("---", 2)
+        fm = yaml.safe_load(parts[1]) or {} if len(parts) >= 2 else {}
+        body = parts[2] if len(parts) >= 3 else raw
+    else:
+        fm = {}
+        body = raw
+    return fm, body
+
+
+def merge_sidecar(fm: dict, sidecar_path: Path) -> dict:
+    """Merge only the rotkeeper: sub-key from a sidecar, never clobber user top-level keys."""
+    if not sidecar_path.exists():
+        return dict(fm)
+    try:
+        sidecar_data = yaml.safe_load(sidecar_path.read_text(encoding="utf-8")) or {}
+    except Exception as exc:
+        logger.warning("Could not read sidecar %s: %s", sidecar_path, exc)
+        return dict(fm)
+    # Only merge the rotkeeper: sub-key
+    rk = sidecar_data.get("rotkeeper", {})
+    return {**fm, **rk}
+
+
+def render_page(
+    src: Path,
+    dest: Path,
+    jinja_env: Environment,
+    cfg,
+    pandoc_format: str | None,
+    pandoc_args: list[str],
+    dry_run: bool,
+) -> None:
+    """Render a single Markdown page to HTML using Pandoc + Jinja2."""
+    import pypandoc
+
+    fm_raw, body_md = read_frontmatter_and_body(src)
+    sidecar_path = src.with_suffix(".rk.yaml")
+    fm = merge_sidecar(fm_raw, sidecar_path)
+
+    # Build a typed Page for template context
+    page = Page(
+        title=fm.get("title", src.stem),
+        path=str(src.relative_to(cfg.CONTENT_DIR).with_suffix(".html").as_posix()),
+        source=str(src.relative_to(cfg.CONTENT_DIR).as_posix()),
+        author=fm.get("author", "Misc"),
+        date=str(fm.get("date", "")) or None,
+        tags=fm.get("tags") or [],
+        keywords=fm.get("keywords") or [],
+        rotkeeper_nav=fm.get("rotkeeper_nav") or [],
+        show_in_nav=fm.get("show_in_nav", True),
+        description=fm.get("description", ""),
+    )
+
+    # Determine template
+    template_name = fm.get("template") or cfg.defaulttemplate
+    template_obj = None
+    if template_name:
+        try:
+            template_obj = jinja_env.get_template(template_name)
+        except Exception:
+            logger.warning("Jinja2 template not found: %s — falling back to default", template_name)
+
+    if template_obj is None:
+        try:
+            template_obj = jinja_env.get_template("default.html")
+        except Exception:
+            logger.warning("No default.html template found; writing raw Pandoc output")
+
+    # Pandoc render
+    file_args = [a for a in pandoc_args if not a.startswith("--template") and not a.startswith("--include-before-body")]
+    body_html = pypandoc.convert_text(
+        body_md,
+        "html",
+        format=pandoc_format or "markdown",
+        extra_args=file_args,
+    )
+
+    if template_obj is not None:
+        rendered = template_obj.render(
+            page=page,
+            body=body_html,
+            title=page.title,
+            author=page.author,
+            date=page.date,
+            tags=page.tags,
+            keywords=page.keywords,
+            rotkeeper_nav=page.rotkeeper_nav,
+            description=page.description,
+            breadcrumb=fm.get("breadcrumb", []),
+            related_pages=fm.get("related_pages", []),
+        )
+    else:
+        rendered = body_html
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(rendered, encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# Internal utilities
+# ---------------------------------------------------------------------------
 
 def _is_hidden_or_private(rel: Path) -> bool:
     return any(part.startswith(".") or part.startswith("_") for part in rel.parts)
 
 
-# ---------------------------------------------------------------------------
-# Helper: read_frontmatter_and_body
-# ---------------------------------------------------------------------------
-
-def read_frontmatter_and_body(path: Path) -> tuple[dict, str]:
-    """Parse YAML frontmatter + body from a .md file."""
-    raw = path.read_text(encoding="utf-8")
-    if raw.startswith("---"):
-        parts = raw.split("---", 2)
-        if len(parts) >= 3:
-            fm = yaml.safe_load(parts[1]) or {}
-            body_md = parts[2]
-            return fm, body_md
-    return {}, raw
+def _resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path | None:
+    for candidate in [templates_dir / name, assets_dir / "templates" / name]:
+        if candidate.exists():
+            return candidate
+    return None
 
 
-# ---------------------------------------------------------------------------
-# Helper: merge_sidecar
-# ---------------------------------------------------------------------------
-
-def merge_sidecar(fm: dict, sidecar_path: Path) -> dict:
-    """Load .rk.yaml sidecar, merge over fm; return new dict, never mutate fm."""
-    if not sidecar_path.exists():
-        return dict(fm)
+def _get_frontmatter_template(md_path: Path) -> str | None:
     try:
-        sidecar_data = yaml.safe_load(sidecar_path.read_text(encoding="utf-8")) or {}
-    except Exception as sc_exc:
-        logger.warning("Could not read sidecar %s: %s", sidecar_path, sc_exc)
-        return dict(fm)
-    return {**fm, **sidecar_data}
+        text = md_path.read_text(encoding="utf-8")
+    except Exception:
+        return None
+    fm = re.match(r"^---(.+?)---", text, re.DOTALL)
+    if not fm:
+        return None
+    data = yaml.safe_load(fm.group(1))
+    if isinstance(data, dict):
+        return data.get("template")
+    return None
 
 
-# ---------------------------------------------------------------------------
-# Helper: render_page
-# ---------------------------------------------------------------------------
-
-def render_page(
-    *,
-    src: Path,
-    dest: Path,
-    fm: dict,
-    body_md: str,
-    pandoc_format: str,
-    pandoc_args: list[str],
-    jinja_env: Environment,
-    render_config: dict[str, Any],
-    templates_dir: Path,
-    assets_dir: Path,
-    pypandoc: Any,
+def _file_needs_render(
+    src: Path, dest: Path, template_path: Path | None, prev_state: dict[str, float]
 ) -> bool:
-    """Run pypandoc → HTML, Jinja2 template render, write to dest. Returns True on success."""
-    try:
-        file_args = [a for a in pandoc_args if not a.startswith("--template") and not a.startswith("--include-before-body")]
-        body_html = pypandoc.convert_text(
-            body_md, "html",
-            format=pandoc_format or "markdown",
-            extra_args=file_args,
-        )
-
-        template_name = fm.get("template") or render_config.get("template") or "default.html"
-        try:
-            tmpl = jinja_env.get_template(str(template_name))
-        except Exception:
-            logger.warning("Template not found in Jinja2 env %s, falling back to default.html", template_name)
-            tmpl = jinja_env.get_template("default.html")
-
-        html = tmpl.render(
-            title=fm.get("title", ""),
-            author=fm.get("author", ""),
-            date=str(fm.get("date", "")),
-            description=fm.get("description", ""),
-            version=fm.get("version", ""),
-            tags=fm.get("tags", []),
-            toc="",
-            body=body_html,
-        )
-        dest.write_text(html, encoding="utf-8")
-        logger.info("Rendered %s -> %s", src, dest)
+    if not dest.exists():
         return True
-    except Exception as exc:
-        logger.error("Failed to render %s: %s", src, exc)
-        return False
+    src_mtime = _compute_file_mtime(src)
+    template_mtime = _compute_file_mtime(template_path) if template_path else None
+    if src_mtime is None:
+        return True
+    if prev_state.get("src_mtime") != src_mtime:
+        return True
+    if template_mtime is not None and prev_state.get("template_mtime") != template_mtime:
+        return True
+    return False
 
-
-# ---------------------------------------------------------------------------
-# Internal helpers (unchanged from original)
-# ---------------------------------------------------------------------------
 
 def _make_jinja_env(templates_dir: Path) -> Environment:
     return Environment(
@@ -150,11 +200,11 @@ def _load_render_state(path: Path) -> dict[str, dict[str, float]]:
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
-            logger.warning("render-state.yaml has unexpected structure; starting fresh")
+            logger.warning("render-state.yaml has unexpected structure, starting fresh")
             return {}
         return data
     except Exception as e:
-        logger.warning("Could not read render-state.yaml: %s; starting fresh", e)
+        logger.warning("Could not read render-state.yaml: %s — starting fresh", e)
         return {}
 
 
@@ -192,88 +242,70 @@ def _normalize_extra_args(value: Any) -> list[str]:
     return [str(value)]
 
 
-def _is_hidden_or_private_path(rel: Path) -> bool:
-    return any(part.startswith(".") or part.startswith("_") for part in rel.parts)
-
-
-def _get_frontmatter_template(md_path: Path) -> str | None:
-    try:
-        text = md_path.read_text(encoding="utf-8")
-    except Exception:
-        return None
-    fm = re.match(r"---(.+?)---", text, re.DOTALL)
-    if not fm:
-        return None
-    data = yaml.safe_load(fm.group(1))
-    if isinstance(data, dict):
-        return data.get("template")
-    return None
-
-
-def _resolve_template(name: str, templates_dir: Path, assets_dir: Path) -> Path | None:
-    for candidate in [templates_dir / name, assets_dir / "templates" / name]:
-        if candidate.exists():
-            return candidate
-    return None
-
-
-def _file_needs_render(
-    src: Path,
-    dest: Path,
-    template_path: Path | None,
-    prev_state: dict[str, float],
-) -> bool:
-    if not dest.exists():
-        return True
-    src_mtime = _compute_file_mtime(src)
-    template_mtime = _compute_file_mtime(template_path) if template_path else None
-    if src_mtime is None:
-        return True
-    if prev_state.get("src_mtime") != src_mtime:
-        return True
-    if template_mtime is not None and prev_state.get("template_mtime") != template_mtime:
-        return True
-    return False
-
-
-def _build_pandoc_args(render_config: dict[str, Any]) -> tuple[str, list[str]]:
-    pandoc_format = render_config.get("from", "markdown")
-    extra_args = _normalize_extra_args(render_config.get("extra_args"))
-    css_files = _normalize_css(render_config.get("css"))
-    args = list(extra_args)
-    for css in css_files:
-        args += ["--css", css]
-    return pandoc_format, args
+def _build_pandoc_args(
+    config: dict[str, Any],
+    templates_dir: Path,
+    assets_dir: Path,
+) -> tuple[str | None, list[str]]:
+    fmt: str | None = None
+    if "from" in config:
+        fmt = str(config["from"])
+    elif "format" in config:
+        fmt = str(config["format"])
+    args: list[str] = []
+    template_name = config.get("template")
+    if template_name:
+        template_path = _resolve_template(str(template_name), templates_dir, assets_dir)
+        if template_path is None:
+            logger.warning("render: Template not found: %s", template_name)
+        else:
+            args.append(f"--template={template_path}")
+    for css in _normalize_css(config.get("css")):
+        args.append(f"--css={css}")
+    if config.get("toc"):
+        args.append("--toc")
+    if config.get("math"):
+        args.append("--mathjax")
+    args.extend(_normalize_extra_args(config.get("extra_args")))
+    return fmt, args
 
 
 # ---------------------------------------------------------------------------
-# run()  — locked signature, fail-fast guard (Task 1 + Task 2)
+# CLI
 # ---------------------------------------------------------------------------
+
+def add_parser(subparsers: argparse.SubParsersAction) -> None:
+    p = subparsers.add_parser("render", help="Render Markdown content to HTML")
+    p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--verbose", action="store_true")
+    p.add_argument("--force", action="store_true", help="Re-render all files")
+    p.add_argument("--config", type=str, default=None, help="Path to render config YAML")
+    p.set_defaults(func=run)
+
 
 def run(args: argparse.Namespace, ctx: RunContext) -> int:
-    if ctx is not None and not isinstance(ctx, RunContext):
-        raise TypeError(f"ctx must be a RunContext or None, got {type(ctx)!r}")
-
     cfg = ctx.config if ctx is not None and getattr(ctx, "config", None) is not None else CONFIG
-    content_dir = cfg.CONTENTDIR
+    content_dir = cfg.CONTENT_DIR
     output_dir = cfg.OUTPUTDIR
     templates_dir = cfg.BONES / "templates"
     assets_dir = cfg.BONES / "assets"
-    reports_dir = cfg.REPORTSDIR
+    reports_dir = cfg.REPORTS_DIR
     base_dir = cfg.BASEDIR
 
     manifest_path = reports_dir / "render-manifest.yaml"
     build_manifest_path = reports_dir / "build-manifest.yaml"
     render_state_path = reports_dir / "render-state.yaml"
 
-    logger.debug("render root %s", cfg.BASEDIR)
-    logger.debug("render config arg %s", getattr(args, "config", None))
+    logger.debug("render root: %s", cfg.BASEDIR)
+    logger.debug("render config arg: %s", getattr(args, "config", None))
 
     if not ctx.dry_run:
         for d in [output_dir, templates_dir, assets_dir, reports_dir]:
             d.mkdir(parents=True, exist_ok=True)
 
-    # Load render config (render-flags.yaml)
+    markdown_files = iter_markdown_files(cfg)
+    logger.info("Found %d markdown files under %s", len(markdown_files), content_dir)
+
     render_config: dict[str, Any] = {}
     if getattr(args, "config", None):
         config_path = Path(args.config).expanduser()
@@ -287,19 +319,18 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
         except Exception as exc:
             logger.error("Failed to load render config %s: %s", config_path, exc)
             return 2
-        logger.info("Loaded render config %s", config_path)
+        logger.info("Loaded render config: %s", config_path)
 
-    pandoc_format, pandoc_args = _build_pandoc_args(render_config)
+    pandoc_format, pandoc_args = _build_pandoc_args(render_config, templates_dir, assets_dir)
 
     pypandoc = None
-    if not ctx.dry_run:
+    if not ctx.dry_run and markdown_files:
         try:
             import pypandoc as pypandoc  # type: ignore
         except ImportError:
-            logger.error("pypandoc is required for render. Install with pip install rotkeeper[pandoc]")
+            logger.error("pypandoc is required for render. Install with: pip install rotkeeper[pandoc]")
             return 2
 
-    jinja_env = _make_jinja_env(templates_dir)
     render_state = _load_render_state(render_state_path)
     render_state_dirty = False
     manifest_items: list[dict[str, str]] = []
@@ -309,39 +340,35 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
     skipped = 0
     dry_run_count = 0
 
-    for src in iter_markdown_files(cfg):
+    # Task 7: construct jinja_env ONCE before the loop
+    jinja_env = _make_jinja_env(templates_dir)
+
+    for src in markdown_files:
         rel = src.relative_to(content_dir)
-        dest = output_dir / rel.with_suffix(".html")
         dest_rel = rel.with_suffix(".html")
+        dest = output_dir / dest_rel
 
-        fm, body_md = read_frontmatter_and_body(src)
-        fm = merge_sidecar(fm, src.with_suffix(".rk.yaml"))
-
-        # Resolve template path for mtime tracking
-        fm_template = fm.get("template")
+        fm_raw, _ = read_frontmatter_and_body(src)
+        fm_template = fm_raw.get("template")
+        template_path: Path | None = None
         if fm_template:
-            if Path(fm_template).is_absolute():
-                template_path = Path(fm_template) if Path(fm_template).exists() else None
-            else:
-                template_path = _resolve_template(fm_template, templates_dir, assets_dir)
+            template_path = _resolve_template(fm_template, templates_dir, assets_dir)
             if template_path is None:
                 logger.warning("Frontmatter template not found for %s: %s", src, fm_template)
         elif render_config.get("template"):
             name = str(render_config["template"])
-            if Path(name).is_absolute():
-                template_path = Path(name) if Path(name).exists() else None
-            else:
-                template_path = _resolve_template(name, templates_dir, assets_dir)
+            template_path = _resolve_template(name, templates_dir, assets_dir)
             if template_path is None:
-                logger.warning("render Template not found: %s", name)
+                logger.warning("render: Template not found: %s", name)
         else:
             default = templates_dir / "default.html"
             template_path = default if default.exists() else None
+            if template_path is None:
+                logger.warning("Default system template not found: %s", default)
 
         state_key = rel.as_posix()
         prev_state = render_state.get(state_key, {})
         needs_render = getattr(args, "force", False) or _file_needs_render(src, dest, template_path, prev_state)
-
         src_mtime = _compute_file_mtime(src)
         template_mtime = _compute_file_mtime(template_path) if template_path else None
 
@@ -355,70 +382,45 @@ def run(args: argparse.Namespace, ctx: RunContext) -> int:
             logger.warning("Could not make path relative for build manifest: %s", exc)
 
         if ctx.dry_run:
-            logger.info("dry-run render %s -> %s (needs_render=%s)", src, dest, needs_render)
+            logger.info("dry-run render: %s -> %s (needs_render=%s)", src, dest, needs_render)
             dry_run_count += 1
             continue
 
         if not needs_render:
-            logger.info("Skipping unchanged file %s", src)
+            logger.info("Skipping unchanged file: %s", src)
             skipped += 1
             continue
 
-        dest.parent.mkdir(parents=True, exist_ok=True)
-
-        ok = render_page(
-            src=src,
-            dest=dest,
-            fm=fm,
-            body_md=body_md,
-            pandoc_format=pandoc_format,
-            pandoc_args=pandoc_args,
-            jinja_env=jinja_env,
-            render_config=render_config,
-            templates_dir=templates_dir,
-            assets_dir=assets_dir,
-            pypandoc=pypandoc,
-        )
-
-        if ok:
-            successes += 1
-            render_state[state_key] = {
-                "src_mtime": src_mtime if src_mtime is not None else time.time(),
-                "template_mtime": template_mtime if template_mtime is not None else 0,
-            }
+        try:
+            render_page(src, dest, jinja_env, cfg, pandoc_format, pandoc_args, ctx.dry_run)
+            new_state: dict[str, float] = {}
+            if src_mtime is not None:
+                new_state["src_mtime"] = src_mtime
+            if template_mtime is not None:
+                new_state["template_mtime"] = template_mtime
+            render_state[state_key] = new_state
             render_state_dirty = True
-        else:
+            successes += 1
+            logger.debug("Rendered: %s -> %s", src, dest)
+        except Exception as exc:
+            logger.error("Failed to render %s: %s", src, exc)
             failures += 1
 
-    if render_state_dirty:
+    if render_state_dirty and not ctx.dry_run:
         _save_render_state(render_state_path, render_state)
 
-    if ctx.dry_run:
-        logger.info("dry-run would write render manifest %s", manifest_path)
-        logger.info("dry-run would write build manifest %s", build_manifest_path)
-        logger.info("dry-run render summary: %d files would be processed", dry_run_count)
-        return 0
+    if not ctx.dry_run:
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(yaml.safe_dump(manifest_items, sort_keys=False), encoding="utf-8")
+        logger.info("Wrote render manifest: %s", manifest_path)
+        build_manifest_path.write_text(yaml.safe_dump(build_pages, sort_keys=False), encoding="utf-8")
+        logger.info("Wrote build manifest: %s", build_manifest_path)
 
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_path.write_text(yaml.safe_dump(manifest_items, sort_keys=False), encoding="utf-8")
-    logger.info("Wrote render manifest %s", manifest_path)
-
-    build_manifest_path.write_text(yaml.safe_dump(build_pages, sort_keys=False), encoding="utf-8")
-    logger.info("Wrote build manifest %s", build_manifest_path)
-
-    logger.info("Render summary: %d rendered, %d skipped, %d failed", successes, skipped, failures)
+    logger.info(
+        "Render summary: %d rendered, %d skipped, %d failed",
+        successes, skipped, failures,
+    )
     if failures:
         logger.error("Render completed with %d failures.", failures)
         return 2
     return 0
-
-
-# ---------------------------------------------------------------------------
-# add_parser — unchanged: registers render subcommand, set_defaults(func=run)
-# ---------------------------------------------------------------------------
-
-def add_parser(subs: argparse.SubParsersAction) -> None:
-    p = subs.add_parser("render", help="Render markdown to HTML via pandoc")
-    p.add_argument("--config", type=str, default=None, help="Path to render-flags.yaml")
-    p.add_argument("--force", action="store_true", help="Render all files regardless of modification times")
-    p.set_defaults(func=run)

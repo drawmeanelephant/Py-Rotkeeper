@@ -1,6 +1,9 @@
 HOME: home
-CONTENT_DIR: home
-OUTPUT_DIR: output
-default_template: default
-base_url: localhost:8000
-generate_indexes: false
+CONTENTDIR: home
+OUTPUTDIR: output
+REPORTSDIR: bones/reports
+GENERATEDCONTENTDIR: home/generated
+baseurl: "https://yoursite.com"
+defaulttemplate: "rot-doc.html"
+generateindexes: true
+SCENARIO: default

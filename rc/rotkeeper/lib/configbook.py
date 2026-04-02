@@ -96,7 +96,7 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     if dry:
         logging.info("DRY-RUN: would write configbook (%d files) -> %s", len(files), out)
         for f in files:
-            logging.info("  + %s", f.relative_to(cfg.BASE_DIR))
+            logging.info("  + %s", f.relative_to(cfg.BASEDIR))
         return 0
 
     reports.mkdir(parents=True, exist_ok=True)
@@ -108,7 +108,7 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     _write_header(out, "Rotkeeper Configbook", subtitle)
 
     for f in files:
-        rel = str(f.relative_to(cfg.BASE_DIR))
+        rel = str(f.relative_to(cfg.BASEDIR))
         _append_file_block(out, rel, f.read_text(encoding="utf-8"))
 
     logging.info("configbook -> %s (%d files)", out, len(files))

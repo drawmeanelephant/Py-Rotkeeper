@@ -22,7 +22,7 @@ def add_parser(subs: argparse._SubParsersAction) -> None:
 
 def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
     cfg = ctx.config if ctx is not None and ctx.config is not None else CONFIG
-    base_dir = cfg.BASE_DIR
+    base_dir = cfg.BASEDIR
     home     = cfg.HOME
     bones    = cfg.BONES
     force    = bool(getattr(args, "force", False))
@@ -38,7 +38,7 @@ def run(args: argparse.Namespace, ctx: RunContext | None = None) -> int:
         bones / "assets" / "images",
         bones / "config",
         bones / "reports",
-        cfg.OUTPUT_DIR,
+        cfg.OUTPUTDIR,
     ]
     for directory in directories:
         if directory.exists() and not force:

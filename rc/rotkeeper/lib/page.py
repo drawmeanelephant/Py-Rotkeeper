@@ -1,14 +1,14 @@
-# rc/rotkeeper/page.py
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from pathlib import Path
 from typing import Optional
+
 
 @dataclass
 class Page:
     title: str
-    path: str              # output-relative .html path
-    source: str            # content-relative .md path
+    path: str          # output-relative .html path
+    source: str        # content-relative .md path
     author: str = "Misc"
     date: Optional[str] = None
     tags: list[str] = field(default_factory=list)
@@ -18,7 +18,7 @@ class Page:
     description: str = ""
 
     def to_dict(self) -> dict:
-        return {k: v for k, v in self.__dict__.items()}
+        return {f.name: getattr(self, f.name) for f in fields(self)}
 
     @classmethod
     def from_dict(cls, data: dict) -> "Page":

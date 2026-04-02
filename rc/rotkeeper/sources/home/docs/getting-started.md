@@ -52,7 +52,7 @@ Override defaults in `bones/config/user-config.yaml`:
 
 ```yaml
 CONTENT_DIR: home/content
-OUTPUT_DIR: home/output
+OUTPUTDIR: home/output
 ```
 
 ## Run Order

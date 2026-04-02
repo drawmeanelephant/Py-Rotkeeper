@@ -9,7 +9,7 @@ from rc.config import Config
 MINIMAL_YAML = yaml.dump({
     "HOME": "custom_home",
     "CONTENT_DIR": "custom_content",
-    "OUTPUT_DIR": "custom_output",
+    "OUTPUTDIR": "custom_output",
     "default_template": "base.html",
 })
 
@@ -28,7 +28,7 @@ class TestConfigDefaults:
     def test_default_output_dir(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         cfg = Config()
-        assert cfg.OUTPUT_DIR == tmp_path / "home" / "output"
+        assert cfg.OUTPUTDIR == tmp_path / "home" / "output"
 
     def test_default_template_is_none(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
@@ -68,9 +68,9 @@ class TestConfigUserYaml:
 
     def test_output_dir_override(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
-        self._write_user_config(tmp_path, {"OUTPUT_DIR": "dist"})
+        self._write_user_config(tmp_path, {"OUTPUTDIR": "dist"})
         cfg = Config()
-        assert cfg.OUTPUT_DIR == tmp_path / "dist"
+        assert cfg.OUTPUTDIR == tmp_path / "dist"
 
     def test_default_template_override(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
